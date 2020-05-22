@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMesh heroHealth, enemyHealth;
+    public TextMesh heroHealth, petHealth, servantHealth, enemy1Health, enemy2Health, enemy3Health;
+    public TextMesh resultText;
 
     private GameObject object_hero, object_pet, object_servant, object_enemy1, object_enemy2, object_enemy3;
     private HeroManager hero, pet, servant, enemy1, enemy2, enemy3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,42 +23,136 @@ public class GameManager : MonoBehaviour
         hero = object_hero.transform.GetComponent<HeroManager>();
         pet = object_pet.transform.GetComponent<HeroManager>();
         servant = object_servant.transform.GetComponent<HeroManager>();
-        enemy1 = object_enemy3.transform.GetComponent<HeroManager>();
+        enemy1 = object_enemy1.transform.GetComponent<HeroManager>();
         enemy2 = object_enemy2.transform.GetComponent<HeroManager>();
         enemy3 = object_enemy3.transform.GetComponent<HeroManager>();
 
         hero.atk = 60;
         hero.def = 10;
 
+        pet.atk = 20;
+        pet.def = 10;
+
+        servant.atk = 30;
+        servant.def = 10;
+
+        enemy1.atk = 20;
+        enemy1.def = 0;
+
         enemy2.atk = 20;
         enemy2.def = 0;
 
-        Invoke("Timer", 2.0f);
+        enemy3.atk = 20;
+        enemy3.def = 0;
+
+        Invoke("Attack_Timer", 2.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
         heroHealth.text = hero.health.ToString();
-        enemyHealth.text = enemy2.health.ToString();
+        petHealth.text = pet.health.ToString();
+        servantHealth.text = servant.health.ToString();
+        enemy1Health.text = enemy1.health.ToString();
+        enemy2Health.text = enemy2.health.ToString();
+        enemy3Health.text = enemy3.health.ToString();
+
+        if (enemy1.isLive == false && enemy2.isLive == false && enemy3.isLive == false)
+        {
+            resultText.text = "You Win!";
+        }
+        else if (hero.isLive == false && pet.isLive == false && servant.isLive == false)
+        {
+            resultText.text = "You Lose!";
+        }
     }
 
-    void Timer()
+    void Attack_Timer()
     {
-        if (enemy2.isLive == true)
+        if (enemy1.isLive == true && pet.isLive == true)
         {
-            attack(hero, enemy2);
+            Attack(pet, enemy1);
+            Debug.Log(enemy1.health);
+            if (enemy1.isLive == false)
+            {
+                DestroyImmediate(object_enemy1);
+            }
+            else
+            {
+                enemy1.Blink();
+            }
+        }
+
+        if (enemy2.isLive == true && hero.isLive == true)
+        {
+            Attack(hero, enemy2);
             if (enemy2.isLive == false)
             {
                 DestroyImmediate(object_enemy2);
             }
-            Invoke("Timer", 2.0f);
+            else
+            {
+                enemy2.Blink();
+            }
         }
 
+        if (enemy3.isLive == true && servant.isLive == true)
+        {
+            Attack(servant, enemy3);
+            if (enemy3.isLive == false)
+            {
+                DestroyImmediate(object_enemy3);
+            }
+            else
+            {
+                enemy3.Blink();
+            }
+        }
 
+        if (pet.isLive == true && enemy1.isLive == true)
+        {
+            Attack(enemy1, pet);
+            if (pet.isLive == false)
+            {
+                DestroyImmediate(object_pet);
+            }
+            else
+            {
+                pet.Blink();
+            }
+        }
+
+        if (hero.isLive == true && enemy2.isLive == true)
+        {
+            Attack(enemy2, hero);
+            if (hero.isLive == false)
+            {
+                DestroyImmediate(object_hero);
+            }
+            else
+            {
+                hero.Blink();
+            }
+        }
+
+        if (servant.isLive == true && enemy3.isLive == true)
+        {
+            Attack(enemy3, servant);
+            if (servant.isLive == false)
+            {
+                DestroyImmediate(object_servant);
+            }
+            else
+            {
+                servant.Blink();
+            }
+        }
+
+        Invoke("Attack_Timer", 2.0f);
     }
 
-    public void attack(HeroManager h1, HeroManager h2)
+    public void Attack(HeroManager h1, HeroManager h2)
     {
         int damage = h1.atk - h2.def;
         if(damage > 0)
@@ -67,6 +163,7 @@ public class GameManager : MonoBehaviour
                 h2.isLive = false;
             }
         }
+        Debug.Log(h1.gameObject.name + " Attack " + h2.gameObject.name + "\nDamage : " + damage);
     }
 
 }
