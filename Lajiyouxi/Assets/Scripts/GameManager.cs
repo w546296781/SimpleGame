@@ -69,11 +69,11 @@ public class GameManager : MonoBehaviour
 
         pet.atk = 20;
         pet.def = 10;
-        pet.speed = 80;
+        pet.speed = 50;
 
         servant.atk = 30;
         servant.def = 10;
-        servant.speed = 90;
+        servant.speed = 70;
 
         foreach(HeroManager enemy in enemyTeam)
         {
@@ -81,12 +81,12 @@ public class GameManager : MonoBehaviour
             enemy.def = 0;
         }
 
-        enemy1.speed = 75;
-        enemy2.speed = 80;
-        enemy3.speed = 60;
-        enemy4.speed = 85;
-        enemy5.speed = 95;
-        enemy6.speed = 90;
+        enemy1.speed = 35;
+        enemy2.speed = 50;
+        enemy3.speed = 40;
+        enemy4.speed = 35;
+        enemy5.speed = 45;
+        enemy6.speed = 50;
 
         Debug.Log("Here!");
 
@@ -424,6 +424,7 @@ public class GameManager : MonoBehaviour
 
     public void Attack(HeroManager h1, HeroManager h2)
     {
+        h1.AttackAction();
         int damage = h1.atk - h2.def;
         if(damage > 0)
         {
