@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeroManager : MonoBehaviour
 {
-    public int health, atk, def;
+    public int health, atk, def, speed;
     public bool isLive;
 
     private float blinkTimer = 0.2f;
@@ -31,7 +31,6 @@ public class HeroManager : MonoBehaviour
             {
                 Blink();
                 blinkTimer = 0.1f;
-                Debug.Log(gameObject.name + " Timer On");
             }
         }
     }
@@ -42,7 +41,6 @@ public class HeroManager : MonoBehaviour
         {
             gameObject.GetComponent<Renderer>().enabled = false;
             blinkTimerOn = true;
-            Debug.Log(gameObject.name + blinkTimerOn);
         }
         else
         {

@@ -32,12 +32,17 @@ public class GameManager : MonoBehaviour
         enemy1 = object_enemy1.transform.GetComponent<HeroManager>();
         enemy2 = object_enemy2.transform.GetComponent<HeroManager>();
         enemy3 = object_enemy3.transform.GetComponent<HeroManager>();
-        enemy4 = object_enemy1.transform.GetComponent<HeroManager>();
-        enemy5 = object_enemy2.transform.GetComponent<HeroManager>();
-        enemy6 = object_enemy3.transform.GetComponent<HeroManager>();
+        enemy4 = object_enemy4.transform.GetComponent<HeroManager>();
+        enemy5 = object_enemy5.transform.GetComponent<HeroManager>();
+        enemy6 = object_enemy6.transform.GetComponent<HeroManager>();
 
-        object_heroTeam.Add(object_hero);
+        object_heroTeam = new List<GameObject>();
+        object_enemyTeam = new List<GameObject>();
+        heroTeam = new List<HeroManager>();
+        enemyTeam = new List<HeroManager>();
+
         object_heroTeam.Add(object_pet);
+        object_heroTeam.Add(object_hero);
         object_heroTeam.Add(object_servant);
 
         object_enemyTeam.Add(object_enemy1);
@@ -47,8 +52,8 @@ public class GameManager : MonoBehaviour
         object_enemyTeam.Add(object_enemy5);
         object_enemyTeam.Add(object_enemy6);
 
-        heroTeam.Add(hero);
         heroTeam.Add(pet);
+        heroTeam.Add(hero);
         heroTeam.Add(servant);
 
         enemyTeam.Add(enemy1);
@@ -60,12 +65,15 @@ public class GameManager : MonoBehaviour
 
         hero.atk = 60;
         hero.def = 10;
+        hero.speed = 100;
 
         pet.atk = 20;
         pet.def = 10;
+        pet.speed = 80;
 
         servant.atk = 30;
         servant.def = 10;
+        servant.speed = 90;
 
         foreach(HeroManager enemy in enemyTeam)
         {
@@ -73,7 +81,25 @@ public class GameManager : MonoBehaviour
             enemy.def = 0;
         }
 
-        Invoke("Attack_Timer", 2.0f);
+        enemy1.speed = 75;
+        enemy2.speed = 80;
+        enemy3.speed = 60;
+        enemy4.speed = 85;
+        enemy5.speed = 95;
+        enemy6.speed = 90;
+
+        Debug.Log("Here!");
+
+        foreach(HeroManager heros in heroTeam)
+        {
+            Invoke("AttackTimer_" + heros.name, 100 / heros.speed);
+        }
+
+        foreach(HeroManager enemys in enemyTeam)
+        {
+            Invoke("AttackTimer_" + enemys.name, 100 / enemys.speed);
+        }
+
     }
 
     // Update is called once per frame
@@ -99,88 +125,301 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Attack_Timer()
+    public void AttackTimer_Pet()
     {
-        if (enemy1.isLive == true && pet.isLive == true)
+        if (pet.isLive == true)
         {
-            Attack(pet, enemy1);
-            Debug.Log(enemy1.health);
-            if (enemy1.isLive == false)
+            if (enemy1.isLive == true)
             {
-                DestroyImmediate(object_enemy1);
+                Attack(pet, enemy1);
+                if (enemy1.isLive == false)
+                {
+                    DestroyImmediate(object_enemy1);
+                }
             }
             else
             {
-                enemy1.Blink();
+                for (int i = 0; i < enemyTeam.Count; i++)
+                {
+                    if (enemyTeam[i].isLive == true)
+                    {
+                        Attack(pet, enemyTeam[i]);
+                        if (enemyTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_enemyTeam[i]);
+                        }
+                        break;
+                    }
+                }
             }
+            Invoke("AttackTimer_Pet", 100 / pet.speed);
         }
+    }
 
-        if (enemy2.isLive == true && hero.isLive == true)
+    public void AttackTimer_Hero()
+    {
+        if (hero.isLive == true)
         {
-            Attack(hero, enemy2);
-            if (enemy2.isLive == false)
+            if (enemy2.isLive == true)
             {
-                DestroyImmediate(object_enemy2);
+                Attack(hero, enemy2);
+                if (enemy2.isLive == false)
+                {
+                    DestroyImmediate(object_enemy2);
+                }
             }
             else
             {
-                enemy2.Blink();
+                for (int i = 0; i < enemyTeam.Count; i++)
+                {
+                    if (i >= 3 && enemy5.isLive == true)
+                    {
+                        Attack(hero, enemy5);
+                        if (enemy5.isLive == false)
+                        {
+                            DestroyImmediate(object_enemy5);
+                        }
+                        break;
+                    }
+                    else if (enemyTeam[i].isLive == true)
+                    {
+                        Attack(hero, enemyTeam[i]);
+                        if (enemyTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_enemyTeam[i]);
+                        }
+                        break;
+                    }
+                }
             }
+            Invoke("AttackTimer_Hero", 100 / hero.speed);
         }
+    }
 
-        if (enemy3.isLive == true && servant.isLive == true)
+    public void AttackTimer_Servant()
+    {
+        if (servant.isLive == true)
         {
-            Attack(servant, enemy3);
-            if (enemy3.isLive == false)
+            if (enemy3.isLive == true)
             {
-                DestroyImmediate(object_enemy3);
+                Attack(servant, enemy3);
+                if (enemy3.isLive == false)
+                {
+                    DestroyImmediate(object_enemy3);
+                }
             }
             else
             {
-                enemy3.Blink();
+                for (int i = 0; i < enemyTeam.Count; i++)
+                {
+                    if (i >= 3 && enemy6.isLive == true)
+                    {
+                        Attack(servant, enemy6);
+                        if (enemy6.isLive == false)
+                        {
+                            DestroyImmediate(object_enemy6);
+                        }
+                        break;
+                    }
+                    else if (enemyTeam[i].isLive == true)
+                    {
+                        Attack(pet, enemyTeam[i]);
+                        if (enemyTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_enemyTeam[i]);
+                        }
+                        break;
+                    }
+                }
             }
+            Invoke("AttackTimer_Servant", 100 / servant.speed);
         }
+    }
 
-        if (pet.isLive == true && enemy1.isLive == true)
+    public void AttackTimer_Enemy1()
+    {
+        if (enemy1.isLive == true)
         {
-            Attack(enemy1, pet);
-            if (pet.isLive == false)
+            if (pet.isLive == true)
             {
-                DestroyImmediate(object_pet);
+                Attack(enemy1, pet);
+                if (pet.isLive == false)
+                {
+                    DestroyImmediate(object_pet);
+                }
             }
             else
             {
-                pet.Blink();
+                for (int i = 0; i < heroTeam.Count; i++)
+                {
+                    if (heroTeam[i].isLive == true)
+                    {
+                        Attack(enemy1, heroTeam[i]);
+                        if (heroTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_heroTeam[i]);
+                        }
+                        break;
+                    }
+                }
             }
+            Invoke("AttackTimer_Enemy1", 100 / enemy1.speed);
         }
+    }
 
-        if (hero.isLive == true && enemy2.isLive == true)
+    public void AttackTimer_Enemy2()
+    {
+        if (enemy2.isLive == true)
         {
-            Attack(enemy2, hero);
-            if (hero.isLive == false)
+            if (hero.isLive == true)
             {
-                DestroyImmediate(object_hero);
+                Attack(enemy2, hero);
+                if (hero.isLive == false)
+                {
+                    DestroyImmediate(object_hero);
+                }
             }
             else
             {
-                hero.Blink();
+                for (int i = 0; i < heroTeam.Count; i++)
+                {
+                    if (heroTeam[i].isLive == true)
+                    {
+                        Attack(enemy2, heroTeam[i]);
+                        if (heroTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_heroTeam[i]);
+                        }
+                        break;
+                    }
+                }
             }
+            Invoke("AttackTimer_Enemy2", 100 / enemy2.speed);
         }
+    }
 
-        if (servant.isLive == true && enemy3.isLive == true)
+    public void AttackTimer_Enemy3()
+    {
+        if (enemy3.isLive == true)
         {
-            Attack(enemy3, servant);
-            if (servant.isLive == false)
+            if (servant.isLive == true)
             {
-                DestroyImmediate(object_servant);
+                Attack(enemy3, servant);
+                if (servant.isLive == false)
+                {
+                    DestroyImmediate(object_servant);
+                }
             }
             else
             {
-                servant.Blink();
+                for (int i = 0; i < heroTeam.Count; i++)
+                {
+                    if (heroTeam[i].isLive == true)
+                    {
+                        Attack(enemy3, heroTeam[i]);
+                        if (heroTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_heroTeam[i]);
+                        }
+                        break;
+                    }
+                }
             }
+            Invoke("AttackTimer_Enemy3", 100 / enemy3.speed);
         }
+    }
 
-        Invoke("Attack_Timer", 2.0f);
+    public void AttackTimer_Enemy4()
+    {
+        if (enemy4.isLive == true)
+        {
+            if (pet.isLive == true)
+            {
+                Attack(enemy4, pet);
+                if (pet.isLive == false)
+                {
+                    DestroyImmediate(object_pet);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < heroTeam.Count; i++)
+                {
+                    if (heroTeam[i].isLive == true)
+                    {
+                        Attack(enemy4, heroTeam[i]);
+                        if (heroTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_heroTeam[i]);
+                        }
+                        break;
+                    }
+                }
+            }
+            Invoke("AttackTimer_Enemy4", 100 / enemy4.speed);
+        }
+    }
+
+    public void AttackTimer_Enemy5()
+    {
+        if (enemy5.isLive == true)
+        {
+            if (hero.isLive == true)
+            {
+                Attack(enemy5, hero);
+                if (hero.isLive == false)
+                {
+                    DestroyImmediate(object_hero);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < heroTeam.Count; i++)
+                {
+                    if (heroTeam[i].isLive == true)
+                    {
+                        Attack(enemy5, heroTeam[i]);
+                        if (heroTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_heroTeam[i]);
+                        }
+                        break;
+                    }
+                }
+            }
+            Invoke("AttackTimer_Enemy5", 100 / enemy5.speed);
+        }
+    }
+
+    public void AttackTimer_Enemy6()
+    {
+        if (enemy6.isLive == true)
+        {
+            if (servant.isLive == true)
+            {
+                Attack(enemy6, servant);
+                if (servant.isLive == false)
+                {
+                    DestroyImmediate(object_servant);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < heroTeam.Count; i++)
+                {
+                    if (heroTeam[i].isLive == true)
+                    {
+                        Attack(enemy6, heroTeam[i]);
+                        if (heroTeam[i].isLive == false)
+                        {
+                            DestroyImmediate(object_heroTeam[i]);
+                        }
+                        break;
+                    }
+                }
+            }
+            Invoke("AttackTimer_Enemy6", 100 / enemy6.speed);
+        }
     }
 
     public void Attack(HeroManager h1, HeroManager h2)
@@ -189,6 +428,7 @@ public class GameManager : MonoBehaviour
         if(damage > 0)
         {
             h2.health -= damage;
+            h2.Blink();
             if(h2.health <= 0)
             {
                 h2.isLive = false;
