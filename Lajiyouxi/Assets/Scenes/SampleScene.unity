@@ -402,7 +402,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508214654}
-  m_Text: Enemy1
+  m_Text: Enemy4
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -990,6 +990,9 @@ MonoBehaviour:
   enemy1Health: {fileID: 1714304760}
   enemy2Health: {fileID: 1117454662}
   enemy3Health: {fileID: 162981053}
+  enemy4Health: {fileID: 546973966}
+  enemy5Health: {fileID: 1824775009}
+  enemy6Health: {fileID: 594897265}
   resultText: {fileID: 554553242}
 --- !u!1 &731274078
 GameObject:
@@ -1313,7 +1316,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847122904}
-  m_Text: Enemy2
+  m_Text: Enemy5
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -2120,7 +2123,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437039956}
-  m_Text: Enemy3
+  m_Text: Enemy6
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1

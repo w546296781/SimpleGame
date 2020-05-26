@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMesh heroHealth, petHealth, servantHealth, enemy1Health, enemy2Health, enemy3Health;
+    public TextMesh heroHealth, petHealth, servantHealth, enemy1Health, enemy2Health, enemy3Health, enemy4Health, enemy5Health, enemy6Health;
     public TextMesh resultText;
 
-    private GameObject object_hero, object_pet, object_servant, object_enemy1, object_enemy2, object_enemy3;
-    private HeroManager hero, pet, servant, enemy1, enemy2, enemy3;
+    private GameObject object_hero, object_pet, object_servant, object_enemy1, object_enemy2, object_enemy3, object_enemy4, object_enemy5, object_enemy6;
+    private HeroManager hero, pet, servant, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6;
+
+    private List<GameObject> object_heroTeam, object_enemyTeam;
+    private List<HeroManager> heroTeam, enemyTeam;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +22,9 @@ public class GameManager : MonoBehaviour
         object_enemy1 = GameObject.Find("Enemy1");
         object_enemy2 = GameObject.Find("Enemy2");
         object_enemy3 = GameObject.Find("Enemy3");
+        object_enemy4 = GameObject.Find("Enemy4");
+        object_enemy5 = GameObject.Find("Enemy5");
+        object_enemy6 = GameObject.Find("Enemy6");
 
         hero = object_hero.transform.GetComponent<HeroManager>();
         pet = object_pet.transform.GetComponent<HeroManager>();
@@ -26,6 +32,31 @@ public class GameManager : MonoBehaviour
         enemy1 = object_enemy1.transform.GetComponent<HeroManager>();
         enemy2 = object_enemy2.transform.GetComponent<HeroManager>();
         enemy3 = object_enemy3.transform.GetComponent<HeroManager>();
+        enemy4 = object_enemy1.transform.GetComponent<HeroManager>();
+        enemy5 = object_enemy2.transform.GetComponent<HeroManager>();
+        enemy6 = object_enemy3.transform.GetComponent<HeroManager>();
+
+        object_heroTeam.Add(object_hero);
+        object_heroTeam.Add(object_pet);
+        object_heroTeam.Add(object_servant);
+
+        object_enemyTeam.Add(object_enemy1);
+        object_enemyTeam.Add(object_enemy2);
+        object_enemyTeam.Add(object_enemy3);
+        object_enemyTeam.Add(object_enemy4);
+        object_enemyTeam.Add(object_enemy5);
+        object_enemyTeam.Add(object_enemy6);
+
+        heroTeam.Add(hero);
+        heroTeam.Add(pet);
+        heroTeam.Add(servant);
+
+        enemyTeam.Add(enemy1);
+        enemyTeam.Add(enemy2);
+        enemyTeam.Add(enemy3);
+        enemyTeam.Add(enemy4);
+        enemyTeam.Add(enemy5);
+        enemyTeam.Add(enemy6);
 
         hero.atk = 60;
         hero.def = 10;
@@ -36,14 +67,11 @@ public class GameManager : MonoBehaviour
         servant.atk = 30;
         servant.def = 10;
 
-        enemy1.atk = 20;
-        enemy1.def = 0;
-
-        enemy2.atk = 20;
-        enemy2.def = 0;
-
-        enemy3.atk = 20;
-        enemy3.def = 0;
+        foreach(HeroManager enemy in enemyTeam)
+        {
+            enemy.atk = 20;
+            enemy.def = 0;
+        }
 
         Invoke("Attack_Timer", 2.0f);
     }
@@ -57,8 +85,11 @@ public class GameManager : MonoBehaviour
         enemy1Health.text = enemy1.health.ToString();
         enemy2Health.text = enemy2.health.ToString();
         enemy3Health.text = enemy3.health.ToString();
+        enemy4Health.text = enemy4.health.ToString();
+        enemy5Health.text = enemy5.health.ToString();
+        enemy6Health.text = enemy6.health.ToString();
 
-        if (enemy1.isLive == false && enemy2.isLive == false && enemy3.isLive == false)
+        if (enemy1.isLive == false && enemy2.isLive == false && enemy3.isLive == false && enemy4.isLive == false && enemy5.isLive == false && enemy6.isLive == false)
         {
             resultText.text = "You Win!";
         }
