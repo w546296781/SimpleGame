@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class HeroManager : MonoBehaviour
 {
+    public string shownName = "";
+
+    public TextMesh text_health;
+    public TextMesh text_name;
+
     public int health, atk, def, speed;
     public bool isLive;
 
@@ -25,6 +30,9 @@ public class HeroManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        text_name.text = shownName;
+        text_health.text = health.ToString();
+
         if(health <= 0)
         {
             isLive = false;
