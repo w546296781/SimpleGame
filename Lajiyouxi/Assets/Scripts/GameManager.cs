@@ -119,10 +119,12 @@ public class GameManager : MonoBehaviour
         if (enemy1.isLive == false && enemy2.isLive == false && enemy3.isLive == false && enemy4.isLive == false && enemy5.isLive == false && enemy6.isLive == false)
         {
             resultText.text = "You Win!";
+            Invoke("BackToMain", 2.0f);
         }
         else if (hero.isLive == false && pet.isLive == false && servant.isLive == false)
         {
             resultText.text = "You Lose!";
+            Invoke("BackToMain", 2.0f);
         }
     }
 
@@ -437,6 +439,11 @@ public class GameManager : MonoBehaviour
             }
         }
         Debug.Log(h1.gameObject.name + " Attack " + h2.gameObject.name + "\nDamage : " + damage);
+    }
+
+    public void BackToMain()
+    {
+        SceneManager.LoadScene(1);
     }
 
 }
