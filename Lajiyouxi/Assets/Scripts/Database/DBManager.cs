@@ -172,7 +172,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Game (ID, Date) VALUES ('" + id + "', '" + date + "')";
+            "INSERT INTO Game (ID, Date) VALUES (" + id + ", '" + date + "')";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -184,7 +184,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed) VALUES ('" + hero.id + "', '" + hero.name + "', '" + hero.atk + "', '" + hero.def + "', '" + hero.speed + "')";
+            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed + ")";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -196,7 +196,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Pet (ID, Name, Attack, Defense, Speed) VALUES ('" + pet.id + "', '" + pet.name + "', '" + pet.atk + "', '" + pet.def + "', '" + pet.speed + "')";
+            "INSERT INTO Pet (ID, Name, Attack, Defense, Speed) VALUES (" + pet.id + ", '" + pet.name + "', " + pet.atk + ", " + pet.def + ", " + pet.speed + ")";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -208,7 +208,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Servant (ID, Name, Attack, Defense, Speed) VALUES ('" + servant.id + "', '" + servant.name + "', '" + servant.atk + "', '" + servant.def + "', '" + servant.speed + "')";
+            "INSERT INTO Servant (ID, Name, Attack, Defense, Speed) VALUES (" + servant.id + ", '" + servant.name + "', " + servant.atk + ", " + servant.def + ", " + servant.speed + ")";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -220,7 +220,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed) VALUES ('" + enemy.id + "', '" + enemy.name + "', '" + enemy.atk + "', '" + enemy.def + "', '" + enemy.speed + "')";
+            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed) VALUES (" + enemy.id + ", '" + enemy.name + "', " + enemy.atk + ", " + enemy.def + ", " + enemy.speed + ")";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -232,7 +232,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Game SET Date = '" + date + "' WHERE ID = '" + id + "'";
+            "UPDATE Game SET Date = '" + date + "' WHERE ID = " + id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -244,7 +244,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Hero SET Name = '" + hero.name + "', Attack = '" + hero.atk + "', Defense = '" + hero.def + "', Speed = '" + hero.speed + "' WHERE ID = '" + hero.id + "'";
+            "UPDATE Hero SET Name = '" + hero.name + "', Attack = " + hero.atk + ", Defense = " + hero.def + ", Speed = " + hero.speed + " WHERE ID = " + hero.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -256,7 +256,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Pet SET Name = '" + pet.name + "', Attack = '" + pet.atk + "', Defense = '" + pet.def + "', Speed = '" + pet.speed + "' WHERE ID = '" + pet.id + "'";
+            "UPDATE Pet SET Name = '" + pet.name + "', Attack = " + pet.atk + ", Defense = " + pet.def + ", Speed = " + pet.speed + " WHERE ID = " + pet.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -268,7 +268,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Servant SET Name = '" + servant.name + "', Attack = '" + servant.atk + "', Defense = '" + servant.def + "', Speed = '" + servant.speed + "' WHERE ID = '" + servant.id + "'";
+            "UPDATE Servant SET Name = '" + servant.name + "', Attack = " + servant.atk + ", Defense = " + servant.def + ", Speed = " + servant.speed + " WHERE ID = " + servant.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -280,7 +280,67 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = '" + enemy.atk + "', Defense = '" + enemy.def + "', Speed = '" + enemy.speed + "' WHERE ID = '" + enemy.id + "'";
+            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = " + enemy.atk + ", Defense = " + enemy.def + ", Speed = " + enemy.speed + " WHERE ID = " + enemy.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteGame(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Game WHERE ID = " + id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteHero(HeroClass hero)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Hero WHERE ID = " + hero.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeletePet(PetClass pet)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Pet WHERE ID = " + pet.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteServant(ServantClass servant)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Servant WHERE ID = " + servant.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteEnemy(EnemyClass enemy)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Enemy WHERE ID = " + enemy.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
