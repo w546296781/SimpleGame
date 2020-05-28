@@ -226,6 +226,65 @@ public class DBManager
         CloseConnection();
     }
 
+    public void SaveGame(int id, string date)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Game SET Date = '" + date + "' WHERE ID = '" + id + "'";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SaveHero(HeroClass hero)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Hero SET Name = '" + hero.name + "', Attack = '" + hero.atk + "', Defense = '" + hero.def + "', Speed = '" + hero.speed + "' WHERE ID = '" + hero.id + "'";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SavePet(PetClass pet)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Pet SET Name = '" + pet.name + "', Attack = '" + pet.atk + "', Defense = '" + pet.def + "', Speed = '" + pet.speed + "' WHERE ID = '" + pet.id + "'";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SaveServant(ServantClass servant)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Servant SET Name = '" + servant.name + "', Attack = '" + servant.atk + "', Defense = '" + servant.def + "', Speed = '" + servant.speed + "' WHERE ID = '" + servant.id + "'";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SaveEnemy(EnemyClass enemy)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = '" + enemy.atk + "', Defense = '" + enemy.def + "', Speed = '" + enemy.speed + "' WHERE ID = '" + enemy.id + "'";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
 
     public SqliteDataReader ExecuteQuery(string queryString)
     {
