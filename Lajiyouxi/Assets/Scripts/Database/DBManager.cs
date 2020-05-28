@@ -124,6 +124,109 @@ public class DBManager
         return enemy;
     }
 
+    public string GetGame(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        string result = "";
+
+        dataReader =
+            ExecuteQuery("SELECT Date FROM Game WHERE ID = " + id + ";");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                result = dataReader.GetString(0);
+            }
+        }
+
+        CloseConnection();
+
+        return result;
+    }
+
+    public Dictionary<int,string> GetAllGame()
+    {
+        ConnectToDB("SimpleGame.db");
+
+        Dictionary<int,string> result = new Dictionary<int, string>();
+
+        dataReader =
+            ExecuteQuery("SELECT ID, Date FROM Game;");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                result.Add(dataReader.GetInt32(0), dataReader.GetString(1));
+            }
+        }
+
+        CloseConnection();
+
+        return result;
+    }
+
+    public void CreateGame(int id, string date)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Game (ID, Date) VALUES ('" + id + "', '" + date + "')";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void CreateHero(HeroClass hero)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed) VALUES ('" + hero.id + "', '" + hero.name + "', '" + hero.atk + "', '" + hero.def + "', '" + hero.speed + "')";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void CreatePet(PetClass pet)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Pet (ID, Name, Attack, Defense, Speed) VALUES ('" + pet.id + "', '" + pet.name + "', '" + pet.atk + "', '" + pet.def + "', '" + pet.speed + "')";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void CreateServant(ServantClass servant)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Servant (ID, Name, Attack, Defense, Speed) VALUES ('" + servant.id + "', '" + servant.name + "', '" + servant.atk + "', '" + servant.def + "', '" + servant.speed + "')";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void CreateEnemy(EnemyClass enemy)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed) VALUES ('" + enemy.id + "', '" + enemy.name + "', '" + enemy.atk + "', '" + enemy.def + "', '" + enemy.speed + "')";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+
     public SqliteDataReader ExecuteQuery(string queryString)
     {
         dbCommand = dbConnection.CreateCommand();
