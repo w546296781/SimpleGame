@@ -872,6 +872,10 @@ MonoBehaviour:
     type: 3}
   adventure_popup: {fileID: 3070712625222896760, guid: d6f8201f7a2dae8438c8ba6efaa70b08,
     type: 3}
+  canvas: {fileID: 639218396}
+  area_finish: 
+  event_finish: 0
+  battle_finish: 1
 --- !u!1 &1181589860
 GameObject:
   m_ObjectHideFlags: 0

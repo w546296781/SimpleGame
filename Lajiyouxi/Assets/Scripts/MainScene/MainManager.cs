@@ -18,6 +18,8 @@ public class MainManager : MonoBehaviour
     public GameObject shop_popup;
     public GameObject adventure_popup;
 
+    public Canvas canvas;
+
     private Vector3 position_area1 = new Vector3(410, 560, 0);
     private Vector3 position_area2 = new Vector3(960, 560, 0);
     private Vector3 position_area3 = new Vector3(1510, 560, 0);
@@ -28,6 +30,8 @@ public class MainManager : MonoBehaviour
 
     public bool event_finish = false;
     private GameObject event_obj;
+
+    public bool battle_finish = true;
 
     // Start is called before the first frame update
     void Start()
@@ -80,12 +84,19 @@ public class MainManager : MonoBehaviour
             Delete(event_obj);
             event_finish = false;
         }
+
+        if(battle_finish == true)
+        {
+            canvas.GetComponent<Renderer>().enabled = true;
+        }
     }
 
     public void BattleBegin(GameObject obj)
     {
-        SceneManager.LoadScene(2);
         event_obj = obj;
+        battle_finish = false;
+        event_obj.SetActive(false);
+        SceneManager.LoadScene(2);
     }
 
     public void Btn_Setting_Click()
