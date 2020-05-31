@@ -866,7 +866,12 @@ MonoBehaviour:
     type: 3}
   prefab_adventure: {fileID: 1721043611773041628, guid: 405da98979f6e7f46b3c3d4f2e60d7cf,
     type: 3}
-  testObj: {fileID: 0}
+  treasure_popup: {fileID: 3700598541370708485, guid: 2c9a4a938f25e8f4eb69773018e0d4f7,
+    type: 3}
+  shop_popup: {fileID: 8053132295907645964, guid: 9965e4607ba0bc04f9055d6ca9625b43,
+    type: 3}
+  adventure_popup: {fileID: 3070712625222896760, guid: d6f8201f7a2dae8438c8ba6efaa70b08,
+    type: 3}
 --- !u!1 &1181589860
 GameObject:
   m_ObjectHideFlags: 0

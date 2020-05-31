@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class MainManager : MonoBehaviour
 {
@@ -11,6 +13,10 @@ public class MainManager : MonoBehaviour
     public GameObject prefab_treasure;
     public GameObject prefab_shop;
     public GameObject prefab_adventure;
+
+    public GameObject treasure_popup;
+    public GameObject shop_popup;
+    public GameObject adventure_popup;
 
     private Vector3 position_area1 = new Vector3(410, 560, 0);
     private Vector3 position_area2 = new Vector3(960, 560, 0);
@@ -45,39 +51,66 @@ public class MainManager : MonoBehaviour
         
     }
 
-    public void BattleBegin()
+    public void BattleBegin(BaseEventData data)
     {
         SceneManager.LoadScene(2);
     }
 
     public void Btn_Setting_Click()
     {
-        GameObject instance = (GameObject)Instantiate(setting_popup, transform.position, transform.rotation);
+        GameObject instance = (GameObject)Instantiate(setting_popup, position_area2, transform.rotation);
         instance.transform.SetParent(transform);
     }
 
-    public void TreasureEvent()
+    public void TreasureEvent(BaseEventData data)
     {
-
+        GameObject instance = (GameObject)Instantiate(treasure_popup, position_area2, transform.rotation);
+        instance.transform.SetParent(transform);
     }
 
-    public void ShopEvent()
+    public void ShopEvent(BaseEventData data)
     {
-
+        GameObject instance = (GameObject)Instantiate(shop_popup, position_area2, transform.rotation);
+        instance.transform.SetParent(transform);
     }
 
-    public void AdventureEvent()
+    public void AdventureEvent(BaseEventData data)
     {
-
+        GameObject instance = (GameObject)Instantiate(adventure_popup, position_area2, transform.rotation);
+        instance.transform.SetParent(transform);
     }
 
     public void RandomSelectEvent(Vector3 position)
     {
+        //随机选择事件种类并生成
         int index = Random.Range(0, 9);
         GameObject instance = (GameObject)Instantiate(prefabs[index], position, transform.rotation);
         instance.transform.SetParent(transform);
-        instance.transform.position = position;
-        Debug.Log(position);
-        Debug.Log(instance.transform.position);
+
+        //为事件绑定触发函数
+        EventTrigger trigger = instance.gameObject.AddComponent<EventTrigger>();
+        UnityAction<BaseEventData> action = null;
+        if (instance.name.Contains("Treausre"))
+        {
+            action = new UnityAction<BaseEventData>(TreasureEvent);
+        }
+        else if (instance.name.Contains("Shop"))
+        {
+            action = new UnityAction<BaseEventData>(ShopEvent);
+        }
+        else if (instance.name.Contains("Adventure"))
+        {
+            action = new UnityAction<BaseEventData>(AdventureEvent);
+        }
+        else
+        {
+            action = new UnityAction<BaseEventData>(BattleBegin);
+        }
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener(action);
+        trigger.triggers.Add(entry);
     }
+
+
 }
