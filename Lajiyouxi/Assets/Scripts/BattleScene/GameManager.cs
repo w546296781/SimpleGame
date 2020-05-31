@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public TextMesh heroHealth, petHealth, servantHealth, enemy1Health, enemy2Health, enemy3Health, enemy4Health, enemy5Health, enemy6Health;
+    //public TextMesh heroHealth, petHealth, servantHealth, enemy1Health, enemy2Health, enemy3Health, enemy4Health, enemy5Health, enemy6Health;
     public TextMesh resultText;
 
     private GameObject object_hero, object_pet, object_servant, object_enemy1, object_enemy2, object_enemy3, object_enemy4, object_enemy5, object_enemy6;
@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     private List<GameObject> object_heroTeam, object_enemyTeam;
     private List<HeroManager> heroTeam, enemyTeam;
+
+    public int gameID = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -64,32 +66,41 @@ public class GameManager : MonoBehaviour
         enemyTeam.Add(enemy5);
         enemyTeam.Add(enemy6);
 
-        hero.atk = 60;
-        hero.def = 10;
-        hero.speed = 100;
+        DBManager dbm = new DBManager();
 
-        pet.atk = 20;
-        pet.def = 10;
-        pet.speed = 50;
+        HeroClass hc = new HeroClass();
+        hc = dbm.GetHero(gameID);
 
-        servant.atk = 30;
-        servant.def = 10;
-        servant.speed = 70;
+        hero.atk = hc.atk;
+        hero.def = hc.def;
+        hero.speed = hc.speed;
+        hero.shownName = hc.name;
 
-        foreach(HeroManager enemy in enemyTeam)
+        PetClass pc = new PetClass();
+        pc = dbm.GetPet(gameID);
+
+        pet.atk = pc.atk;
+        pet.def = pc.def;
+        pet.speed = pc.speed;
+        pet.shownName = pc.name;
+
+        ServantClass sc = new ServantClass();
+        sc = dbm.GetServant(gameID);
+
+        servant.atk = sc.atk;
+        servant.def = sc.def;
+        servant.speed = sc.speed;
+        servant.shownName = sc.name;
+
+        for(int i = 0; i < enemyTeam.Count; i++)
         {
-            enemy.atk = 20;
-            enemy.def = 0;
+            EnemyClass ec = new EnemyClass();
+            ec = dbm.GetEnemy(i+1);
+            enemyTeam[i].atk = ec.atk;
+            enemyTeam[i].def = ec.def;
+            enemyTeam[i].speed = ec.speed;
+            enemyTeam[i].shownName = ec.name;
         }
-
-        enemy1.speed = 35;
-        enemy2.speed = 50;
-        enemy3.speed = 40;
-        enemy4.speed = 35;
-        enemy5.speed = 45;
-        enemy6.speed = 50;
-
-        Debug.Log("Here!");
 
         foreach(HeroManager heros in heroTeam)
         {
@@ -106,7 +117,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        heroHealth.text = hero.health.ToString();
+/*        heroHealth.text = hero.health.ToString();
         petHealth.text = pet.health.ToString();
         servantHealth.text = servant.health.ToString();
         enemy1Health.text = enemy1.health.ToString();
@@ -114,7 +125,7 @@ public class GameManager : MonoBehaviour
         enemy3Health.text = enemy3.health.ToString();
         enemy4Health.text = enemy4.health.ToString();
         enemy5Health.text = enemy5.health.ToString();
-        enemy6Health.text = enemy6.health.ToString();
+        enemy6Health.text = enemy6.health.ToString();*/
 
         if (enemy1.isLive == false && enemy2.isLive == false && enemy3.isLive == false && enemy4.isLive == false && enemy5.isLive == false && enemy6.isLive == false)
         {
@@ -443,6 +454,10 @@ public class GameManager : MonoBehaviour
 
     public void BackToMain()
     {
+        DBManager dbm = new DBManager();
+        EventClass theEvent = dbm.GetEvent(1);
+        theEvent.battle_finish = 1;
+        dbm.SaveEvent(theEvent);
         SceneManager.LoadScene(1);
     }
 
