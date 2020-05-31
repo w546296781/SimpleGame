@@ -33,6 +33,7 @@ public class DBManager
         ConnectToDB("SimpleGame.db");
 
         HeroClass hero = new HeroClass();
+        hero.id = id;
 
         dataReader =
             ExecuteQuery("SELECT Name, Attack, Defense, Speed FROM Hero WHERE ID = " + id + ";");
@@ -57,6 +58,7 @@ public class DBManager
         ConnectToDB("SimpleGame.db");
 
         PetClass pet = new PetClass();
+        pet.id = id;
 
         dataReader =
             ExecuteQuery("SELECT Name, Attack, Defense, Speed FROM Pet WHERE ID = " + id + ";");
@@ -81,6 +83,7 @@ public class DBManager
         ConnectToDB("SimpleGame.db");
 
         ServantClass servant = new ServantClass();
+        servant.id = id;
 
         dataReader =
             ExecuteQuery("SELECT Name, Attack, Defense, Speed FROM Servant WHERE ID = " + id + ";");
@@ -105,6 +108,7 @@ public class DBManager
         ConnectToDB("SimpleGame.db");
 
         EnemyClass enemy = new EnemyClass();
+        enemy.id = id;
 
         dataReader =
             ExecuteQuery("SELECT Name, Attack, Defense, Speed FROM Enemy WHERE ID = " + id + ";");
@@ -166,6 +170,34 @@ public class DBManager
         return result;
     }
 
+    public EventClass GetEvent(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        EventClass newEvent = new EventClass();
+        newEvent.id = id;
+
+        dataReader =
+            ExecuteQuery("SELECT Level, Area1, Area2, Area3, EventLeft, BattlePosition, BattleFinish FROM Event WHERE ID = " + id + ";");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                newEvent.level = dataReader.GetInt32(0);
+                newEvent.area1 = dataReader.GetInt32(1);
+                newEvent.area2 = dataReader.GetInt32(2);
+                newEvent.area3 = dataReader.GetInt32(3);
+                newEvent.event_left = dataReader.GetInt32(4);
+                newEvent.battle_position = dataReader.GetInt32(5);
+                newEvent.battle_finish = dataReader.GetInt32(6);
+            }
+        }
+
+        CloseConnection();
+
+        return newEvent;
+    }
+
     public void CreateGame(int id, string date)
     {
         ConnectToDB("SimpleGame.db");
@@ -221,6 +253,18 @@ public class DBManager
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
             "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed) VALUES (" + enemy.id + ", '" + enemy.name + "', " + enemy.atk + ", " + enemy.def + ", " + enemy.speed + ")";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void CreateEvent(EventClass newEvent)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Event (ID, Level, Area1, Area2, Area3, EventLeft, BattlePosition, BattleFinish) VALUES (" + newEvent.id + ", " + newEvent.level + ", " + newEvent.area1 + ", " + newEvent.area2 + ", " + newEvent.area3 + ", " + newEvent.event_left + ", " + newEvent.battle_position + ", " + newEvent.battle_finish + ")";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -286,6 +330,18 @@ public class DBManager
         CloseConnection();
     }
 
+    public void SaveEvent(EventClass newEvent)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Event SET Level = " + newEvent.level + ", Area1 = " + newEvent.area1 + ", Area2 = " + newEvent.area2 + ", Area3 = " + newEvent.area3 + ", EventLeft = " + newEvent.event_left + ", BattlePosition = " + newEvent.battle_position + ", BattleFinish = " + newEvent.battle_finish + " WHERE ID = " + newEvent.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
     public void DeleteGame(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -298,49 +354,61 @@ public class DBManager
         CloseConnection();
     }
 
-    public void DeleteHero(HeroClass hero)
+    public void DeleteHero(int id)
     {
         ConnectToDB("SimpleGame.db");
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "DELETE FROM Hero WHERE ID = " + hero.id;
+            "DELETE FROM Hero WHERE ID = " + id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
     }
 
-    public void DeletePet(PetClass pet)
+    public void DeletePet(int id)
     {
         ConnectToDB("SimpleGame.db");
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "DELETE FROM Pet WHERE ID = " + pet.id;
+            "DELETE FROM Pet WHERE ID = " + id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
     }
 
-    public void DeleteServant(ServantClass servant)
+    public void DeleteServant(int id)
     {
         ConnectToDB("SimpleGame.db");
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "DELETE FROM Servant WHERE ID = " + servant.id;
+            "DELETE FROM Servant WHERE ID = " + id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
     }
 
-    public void DeleteEnemy(EnemyClass enemy)
+    public void DeleteEnemy(int id)
     {
         ConnectToDB("SimpleGame.db");
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "DELETE FROM Enemy WHERE ID = " + enemy.id;
+            "DELETE FROM Enemy WHERE ID = " + id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteEvent(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Event WHERE ID = " + id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();

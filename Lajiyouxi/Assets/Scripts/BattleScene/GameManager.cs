@@ -454,6 +454,10 @@ public class GameManager : MonoBehaviour
 
     public void BackToMain()
     {
+        DBManager dbm = new DBManager();
+        EventClass theEvent = dbm.GetEvent(1);
+        theEvent.battle_finish = 1;
+        dbm.SaveEvent(theEvent);
         SceneManager.LoadScene(1);
     }
 
