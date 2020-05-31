@@ -26,6 +26,7 @@ public class MainManager : MonoBehaviour
     private Vector3 position_area1 = new Vector3(410, 560, 0);
     private Vector3 position_area2 = new Vector3(960, 560, 0);
     private Vector3 position_area3 = new Vector3(1510, 560, 0);
+    private List<Vector3> positions = new List<Vector3>();
 
     private List<GameObject> prefabs_random = new List<GameObject>();
     private List<GameObject> prefabs = new List<GameObject>();
@@ -60,12 +61,16 @@ public class MainManager : MonoBehaviour
         prefabs.Add(prefab_shop);
         prefabs.Add(prefab_adventure);
 
-        LoadFromDatabase();
+        positions.Add(position_area1);
+        positions.Add(position_area2);
+        positions.Add(position_area3);
 
+        LoadFromDatabase();
+/*
         //在3个位置随机分配3张卡
         RandomSelectEvent(position_area1);
         RandomSelectEvent(position_area2);
-        RandomSelectEvent(position_area3);
+        RandomSelectEvent(position_area3);*/
 
         area_finish.Add(false);
         area_finish.Add(false);
@@ -109,6 +114,20 @@ public class MainManager : MonoBehaviour
             GeneratePrefab(position_area3, prefabs[theEvent.area3 - 1]);
         }
 
+        if(theEvent.battle_finish == 1)
+        {
+            theEvent.battle_finish = 0;
+            var monsters = GameObject.FindGameObjectsWithTag("Monster");
+            foreach(GameObject obj in monsters)
+            {
+                if(obj.transform.position == positions[theEvent.battle_position - 1])
+                {
+                    event_obj = obj;
+                    event_finish = true;
+                }
+            }
+        }
+
     }
 
     // Update is called once per frame
@@ -144,11 +163,28 @@ public class MainManager : MonoBehaviour
         }
     }
 
+    public int PositionToInt(Vector3 position)
+    {
+        if (position == position_area1)
+        {
+            return 1;
+        }
+        else if (position == position_area2)
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
+    }
+
     public void BattleBegin(GameObject obj)
     {
-        event_obj = obj;
-        battle_finish = false;
-        event_obj.SetActive(false);
+        theEvent.battle_finish = 0;
+        theEvent.battle_position = PositionToInt(obj.transform.position);
+
+        Save();
         SceneManager.LoadScene(2);
     }
 
@@ -209,6 +245,8 @@ public class MainManager : MonoBehaviour
         GameObject instance = (GameObject)Instantiate(obj, position, transform.rotation);
         instance.transform.SetParent(transform);
 
+        int event_type = 0;
+
         //绑定触发函数
         EventTrigger trigger = instance.gameObject.AddComponent<EventTrigger>();
         UnityAction<BaseEventData> action = null;
@@ -217,28 +255,53 @@ public class MainManager : MonoBehaviour
             action = new UnityAction<BaseEventData>(delegate {
                 TreasureEvent(instance);
             });
+            event_type = 2;
         }
         else if (instance.name.Contains("Shop"))
         {
             action = new UnityAction<BaseEventData>(delegate {
                 ShopEvent(instance);
             });
+            event_type = 3;
         }
         else if (instance.name.Contains("Adventure"))
         {
             action = new UnityAction<BaseEventData>(delegate {
                 AdventureEvent(instance);
             });
+            event_type = 4;
         }
         else
         {
             action = new UnityAction<BaseEventData>(delegate {
                 BattleBegin(instance);
             });
+            event_type = 1;
         }
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener(action);
         trigger.triggers.Add(entry);
+
+        if(PositionToInt(position) == 1)
+        {
+            theEvent.area1 = event_type;
+        }
+        else if (PositionToInt(position) == 2)
+        {
+            theEvent.area2 = event_type;
+        }
+        else
+        {
+            theEvent.area3 = event_type;
+        }
+
+        Save();
+    }
+
+    public void Save()
+    {
+        DBManager dbm = new DBManager();
+        dbm.SaveEvent(theEvent);
     }
 }
