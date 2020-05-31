@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
+    public GameObject canvas;
+    public MainManager mm;
     // Start is called before the first frame update
     void Start()
     {
-        
+        canvas = transform.parent.gameObject;
+        mm = canvas.transform.GetComponent<MainManager>();
     }
 
     // Update is called once per frame
@@ -18,6 +21,7 @@ public class ShopManager : MonoBehaviour
 
     public void Button_OK_Click()
     {
+        mm.event_finish = true;
         DestroyImmediate(gameObject);
     }
 }

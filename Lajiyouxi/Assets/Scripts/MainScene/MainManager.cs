@@ -24,10 +24,15 @@ public class MainManager : MonoBehaviour
 
     private List<GameObject> prefabs = new List<GameObject>();
 
+    public List<bool> area_finish = new List<bool>();
+
+    public bool event_finish = false;
+    private GameObject event_obj;
+
     // Start is called before the first frame update
     void Start()
     {
-        //怪物事件的机率为40%， 其余事件各为20%
+        //怪物事件的机率为40%， 奇遇事件为30%， 宝箱事件为20%， 商店事件为10%
         prefabs.Add(prefab_monster);
         prefabs.Add(prefab_monster);
         prefabs.Add(prefab_monster);
@@ -35,25 +40,52 @@ public class MainManager : MonoBehaviour
         prefabs.Add(prefab_treasure);
         prefabs.Add(prefab_treasure);
         prefabs.Add(prefab_shop);
-        prefabs.Add(prefab_shop);
         prefabs.Add(prefab_adventure);
         prefabs.Add(prefab_adventure);
-        //在3个位置随机分配3张卡
+        prefabs.Add(prefab_adventure);
 
+        //在3个位置随机分配3张卡
         RandomSelectEvent(position_area1);
         RandomSelectEvent(position_area2);
         RandomSelectEvent(position_area3);
+
+        area_finish.Add(false);
+        area_finish.Add(false);
+        area_finish.Add(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(area_finish[0] == true)
+        {
+            RandomSelectEvent(position_area1);
+            area_finish[0] = false;
+        }
+
+        if (area_finish[1] == true)
+        {
+            RandomSelectEvent(position_area2);
+            area_finish[1] = false;
+        }
+
+        if (area_finish[2] == true)
+        {
+            RandomSelectEvent(position_area3);
+            area_finish[2] = false;
+        }
+
+        if(event_finish == true)
+        {
+            Delete(event_obj);
+            event_finish = false;
+        }
     }
 
-    public void BattleBegin(BaseEventData data)
+    public void BattleBegin(GameObject obj)
     {
         SceneManager.LoadScene(2);
+        event_obj = obj;
     }
 
     public void Btn_Setting_Click()
@@ -62,22 +94,43 @@ public class MainManager : MonoBehaviour
         instance.transform.SetParent(transform);
     }
 
-    public void TreasureEvent(BaseEventData data)
+    public void TreasureEvent(GameObject obj)
     {
         GameObject instance = (GameObject)Instantiate(treasure_popup, position_area2, transform.rotation);
         instance.transform.SetParent(transform);
+        event_obj = obj;
     }
 
-    public void ShopEvent(BaseEventData data)
+    public void ShopEvent(GameObject obj)
     {
         GameObject instance = (GameObject)Instantiate(shop_popup, position_area2, transform.rotation);
         instance.transform.SetParent(transform);
+        event_obj = obj;
     }
 
-    public void AdventureEvent(BaseEventData data)
+    public void AdventureEvent(GameObject obj)
     {
         GameObject instance = (GameObject)Instantiate(adventure_popup, position_area2, transform.rotation);
         instance.transform.SetParent(transform);
+        event_obj = obj;
+    }
+
+    public void Delete(GameObject obj)
+    {
+        if(obj.transform.position == position_area1)
+        {
+            area_finish[0] = true;
+        }
+        else if(obj.transform.position == position_area2)
+        {
+            area_finish[1] = true;
+        }
+        else
+        {
+            area_finish[2] = true;
+        }
+
+        DestroyImmediate(obj);
     }
 
     public void RandomSelectEvent(Vector3 position)
@@ -90,21 +143,29 @@ public class MainManager : MonoBehaviour
         //为事件绑定触发函数
         EventTrigger trigger = instance.gameObject.AddComponent<EventTrigger>();
         UnityAction<BaseEventData> action = null;
-        if (instance.name.Contains("Treausre"))
+        if (instance.name.Contains("Treasure"))
         {
-            action = new UnityAction<BaseEventData>(TreasureEvent);
+            action = new UnityAction<BaseEventData>(delegate {
+                TreasureEvent(instance);
+            });
         }
         else if (instance.name.Contains("Shop"))
         {
-            action = new UnityAction<BaseEventData>(ShopEvent);
+            action = new UnityAction<BaseEventData>(delegate {
+                ShopEvent(instance);
+            });
         }
         else if (instance.name.Contains("Adventure"))
         {
-            action = new UnityAction<BaseEventData>(AdventureEvent);
+            action = new UnityAction<BaseEventData>(delegate {
+                AdventureEvent(instance);
+            });
         }
         else
         {
-            action = new UnityAction<BaseEventData>(BattleBegin);
+            action = new UnityAction<BaseEventData>(delegate {
+                BattleBegin(instance);
+            });
         }
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
