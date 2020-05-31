@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
@@ -20,10 +21,13 @@ public class MainManager : MonoBehaviour
 
     public Canvas canvas;
 
+    public Text text_eventleft, text_level;
+
     private Vector3 position_area1 = new Vector3(410, 560, 0);
     private Vector3 position_area2 = new Vector3(960, 560, 0);
     private Vector3 position_area3 = new Vector3(1510, 560, 0);
 
+    private List<GameObject> prefabs_random = new List<GameObject>();
     private List<GameObject> prefabs = new List<GameObject>();
 
     public List<bool> area_finish = new List<bool>();
@@ -33,19 +37,27 @@ public class MainManager : MonoBehaviour
 
     public bool battle_finish = true;
 
+    EventClass theEvent;
+    
     // Start is called before the first frame update
     void Start()
     {
+        //用于随机
         //怪物事件的机率为40%， 奇遇事件为30%， 宝箱事件为20%， 商店事件为10%
+        prefabs_random.Add(prefab_monster);
+        prefabs_random.Add(prefab_monster);
+        prefabs_random.Add(prefab_monster);
+        prefabs_random.Add(prefab_monster);
+        prefabs_random.Add(prefab_treasure);
+        prefabs_random.Add(prefab_treasure);
+        prefabs_random.Add(prefab_shop);
+        prefabs_random.Add(prefab_adventure);
+        prefabs_random.Add(prefab_adventure);
+        prefabs_random.Add(prefab_adventure);
+
         prefabs.Add(prefab_monster);
-        prefabs.Add(prefab_monster);
-        prefabs.Add(prefab_monster);
-        prefabs.Add(prefab_monster);
-        prefabs.Add(prefab_treasure);
         prefabs.Add(prefab_treasure);
         prefabs.Add(prefab_shop);
-        prefabs.Add(prefab_adventure);
-        prefabs.Add(prefab_adventure);
         prefabs.Add(prefab_adventure);
 
         LoadFromDatabase();
@@ -63,6 +75,40 @@ public class MainManager : MonoBehaviour
     public void LoadFromDatabase()
     {
         //从数据库读取关数，3个位置的事件，剩余卡牌数，BattleFinish标志位
+        DBManager dbm = new DBManager();
+        theEvent = dbm.GetEvent(1);
+
+        text_eventleft.text = "剩余事件：" + theEvent.event_left.ToString();
+        text_level.text = "第" + theEvent.level.ToString() + "层";
+
+        //对于三个area，0表示空，1表示怪兽事件，2表示宝箱事件，3表示商店事件，4表示奇遇事件
+        if(theEvent.area1 == 0)
+        {
+            RandomSelectEvent(position_area1);
+        }
+        else
+        {
+            GeneratePrefab(position_area1, prefabs[theEvent.area1 - 1]);
+        }
+
+        if (theEvent.area2 == 0)
+        {
+            RandomSelectEvent(position_area2);
+        }
+        else
+        {
+            GeneratePrefab(position_area2, prefabs[theEvent.area2 - 1]);
+        }
+
+        if (theEvent.area3 == 0)
+        {
+            RandomSelectEvent(position_area3);
+        }
+        else
+        {
+            GeneratePrefab(position_area3, prefabs[theEvent.area3 - 1]);
+        }
+
     }
 
     // Update is called once per frame
@@ -94,7 +140,7 @@ public class MainManager : MonoBehaviour
 
         if(battle_finish == true)
         {
-            canvas.GetComponent<Renderer>().enabled = true;
+            
         }
     }
 
@@ -155,10 +201,15 @@ public class MainManager : MonoBehaviour
     {
         //随机选择事件种类并生成
         int index = Random.Range(0, 9);
-        GameObject instance = (GameObject)Instantiate(prefabs[index], position, transform.rotation);
+        GeneratePrefab(position, prefabs_random[index]);
+    }
+
+    public void GeneratePrefab(Vector3 position, GameObject obj)
+    {
+        GameObject instance = (GameObject)Instantiate(obj, position, transform.rotation);
         instance.transform.SetParent(transform);
 
-        //为事件绑定触发函数
+        //绑定触发函数
         EventTrigger trigger = instance.gameObject.AddComponent<EventTrigger>();
         UnityAction<BaseEventData> action = null;
         if (instance.name.Contains("Treasure"))
@@ -190,6 +241,4 @@ public class MainManager : MonoBehaviour
         entry.callback.AddListener(action);
         trigger.triggers.Add(entry);
     }
-
-
 }
