@@ -48,6 +48,8 @@ public class MainManager : MonoBehaviour
         prefabs.Add(prefab_adventure);
         prefabs.Add(prefab_adventure);
 
+        LoadFromDatabase();
+
         //在3个位置随机分配3张卡
         RandomSelectEvent(position_area1);
         RandomSelectEvent(position_area2);
@@ -56,6 +58,11 @@ public class MainManager : MonoBehaviour
         area_finish.Add(false);
         area_finish.Add(false);
         area_finish.Add(false);
+    }
+
+    public void LoadFromDatabase()
+    {
+        //从数据库读取关数，3个位置的事件，剩余卡牌数，BattleFinish标志位
     }
 
     // Update is called once per frame
