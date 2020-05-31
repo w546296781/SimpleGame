@@ -43,6 +43,10 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //从数据库读取关数，3个位置的事件，剩余卡牌数，BattleFinish标志位
+        DBManager dbm = new DBManager();
+        theEvent = dbm.GetEvent(1);
+
         //用于随机
         //怪物事件的机率为40%， 奇遇事件为30%， 宝箱事件为20%， 商店事件为10%
         prefabs_random.Add(prefab_monster);
@@ -65,7 +69,7 @@ public class MainManager : MonoBehaviour
         positions.Add(position_area2);
         positions.Add(position_area3);
 
-        LoadFromDatabase();
+        Refresh();
 /*
         //在3个位置随机分配3张卡
         RandomSelectEvent(position_area1);
@@ -77,19 +81,15 @@ public class MainManager : MonoBehaviour
         area_finish.Add(false);
     }
 
-    public void LoadFromDatabase()
+    public void Refresh()
     {
-        //从数据库读取关数，3个位置的事件，剩余卡牌数，BattleFinish标志位
-        DBManager dbm = new DBManager();
-        theEvent = dbm.GetEvent(1);
-
-        text_eventleft.text = "剩余事件：" + theEvent.event_left.ToString();
-        text_level.text = "第" + theEvent.level.ToString() + "层";
-
         //对于三个area，0表示空，1表示怪兽事件，2表示宝箱事件，3表示商店事件，4表示奇遇事件
         if(theEvent.area1 == 0)
         {
-            RandomSelectEvent(position_area1);
+            if (theEvent.event_left >= 3)
+            {
+                RandomSelectEvent(position_area1);
+            }
         }
         else
         {
@@ -98,7 +98,10 @@ public class MainManager : MonoBehaviour
 
         if (theEvent.area2 == 0)
         {
-            RandomSelectEvent(position_area2);
+            if (theEvent.event_left >= 3)
+            {
+                RandomSelectEvent(position_area2);
+            }
         }
         else
         {
@@ -107,7 +110,10 @@ public class MainManager : MonoBehaviour
 
         if (theEvent.area3 == 0)
         {
-            RandomSelectEvent(position_area3);
+            if (theEvent.event_left >= 3)
+            {
+                RandomSelectEvent(position_area3);
+            }
         }
         else
         {
@@ -133,22 +139,35 @@ public class MainManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(area_finish[0] == true)
-        {
-            RandomSelectEvent(position_area1);
-            area_finish[0] = false;
-        }
+        text_eventleft.text = "剩余事件：" + theEvent.event_left.ToString();
+        text_level.text = "第" + theEvent.level.ToString() + "层";
 
-        if (area_finish[1] == true)
+        if (theEvent.event_left >= 3)
         {
-            RandomSelectEvent(position_area2);
-            area_finish[1] = false;
-        }
+            if (area_finish[0] == true)
+            {
+                RandomSelectEvent(position_area1);
+                area_finish[0] = false;
+            }
 
-        if (area_finish[2] == true)
+            if (area_finish[1] == true)
+            {
+                RandomSelectEvent(position_area2);
+                area_finish[1] = false;
+            }
+
+            if (area_finish[2] == true)
+            {
+                RandomSelectEvent(position_area3);
+                area_finish[2] = false;
+            }
+        }
+        else if(theEvent.event_left == 0)
         {
-            RandomSelectEvent(position_area3);
-            area_finish[2] = false;
+            //过层的逻辑在这，可以考虑增加boss战和过层奖励
+            theEvent.level++;
+            theEvent.event_left = 30;
+            Refresh();
         }
 
         if(event_finish == true)
@@ -220,17 +239,23 @@ public class MainManager : MonoBehaviour
         if(obj.transform.position == position_area1)
         {
             area_finish[0] = true;
+            theEvent.area1 = 0;
         }
         else if(obj.transform.position == position_area2)
         {
             area_finish[1] = true;
+            theEvent.area2 = 0;
         }
         else
         {
             area_finish[2] = true;
+            theEvent.area3 = 0;
         }
 
         DestroyImmediate(obj);
+        theEvent.event_left--;
+
+        Save();
     }
 
     public void RandomSelectEvent(Vector3 position)
