@@ -36,7 +36,7 @@ public class DBManager
         hero.id = id;
 
         dataReader =
-            ExecuteQuery("SELECT Name, Attack, Defense, Speed FROM Hero WHERE ID = " + id + ";");
+            ExecuteQuery("SELECT Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint FROM Hero WHERE ID = " + id + ";");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -45,6 +45,23 @@ public class DBManager
                 hero.atk = dataReader.GetInt32(1);
                 hero.def = dataReader.GetInt32(2);
                 hero.speed = dataReader.GetInt32(3);
+                hero.life = dataReader.GetInt32(4);
+                hero.ap = dataReader.GetInt32(5);
+                hero.dodge = dataReader.GetDouble(6);
+                hero.critChance = dataReader.GetDouble(7);
+                hero.critDamage = dataReader.GetInt32(8);
+                hero.fireResis = dataReader.GetInt32(9);
+                hero.coldResis = dataReader.GetInt32(10);
+                hero.lightResis = dataReader.GetInt32(11);
+                hero.FirePene = dataReader.GetInt32(12);
+                hero.coldPene = dataReader.GetInt32(13);
+                hero.lightPene = dataReader.GetInt32(14);
+                hero.level = dataReader.GetInt32(15);
+                hero.exp = dataReader.GetInt32(16);
+                hero.str = dataReader.GetInt32(17);
+                hero.agi = dataReader.GetInt32(18);
+                hero.Int = dataReader.GetInt32(19);
+                hero.attrPoint = dataReader.GetInt32(20);
             }
         }
 
@@ -216,7 +233,9 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed + ")";
+            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed
+            + ", " + hero.life + ", " + hero.ap + ", " + hero.dodge + ", " + hero.critChance + ", " + hero.critDamage + ", " + hero.fireResis + ", " + hero.coldResis + ", " + hero.lightResis + ", " + hero.FirePene + ", " + hero.coldPene + ", " + hero.lightPene
+            + ", " + hero.level + ", " + hero.exp + ", " + hero.str + ", " + hero.agi + ", " + hero.Int + ", " + hero.attrPoint + ")";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -288,7 +307,10 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Hero SET Name = '" + hero.name + "', Attack = " + hero.atk + ", Defense = " + hero.def + ", Speed = " + hero.speed + " WHERE ID = " + hero.id;
+            "UPDATE Hero SET Name = '" + hero.name + "', Attack = " + hero.atk + ", Defense = " + hero.def + ", Speed = " + hero.speed
+             + ", Life = " + hero.life + ", AP = " + hero.ap + ", Dodge = " + hero.dodge + ", CritChance = " + hero.critChance + ", CritDamage = " + hero.critDamage + ", FireResis = " + hero.fireResis
+              + ", ColdResis = " + hero.coldResis + ", LightResis = " + hero.lightResis + ", FirePene = " + hero.FirePene + ", ColdPene = " + hero.coldPene + ", LightPene = " + hero.lightPene
+               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + " WHERE ID = " + hero.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
