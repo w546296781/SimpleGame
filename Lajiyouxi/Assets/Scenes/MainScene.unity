@@ -958,6 +958,13 @@ MonoBehaviour:
   area_finish: 
   event_finish: 0
   battle_finish: 1
+  btn_setting: {fileID: 1710148592}
+  btn_character: {fileID: 1330180722}
+  btn_package: {fileID: 197398618}
+  btn_skill: {fileID: 296261434}
+  btn_talent: {fileID: 101145893}
+  btn_pet: {fileID: 1181589862}
+  btn_servant: {fileID: 192859108}
 --- !u!1 &1181589860
 GameObject:
   m_ObjectHideFlags: 0

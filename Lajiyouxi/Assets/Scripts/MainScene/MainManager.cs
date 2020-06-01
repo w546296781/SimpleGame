@@ -39,6 +39,10 @@ public class MainManager : MonoBehaviour
     public bool battle_finish = true;
 
     EventClass theEvent;
+
+    List<GameObject> hide_obj = new List<GameObject>();
+
+    public Image btn_setting, btn_character, btn_package, btn_skill, btn_talent, btn_pet, btn_servant;
     
     // Start is called before the first frame update
     void Start()
@@ -211,6 +215,7 @@ public class MainManager : MonoBehaviour
     {
         GameObject instance = (GameObject)Instantiate(setting_popup, position_area2, transform.rotation);
         instance.transform.SetParent(transform);
+        HideUI();
     }
 
     public void TreasureEvent(GameObject obj)
@@ -328,5 +333,57 @@ public class MainManager : MonoBehaviour
     {
         DBManager dbm = new DBManager();
         dbm.SaveEvent(theEvent);
+    }
+
+    public void HideUI()
+    {
+        btn_setting.gameObject.SetActive(false);
+        btn_character.gameObject.SetActive(false);
+        btn_package.gameObject.SetActive(false);
+        btn_pet.gameObject.SetActive(false);
+        btn_servant.gameObject.SetActive(false);
+        btn_skill.gameObject.SetActive(false);
+        btn_talent.gameObject.SetActive(false);
+
+        var monsters = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj in monsters)
+        {
+            obj.SetActive(false);
+            hide_obj.Add(obj);
+        }
+        var shops = GameObject.FindGameObjectsWithTag("Shop");
+        foreach (GameObject obj in shops)
+        {
+            obj.SetActive(false);
+            hide_obj.Add(obj);
+        }
+        var treasures = GameObject.FindGameObjectsWithTag("Treasure");
+        foreach (GameObject obj in treasures)
+        {
+            obj.SetActive(false);
+            hide_obj.Add(obj);
+        }
+        var adventures = GameObject.FindGameObjectsWithTag("Adventure");
+        foreach (GameObject obj in adventures)
+        {
+            obj.SetActive(false);
+            hide_obj.Add(obj);
+        }
+    }
+
+    public void ShowUI()
+    {
+        btn_setting.gameObject.SetActive(true);
+        btn_character.gameObject.SetActive(true);
+        btn_package.gameObject.SetActive(true);
+        btn_pet.gameObject.SetActive(true);
+        btn_servant.gameObject.SetActive(true);
+        btn_skill.gameObject.SetActive(true);
+        btn_talent.gameObject.SetActive(true);
+
+        foreach(GameObject obj in hide_obj)
+        {
+            obj.SetActive(true);
+        }
     }
 }

@@ -91,8 +91,8 @@ GameObject:
   - component: {fileID: 5736504340093665144}
   - component: {fileID: 5736504340093665150}
   m_Layer: 5
-  m_Name: Img_Area2
-  m_TagString: Untagged
+  m_Name: Img_Shop
+  m_TagString: Shop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
