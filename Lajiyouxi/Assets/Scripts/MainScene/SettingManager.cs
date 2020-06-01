@@ -24,6 +24,7 @@ public class SettingManager : MonoBehaviour
 
     public void Btn_Continue_Click()
     {
+        gameObject.transform.parent.GetComponent<MainManager>().ShowUI();
         DestroyImmediate(gameObject);
     }
 }
