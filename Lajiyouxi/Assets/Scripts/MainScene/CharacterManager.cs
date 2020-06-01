@@ -16,6 +16,10 @@ public class CharacterManager : MonoBehaviour
         DBManager dbm = new DBManager();
         hero = dbm.GetHero(1);
         Refresh();
+        if (hero.attrPoint == 0)
+        {
+            HideAllBtn();
+        }
     }
 
     // Update is called once per frame
@@ -51,10 +55,74 @@ public class CharacterManager : MonoBehaviour
         text_coldP.text = hero.coldPene.ToString();
         text_lightP.text = hero.lightPene.ToString();
         text_point.text = hero.attrPoint.ToString();
+        if (hero.attrPoint == 0)
+        {
+            HideAttrBtn();
+        }
     }
 
     public void Btn_STR_Click()
     {
+        hero.attrPoint--;
+        hero.str++;
+        hero.life += 10;
+        hero.atk += 5;
+        Refresh();
+    }
 
+    public void Btn_AGI_Click()
+    {
+        hero.attrPoint--;
+        hero.agi++;
+        hero.dodge += 0.1;
+        hero.speed += 5;
+        Refresh();
+    }
+
+    public void Btn_INT_Click()
+    {
+        hero.attrPoint--;
+        hero.Int++;
+        hero.ap += 5;
+        hero.critChance += 0.5;
+        Refresh();
+    }
+
+    public void Btn_Save_Click()
+    {
+        DBManager dbm = new DBManager();
+        dbm.SaveHero(hero);
+        if(hero.attrPoint == 0)
+        {
+            HideAllBtn();
+        }
+    }
+
+    public void Btn_Restore_Click()
+    {
+        ShowAttrBtn();
+        Start();
+    }
+
+
+    public void HideAllBtn()
+    {
+        HideAttrBtn();
+        btn_save.gameObject.SetActive(false);
+        btn_restore.gameObject.SetActive(false);
+    }
+
+    public void HideAttrBtn()
+    {
+        btn_str.gameObject.SetActive(false);
+        btn_agi.gameObject.SetActive(false);
+        btn_int.gameObject.SetActive(false);
+    }
+
+    public void ShowAttrBtn()
+    {
+        btn_str.gameObject.SetActive(true);
+        btn_agi.gameObject.SetActive(true);
+        btn_int.gameObject.SetActive(true);
     }
 }

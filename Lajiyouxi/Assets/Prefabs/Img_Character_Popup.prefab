@@ -1993,7 +1993,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2532218377527524810}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1728259829181005560}
+        m_MethodName: Btn_INT_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2532218377544580364
 GameObject:
   m_ObjectHideFlags: 0
@@ -2268,7 +2279,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2532218377582697110}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1728259829181005560}
+        m_MethodName: Btn_STR_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2532218377587787333
 GameObject:
   m_ObjectHideFlags: 0
@@ -2777,7 +2799,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2532218377750553904}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1728259829181005560}
+        m_MethodName: Btn_Save_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2532218377828968332
 GameObject:
   m_ObjectHideFlags: 0
@@ -4144,7 +4177,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2532218378712239047}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1728259829181005560}
+        m_MethodName: Btn_Restore_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2532218378736547550
 GameObject:
   m_ObjectHideFlags: 0
@@ -4263,7 +4307,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2532218378736547549}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1728259829181005560}
+        m_MethodName: Btn_AGI_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6523318749797261562
 GameObject:
   m_ObjectHideFlags: 0
