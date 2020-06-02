@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class MainManager : MonoBehaviour
 {
     public GameObject setting_popup;
+    public GameObject character_popup;
 
     public GameObject prefab_monster;
     public GameObject prefab_treasure;
@@ -214,6 +215,13 @@ public class MainManager : MonoBehaviour
     public void Btn_Setting_Click()
     {
         GameObject instance = (GameObject)Instantiate(setting_popup, position_area2, transform.rotation);
+        instance.transform.SetParent(transform);
+        HideUI();
+    }
+
+    public void Btn_Character_Click()
+    {
+        GameObject instance = (GameObject)Instantiate(character_popup, position_area2, transform.rotation);
         instance.transform.SetParent(transform);
         HideUI();
     }
