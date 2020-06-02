@@ -19,9 +19,14 @@ public class GameManager : MonoBehaviour
 
     public HeroClass theHero;
 
+    public bool skillNameBlinkTimerOn = false;
+    public float skillNameBlinkTimer = 1.0f;
+
     // Start is called before the first frame update
     void Start()
     {
+        skillNameText.GetComponent<Renderer>().enabled = false;
+
         object_hero = GameObject.Find("Hero");
         object_pet = GameObject.Find("Pet");
         object_servant = GameObject.Find("Servant");
@@ -117,14 +122,14 @@ public class GameManager : MonoBehaviour
 
         foreach (HeroManager heros in heroTeam)
         {
-            float time = 100.0f / heros.speed;
+            float time = 200.0f / heros.speed;
             Invoke("AttackTimer_" + heros.name, time);
         }
         //Invoke("AttackTimer_Hero", 0.9f);
 
         foreach (HeroManager enemys in enemyTeam)
         {
-            float time = 100.0f / enemys.speed;
+            float time = 200.0f / enemys.speed;
             Invoke("AttackTimer_" + enemys.name, time);
         }
 
@@ -133,15 +138,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-/*        heroHealth.text = hero.health.ToString();
-        petHealth.text = pet.health.ToString();
-        servantHealth.text = servant.health.ToString();
-        enemy1Health.text = enemy1.health.ToString();
-        enemy2Health.text = enemy2.health.ToString();
-        enemy3Health.text = enemy3.health.ToString();
-        enemy4Health.text = enemy4.health.ToString();
-        enemy5Health.text = enemy5.health.ToString();
-        enemy6Health.text = enemy6.health.ToString();*/
+        if (skillNameBlinkTimerOn == true)
+        {
+            skillNameBlinkTimer -= Time.deltaTime;
+            if (skillNameBlinkTimer <= 0)
+            {
+                SkillNameBlink();
+                skillNameBlinkTimer = 1.0f;
+            }
+        }
 
         if (enemy1.isLive == false && enemy2.isLive == false && enemy3.isLive == false && enemy4.isLive == false && enemy5.isLive == false && enemy6.isLive == false)
         {
@@ -174,7 +179,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Pet", 100.0f / pet.speed);
+            Invoke("AttackTimer_Pet", 200.0f / pet.speed);
         }
     }
 
@@ -202,7 +207,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Hero", 100.0f / hero.speed);
+            Invoke("AttackTimer_Hero", 200.0f / hero.speed);
         }
     }
 
@@ -230,7 +235,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Servant", 100.0f / servant.speed);
+            Invoke("AttackTimer_Servant", 200.0f / servant.speed);
         }
     }
 
@@ -253,7 +258,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy1", 100.0f / enemy1.speed);
+            Invoke("AttackTimer_Enemy1", 200.0f / enemy1.speed);
         }
     }
 
@@ -276,7 +281,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy2", 100.0f / enemy2.speed);
+            Invoke("AttackTimer_Enemy2", 200.0f / enemy2.speed);
         }
     }
 
@@ -299,7 +304,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy3", 100.0f / enemy3.speed);
+            Invoke("AttackTimer_Enemy3", 200.0f / enemy3.speed);
         }
     }
 
@@ -322,7 +327,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy4", 100 / enemy4.speed);
+            Invoke("AttackTimer_Enemy4", 200 / enemy4.speed);
         }
     }
 
@@ -345,7 +350,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy5", 100 / enemy5.speed);
+            Invoke("AttackTimer_Enemy5", 200 / enemy5.speed);
         }
     }
 
@@ -368,7 +373,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy6", 100 / enemy6.speed);
+            Invoke("AttackTimer_Enemy6", 200 / enemy6.speed);
         }
     }
 
@@ -413,6 +418,7 @@ public class GameManager : MonoBehaviour
     {
         int damage = 0;
         int elseTargetCount = 0;
+        string skillNameStr = "";
         //基本伤害公式：（基础伤）*1.3技能等级次方*（1+法强/100）
         if (skillName == 1)
         {
@@ -425,6 +431,7 @@ public class GameManager : MonoBehaviour
             damage = damage * (1 + theHero.ap / 100);
 
             elseTargetCount = 2;
+            skillNameStr = "闪电链！";
         }
         else if(skillName == 2)
         {
@@ -437,6 +444,7 @@ public class GameManager : MonoBehaviour
             damage = damage * (1 + theHero.ap / 100);
 
             elseTargetCount = 0;
+            skillNameStr = "火球术！";
         }
         else if(skillName == 3)
         {
@@ -449,8 +457,11 @@ public class GameManager : MonoBehaviour
             damage = damage * (1 + theHero.ap / 100);
 
             elseTargetCount = 5;
+            skillNameStr = "暴风雪！";
         }
 
+        skillNameText.text = skillNameStr;
+        SkillNameBlink();
         Spell(enemy, damage, elseTargetCount);
     }
 
@@ -507,9 +518,18 @@ public class GameManager : MonoBehaviour
         Debug.Log(hero.gameObject.name + " Attack " + enemy.gameObject.name + "\nDamage : " + damage);
     }
 
-    public void ShowSkillName()
+    public void SkillNameBlink()
     {
-
+        if (skillNameText.GetComponent<Renderer>().enabled == true)
+        {
+            skillNameText.GetComponent<Renderer>().enabled = false;
+            skillNameBlinkTimerOn = false;
+        }
+        else
+        {
+            skillNameText.GetComponent<Renderer>().enabled = true;
+            skillNameBlinkTimerOn = true;
+        }
     }
 
     public void BackToMain()
