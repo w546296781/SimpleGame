@@ -145,6 +145,33 @@ public class DBManager
         return enemy;
     }
 
+    public List<EnemyClass> GetAllEnemy()
+    {
+        ConnectToDB("SimpleGame.db");
+
+        List<EnemyClass> result = new List<EnemyClass>();
+
+        dataReader =
+            ExecuteQuery("SELECT Name, Attack, Defense, Speed, ID FROM Enemy;");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                EnemyClass enemy = new EnemyClass();
+                enemy.name = dataReader.GetString(0);
+                enemy.atk = dataReader.GetInt32(1);
+                enemy.def = dataReader.GetInt32(2);
+                enemy.speed = dataReader.GetInt32(3);
+                enemy.id = dataReader.GetInt32(4);
+                result.Add(enemy);
+            }
+        }
+
+        CloseConnection();
+
+        return result;
+    }
+
     public string GetGame(int id)
     {
         ConnectToDB("SimpleGame.db");
