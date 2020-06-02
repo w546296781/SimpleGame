@@ -36,7 +36,9 @@ public class DBManager
         hero.id = id;
 
         dataReader =
-            ExecuteQuery("SELECT Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint FROM Hero WHERE ID = " + id + ";");
+            ExecuteQuery("SELECT Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, " +
+            "FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, " +
+            "Level, EXP, STR, AGI, INT, AttrPoint, SkillPoint, Skill FROM Hero WHERE ID = " + id + ";");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -62,6 +64,9 @@ public class DBManager
                 hero.agi = dataReader.GetInt32(18);
                 hero.Int = dataReader.GetInt32(19);
                 hero.attrPoint = dataReader.GetInt32(20);
+                hero.skillPoint = dataReader.GetInt32(21);
+                string skillstr = dataReader.GetString(22);
+                hero.skillList = ConvertSkillToList(skillstr);
             }
         }
 
@@ -128,7 +133,7 @@ public class DBManager
         enemy.id = id;
 
         dataReader =
-            ExecuteQuery("SELECT Name, Attack, Defense, Speed FROM Enemy WHERE ID = " + id + ";");
+            ExecuteQuery("SELECT Name, Attack, Defense, Speed, Life FROM Enemy WHERE ID = " + id + ";");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -137,12 +142,41 @@ public class DBManager
                 enemy.atk = dataReader.GetInt32(1);
                 enemy.def = dataReader.GetInt32(2);
                 enemy.speed = dataReader.GetInt32(3);
+                enemy.life = dataReader.GetInt32(4);
             }
         }
 
         CloseConnection();
 
         return enemy;
+    }
+
+    public List<EnemyClass> GetAllEnemy()
+    {
+        ConnectToDB("SimpleGame.db");
+
+        List<EnemyClass> result = new List<EnemyClass>();
+
+        dataReader =
+            ExecuteQuery("SELECT Name, Attack, Defense, Speed, ID, Life FROM Enemy;");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                EnemyClass enemy = new EnemyClass();
+                enemy.name = dataReader.GetString(0);
+                enemy.atk = dataReader.GetInt32(1);
+                enemy.def = dataReader.GetInt32(2);
+                enemy.speed = dataReader.GetInt32(3);
+                enemy.id = dataReader.GetInt32(4);
+                enemy.life = dataReader.GetInt32(5);
+                result.Add(enemy);
+            }
+        }
+
+        CloseConnection();
+
+        return result;
     }
 
     public string GetGame(int id)
@@ -233,9 +267,9 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed
+            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint, SkillPoint, Skill) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed
             + ", " + hero.life + ", " + hero.ap + ", " + hero.dodge + ", " + hero.critChance + ", " + hero.critDamage + ", " + hero.fireResis + ", " + hero.coldResis + ", " + hero.lightResis + ", " + hero.FirePene + ", " + hero.coldPene + ", " + hero.lightPene
-            + ", " + hero.level + ", " + hero.exp + ", " + hero.str + ", " + hero.agi + ", " + hero.Int + ", " + hero.attrPoint + ")";
+            + ", " + hero.level + ", " + hero.exp + ", " + hero.str + ", " + hero.agi + ", " + hero.Int + ", " + hero.attrPoint + ", " + hero.skillPoint + ", '" + ConvertSkillToString(hero.skillList) + "')";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -271,7 +305,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed) VALUES (" + enemy.id + ", '" + enemy.name + "', " + enemy.atk + ", " + enemy.def + ", " + enemy.speed + ")";
+            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed, Life) VALUES (" + enemy.id + ", '" + enemy.name + "', " + enemy.atk + ", " + enemy.def + ", " + enemy.speed + ", " + enemy.life + ")";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -310,7 +344,7 @@ public class DBManager
             "UPDATE Hero SET Name = '" + hero.name + "', Attack = " + hero.atk + ", Defense = " + hero.def + ", Speed = " + hero.speed
              + ", Life = " + hero.life + ", AP = " + hero.ap + ", Dodge = " + hero.dodge + ", CritChance = " + hero.critChance + ", CritDamage = " + hero.critDamage + ", FireResis = " + hero.fireResis
               + ", ColdResis = " + hero.coldResis + ", LightResis = " + hero.lightResis + ", FirePene = " + hero.FirePene + ", ColdPene = " + hero.coldPene + ", LightPene = " + hero.lightPene
-               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + " WHERE ID = " + hero.id;
+               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + ", SkillPoint = " + hero.skillPoint+ ", Skill = '" + ConvertSkillToString(hero.skillList) + "' WHERE ID = " + hero.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -346,7 +380,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = " + enemy.atk + ", Defense = " + enemy.def + ", Speed = " + enemy.speed + " WHERE ID = " + enemy.id;
+            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = " + enemy.atk + ", Defense = " + enemy.def + ", Speed = " + enemy.speed + ", Life = " + enemy.life + " WHERE ID = " + enemy.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -464,5 +498,32 @@ public class DBManager
             dbConnection.Close();
         }
         dbConnection = null;
+    }
+
+    public List<List<int>> ConvertSkillToList(string str)
+    {
+        List<List<int>> skill = new List<List<int>>();
+        string[] firstSplit = str.Split(';');
+        foreach(string i in firstSplit)
+        {
+            string[] secondSplit = i.Split('-');
+            int skillName = int.Parse(secondSplit[0]);
+            int skillLevel = int.Parse(secondSplit[1]);
+            List<int> thisSkill = new List<int>();
+            thisSkill.Add(skillName);
+            thisSkill.Add(skillLevel);
+            skill.Add(thisSkill);
+        }
+        return skill;
+    }
+
+    public string ConvertSkillToString(List<List<int>> skill)
+    {
+        string result = "";
+        foreach(var i in skill)
+        {
+            result += i[0] + "-" + i[1] + ";";
+        }
+        return result;
     }
 }
