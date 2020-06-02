@@ -37,6 +37,11 @@ public class HeroManager : MonoBehaviour
             isLive = false;
         }
 
+        if(isLive == false)
+        {
+            DestroyImmediate(gameObject);
+        }
+
         if (blinkTimerOn == true)
         {
             blinkTimer -= Time.deltaTime;

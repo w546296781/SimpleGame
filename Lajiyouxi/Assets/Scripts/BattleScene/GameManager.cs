@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //public TextMesh heroHealth, petHealth, servantHealth, enemy1Health, enemy2Health, enemy3Health, enemy4Health, enemy5Health, enemy6Health;
-    public TextMesh resultText;
+    public TextMesh resultText, skillNameText;
 
     private GameObject object_hero, object_pet, object_servant, object_enemy1, object_enemy2, object_enemy3, object_enemy4, object_enemy5, object_enemy6;
     private HeroManager hero, pet, servant, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6;
@@ -15,10 +15,18 @@ public class GameManager : MonoBehaviour
     private List<HeroManager> heroTeam, enemyTeam;
 
     public int gameID = 1;
+    public int heroSkillCount = 0;
+
+    public HeroClass theHero;
+
+    public bool skillNameBlinkTimerOn = false;
+    public float skillNameBlinkTimer = 1.0f;
 
     // Start is called before the first frame update
     void Start()
     {
+        skillNameText.GetComponent<Renderer>().enabled = false;
+
         object_hero = GameObject.Find("Hero");
         object_pet = GameObject.Find("Pet");
         object_servant = GameObject.Find("Servant");
@@ -70,6 +78,7 @@ public class GameManager : MonoBehaviour
 
         HeroClass hc = new HeroClass();
         hc = dbm.GetHero(gameID);
+        theHero = hc;
 
         hero.atk = hc.atk;
         hero.def = hc.def;
@@ -113,14 +122,14 @@ public class GameManager : MonoBehaviour
 
         foreach (HeroManager heros in heroTeam)
         {
-            float time = 100.0f / heros.speed;
+            float time = 200.0f / heros.speed;
             Invoke("AttackTimer_" + heros.name, time);
         }
         //Invoke("AttackTimer_Hero", 0.9f);
 
         foreach (HeroManager enemys in enemyTeam)
         {
-            float time = 100.0f / enemys.speed;
+            float time = 200.0f / enemys.speed;
             Invoke("AttackTimer_" + enemys.name, time);
         }
 
@@ -129,15 +138,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-/*        heroHealth.text = hero.health.ToString();
-        petHealth.text = pet.health.ToString();
-        servantHealth.text = servant.health.ToString();
-        enemy1Health.text = enemy1.health.ToString();
-        enemy2Health.text = enemy2.health.ToString();
-        enemy3Health.text = enemy3.health.ToString();
-        enemy4Health.text = enemy4.health.ToString();
-        enemy5Health.text = enemy5.health.ToString();
-        enemy6Health.text = enemy6.health.ToString();*/
+        if (skillNameBlinkTimerOn == true)
+        {
+            skillNameBlinkTimer -= Time.deltaTime;
+            if (skillNameBlinkTimer <= 0)
+            {
+                SkillNameBlink();
+                skillNameBlinkTimer = 1.0f;
+            }
+        }
 
         if (enemy1.isLive == false && enemy2.isLive == false && enemy3.isLive == false && enemy4.isLive == false && enemy5.isLive == false && enemy6.isLive == false)
         {
@@ -158,10 +167,6 @@ public class GameManager : MonoBehaviour
             if (enemy1.isLive == true)
             {
                 Attack(pet, enemy1);
-                if (enemy1.isLive == false)
-                {
-                    DestroyImmediate(object_enemy1);
-                }
             }
             else
             {
@@ -170,15 +175,11 @@ public class GameManager : MonoBehaviour
                     if (enemyTeam[i].isLive == true)
                     {
                         Attack(pet, enemyTeam[i]);
-                        if (enemyTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_enemyTeam[i]);
-                        }
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Pet", 100.0f / pet.speed);
+            Invoke("AttackTimer_Pet", 200.0f / pet.speed);
         }
     }
 
@@ -188,11 +189,7 @@ public class GameManager : MonoBehaviour
         {
             if (enemy2.isLive == true)
             {
-                Attack(hero, enemy2);
-                if (enemy2.isLive == false)
-                {
-                    DestroyImmediate(object_enemy2);
-                }
+                HeroAttack(enemy2);
             }
             else
             {
@@ -200,25 +197,17 @@ public class GameManager : MonoBehaviour
                 {
                     if (i >= 3 && enemy5.isLive == true)
                     {
-                        Attack(hero, enemy5);
-                        if (enemy5.isLive == false)
-                        {
-                            DestroyImmediate(object_enemy5);
-                        }
+                        HeroAttack(enemy5);
                         break;
                     }
                     else if (enemyTeam[i].isLive == true)
                     {
-                        Attack(hero, enemyTeam[i]);
-                        if (enemyTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_enemyTeam[i]);
-                        }
+                        HeroAttack(enemyTeam[i]);
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Hero", 100.0f / hero.speed);
+            Invoke("AttackTimer_Hero", 200.0f / hero.speed);
         }
     }
 
@@ -229,10 +218,6 @@ public class GameManager : MonoBehaviour
             if (enemy3.isLive == true)
             {
                 Attack(servant, enemy3);
-                if (enemy3.isLive == false)
-                {
-                    DestroyImmediate(object_enemy3);
-                }
             }
             else
             {
@@ -241,24 +226,16 @@ public class GameManager : MonoBehaviour
                     if (i >= 3 && enemy6.isLive == true)
                     {
                         Attack(servant, enemy6);
-                        if (enemy6.isLive == false)
-                        {
-                            DestroyImmediate(object_enemy6);
-                        }
                         break;
                     }
                     else if (enemyTeam[i].isLive == true)
                     {
                         Attack(pet, enemyTeam[i]);
-                        if (enemyTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_enemyTeam[i]);
-                        }
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Servant", 100.0f / servant.speed);
+            Invoke("AttackTimer_Servant", 200.0f / servant.speed);
         }
     }
 
@@ -269,10 +246,6 @@ public class GameManager : MonoBehaviour
             if (pet.isLive == true)
             {
                 Attack(enemy1, pet);
-                if (pet.isLive == false)
-                {
-                    DestroyImmediate(object_pet);
-                }
             }
             else
             {
@@ -281,15 +254,11 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy1, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy1", 100.0f / enemy1.speed);
+            Invoke("AttackTimer_Enemy1", 200.0f / enemy1.speed);
         }
     }
 
@@ -300,10 +269,6 @@ public class GameManager : MonoBehaviour
             if (hero.isLive == true)
             {
                 Attack(enemy2, hero);
-                if (hero.isLive == false)
-                {
-                    DestroyImmediate(object_hero);
-                }
             }
             else
             {
@@ -312,15 +277,11 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy2, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy2", 100.0f / enemy2.speed);
+            Invoke("AttackTimer_Enemy2", 200.0f / enemy2.speed);
         }
     }
 
@@ -331,10 +292,6 @@ public class GameManager : MonoBehaviour
             if (servant.isLive == true)
             {
                 Attack(enemy3, servant);
-                if (servant.isLive == false)
-                {
-                    DestroyImmediate(object_servant);
-                }
             }
             else
             {
@@ -343,15 +300,11 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy3, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy3", 100.0f / enemy3.speed);
+            Invoke("AttackTimer_Enemy3", 200.0f / enemy3.speed);
         }
     }
 
@@ -362,10 +315,6 @@ public class GameManager : MonoBehaviour
             if (pet.isLive == true)
             {
                 Attack(enemy4, pet);
-                if (pet.isLive == false)
-                {
-                    DestroyImmediate(object_pet);
-                }
             }
             else
             {
@@ -374,15 +323,11 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy4, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy4", 100 / enemy4.speed);
+            Invoke("AttackTimer_Enemy4", 200 / enemy4.speed);
         }
     }
 
@@ -393,10 +338,6 @@ public class GameManager : MonoBehaviour
             if (hero.isLive == true)
             {
                 Attack(enemy5, hero);
-                if (hero.isLive == false)
-                {
-                    DestroyImmediate(object_hero);
-                }
             }
             else
             {
@@ -405,15 +346,11 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy5, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy5", 100 / enemy5.speed);
+            Invoke("AttackTimer_Enemy5", 200 / enemy5.speed);
         }
     }
 
@@ -424,10 +361,6 @@ public class GameManager : MonoBehaviour
             if (servant.isLive == true)
             {
                 Attack(enemy6, servant);
-                if (servant.isLive == false)
-                {
-                    DestroyImmediate(object_servant);
-                }
             }
             else
             {
@@ -436,15 +369,11 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy6, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy6", 100 / enemy6.speed);
+            Invoke("AttackTimer_Enemy6", 200 / enemy6.speed);
         }
     }
 
@@ -462,6 +391,145 @@ public class GameManager : MonoBehaviour
             }
         }
         Debug.Log(h1.gameObject.name + " Attack " + h2.gameObject.name + "\nDamage : " + damage);
+    }
+
+    public void HeroAttack(HeroManager enemy)
+    {
+        heroSkillCount++;
+        if(heroSkillCount % 6 == 0)
+        {
+            //释放副技能2
+            Skill(theHero.skillList[2][0], theHero.skillList[2][1], enemy);
+            
+        }
+        else if(heroSkillCount % 3 == 0)
+        {
+            //释放副技能1
+            Skill(theHero.skillList[1][0], theHero.skillList[1][1], enemy);
+        }
+        else
+        {
+            //释放主技能
+            Skill(theHero.skillList[0][0], theHero.skillList[0][1], enemy);
+        }
+    }
+
+    public void Skill(int skillName, int skillLevel, HeroManager enemy)
+    {
+        int damage = 0;
+        int elseTargetCount = 0;
+        string skillNameStr = "";
+        //基本伤害公式：（基础伤）*1.3技能等级次方*（1+法强/100）
+        if (skillName == 1)
+        {
+            //闪电链：对目标敌人及其他两名敌人造成伤害
+            damage = 10;
+            for(int i = 0; i < skillLevel; i++)
+            {
+                damage = (int)(1.3 * damage);
+            }
+            damage = damage * (1 + theHero.ap / 100);
+
+            elseTargetCount = 2;
+            skillNameStr = "闪电链！";
+        }
+        else if(skillName == 2)
+        {
+            //火球术：对目标敌人造成伤害
+            damage = 500;
+            for (int i = 0; i < skillLevel; i++)
+            {
+                damage = (int)(1.3 * damage);
+            }
+            damage = damage * (1 + theHero.ap / 100);
+
+            elseTargetCount = 0;
+            skillNameStr = "火球术！";
+        }
+        else if(skillName == 3)
+        {
+            //暴风雪：对全体敌人造成伤害
+            damage = 100;
+            for (int i = 0; i < skillLevel; i++)
+            {
+                damage = (int)(1.3 * damage);
+            }
+            damage = damage * (1 + theHero.ap / 100);
+
+            elseTargetCount = 5;
+            skillNameStr = "暴风雪！";
+        }
+
+        skillNameText.text = skillNameStr;
+        SkillNameBlink();
+        Spell(enemy, damage, elseTargetCount);
+    }
+
+    public void Spell(HeroManager targetEnemy, int damage, int elseTarget)
+    {
+        AttackToEnemy(targetEnemy, damage);
+
+        if (elseTarget > 0)
+        {
+            List<HeroManager> newEnemyList = new List<HeroManager>();
+            newEnemyList.Add(enemy1);
+            newEnemyList.Add(enemy2);
+            newEnemyList.Add(enemy3);
+            newEnemyList.Add(enemy4);
+            newEnemyList.Add(enemy5);
+            newEnemyList.Add(enemy6);
+
+            newEnemyList.Remove(targetEnemy);
+            int targetCount = elseTarget;
+            while (targetCount > 0)
+            {
+                if (newEnemyList.Count > 0)
+                {
+                    HeroManager newEnemy = newEnemyList[Random.Range(0, newEnemyList.Count - 1)];
+                    if (newEnemy.isLive == true)
+                    {
+                        AttackToEnemy(newEnemy, damage);
+                        targetCount--;
+                    }
+                    newEnemyList.Remove(newEnemy);
+                }
+                else
+                {
+                    targetCount = 0;
+                }
+            }
+        }
+
+    }
+
+    public void AttackToEnemy(HeroManager enemy, int damage)
+    {
+        hero.AttackAction();
+        damage = damage - enemy.def;
+        if (damage > 0)
+        {
+            enemy.health -= damage;
+            enemy.Blink();
+            if (enemy.health <= 0)
+            {
+                enemy.isLive = false;
+            }
+        }
+        Debug.Log(hero.gameObject.name + " Attack " + enemy.gameObject.name + "\nDamage : " + damage);
+    }
+
+    public void SkillNameBlink()
+    {
+        if (skillNameText.GetComponent<Renderer>().enabled == true)
+        {
+            skillNameText.GetComponent<Renderer>().enabled = false;
+            skillNameBlinkTimerOn = false;
+        }
+        else
+        {
+            skillNameText.GetComponent<Renderer>().enabled = true;
+            skillNameBlinkTimerOn = true;
+        }
     }
 
     public void BackToMain()
