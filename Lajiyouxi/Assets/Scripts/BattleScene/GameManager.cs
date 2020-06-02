@@ -491,20 +491,82 @@ public class GameManager : MonoBehaviour
 
     public void Skill(int skillName, int skillLevel, HeroManager enemy)
     {
+        int damage = 0;
+        int elseTargetCount = 0;
         //基本伤害公式：（基础伤）*1.3技能等级次方*（1+法强/100）
         if (skillName == 1)
         {
             //闪电链：对目标敌人及其他两名敌人造成伤害
-            
+            damage = 10;
+            for(int i = 0; i < skillLevel; i++)
+            {
+                damage = (int)(1.3 * damage);
+            }
+            damage = damage * (1 + theHero.ap / 100);
+
+            elseTargetCount = 2;
         }
         else if(skillName == 2)
         {
             //火球术：对目标敌人造成伤害
+            damage = 500;
+            for (int i = 0; i < skillLevel; i++)
+            {
+                damage = (int)(1.3 * damage);
+            }
+            damage = damage * (1 + theHero.ap / 100);
+
+            elseTargetCount = 0;
         }
         else if(skillName == 3)
         {
             //暴风雪：对全体敌人造成伤害
+            damage = 100;
+            for (int i = 0; i < skillLevel; i++)
+            {
+                damage = (int)(1.3 * damage);
+            }
+            damage = damage * (1 + theHero.ap / 100);
+
+            elseTargetCount = 5;
         }
+
+        Spell(enemy, damage, elseTargetCount);
+    }
+
+    public void Spell(HeroManager targetEnemy, int damage, int elseTarget)
+    {
+        AttackToEnemy(targetEnemy, damage);
+
+        if (elseTarget > 0)
+        {
+            List<HeroManager> newEnemyList = enemyTeam;
+            newEnemyList.Remove(targetEnemy);
+            int targetCount = elseTarget;
+            while (targetCount > 0)
+            {
+                if (newEnemyList.Count > 0)
+                {
+                    HeroManager newEnemy = newEnemyList[Random.Range(0, newEnemyList.Count - 1)];
+                    if (newEnemy.isLive == true)
+                    {
+                        AttackToEnemy(newEnemy, damage);
+                        targetCount--;
+                    }
+                    newEnemyList.Remove(newEnemy);
+                }
+                else
+                {
+                    targetCount = 0;
+                }
+            }
+        }
+
+    }
+
+    public void AttackToEnemy(HeroManager enemy, int damage)
+    {
+
     }
 
     public void BackToMain()
