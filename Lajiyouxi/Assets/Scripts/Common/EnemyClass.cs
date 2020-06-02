@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class EnemyClass
 {
-    public int id, atk, def, speed;
+    public int id, atk, def, speed, life;
     public string name;
 }

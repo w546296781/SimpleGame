@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
         hero.atk = hc.atk;
         hero.def = hc.def;
         hero.speed = hc.speed;
+        hero.health = hc.life;
         hero.shownName = hc.name;
 
         PetClass pc = new PetClass();
@@ -101,7 +102,14 @@ public class GameManager : MonoBehaviour
             enemyTeam[i].def = ec.def;
             enemyTeam[i].speed = ec.speed;
             enemyTeam[i].shownName = ec.name;
+            enemyTeam[i].health = ec.life;
         }
+
+        pet.isLive = false;
+        servant.isLive = false;
+        object_pet.SetActive(false);
+        object_servant.SetActive(false);
+        
 
         foreach (HeroManager heros in heroTeam)
         {

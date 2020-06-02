@@ -128,7 +128,7 @@ public class DBManager
         enemy.id = id;
 
         dataReader =
-            ExecuteQuery("SELECT Name, Attack, Defense, Speed FROM Enemy WHERE ID = " + id + ";");
+            ExecuteQuery("SELECT Name, Attack, Defense, Speed, Life FROM Enemy WHERE ID = " + id + ";");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -137,6 +137,7 @@ public class DBManager
                 enemy.atk = dataReader.GetInt32(1);
                 enemy.def = dataReader.GetInt32(2);
                 enemy.speed = dataReader.GetInt32(3);
+                enemy.life = dataReader.GetInt32(4);
             }
         }
 
@@ -152,7 +153,7 @@ public class DBManager
         List<EnemyClass> result = new List<EnemyClass>();
 
         dataReader =
-            ExecuteQuery("SELECT Name, Attack, Defense, Speed, ID FROM Enemy;");
+            ExecuteQuery("SELECT Name, Attack, Defense, Speed, ID, Life FROM Enemy;");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -163,6 +164,7 @@ public class DBManager
                 enemy.def = dataReader.GetInt32(2);
                 enemy.speed = dataReader.GetInt32(3);
                 enemy.id = dataReader.GetInt32(4);
+                enemy.life = dataReader.GetInt32(5);
                 result.Add(enemy);
             }
         }
@@ -298,7 +300,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed) VALUES (" + enemy.id + ", '" + enemy.name + "', " + enemy.atk + ", " + enemy.def + ", " + enemy.speed + ")";
+            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed, Life) VALUES (" + enemy.id + ", '" + enemy.name + "', " + enemy.atk + ", " + enemy.def + ", " + enemy.speed + ", " + enemy.life + ")";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -373,7 +375,7 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = " + enemy.atk + ", Defense = " + enemy.def + ", Speed = " + enemy.speed + " WHERE ID = " + enemy.id;
+            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = " + enemy.atk + ", Defense = " + enemy.def + ", Speed = " + enemy.speed + ", Life = " + enemy.life + " WHERE ID = " + enemy.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();

@@ -9,7 +9,7 @@ public class HeroManager : MonoBehaviour
     public TextMesh text_health;
     public TextMesh text_name;
 
-    public int health, atk, def, speed;
+    public int health = 0, atk, def, speed;
     public bool isLive;
 
     private float blinkTimer = 0.1f;
@@ -22,7 +22,6 @@ public class HeroManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = 100;
         isLive = true;
         oldVector = gameObject.transform.position;
     }
