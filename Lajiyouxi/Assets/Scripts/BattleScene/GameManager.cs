@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     //public TextMesh heroHealth, petHealth, servantHealth, enemy1Health, enemy2Health, enemy3Health, enemy4Health, enemy5Health, enemy6Health;
-    public TextMesh resultText;
+    public TextMesh resultText, skillNameText;
 
     private GameObject object_hero, object_pet, object_servant, object_enemy1, object_enemy2, object_enemy3, object_enemy4, object_enemy5, object_enemy6;
     private HeroManager hero, pet, servant, enemy1, enemy2, enemy3, enemy4, enemy5, enemy6;
@@ -162,10 +162,6 @@ public class GameManager : MonoBehaviour
             if (enemy1.isLive == true)
             {
                 Attack(pet, enemy1);
-                if (enemy1.isLive == false)
-                {
-                    DestroyImmediate(object_enemy1);
-                }
             }
             else
             {
@@ -174,10 +170,6 @@ public class GameManager : MonoBehaviour
                     if (enemyTeam[i].isLive == true)
                     {
                         Attack(pet, enemyTeam[i]);
-                        if (enemyTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_enemyTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -193,10 +185,6 @@ public class GameManager : MonoBehaviour
             if (enemy2.isLive == true)
             {
                 HeroAttack(enemy2);
-                if (enemy2.isLive == false)
-                {
-                    DestroyImmediate(object_enemy2);
-                }
             }
             else
             {
@@ -205,19 +193,11 @@ public class GameManager : MonoBehaviour
                     if (i >= 3 && enemy5.isLive == true)
                     {
                         HeroAttack(enemy5);
-                        if (enemy5.isLive == false)
-                        {
-                            DestroyImmediate(object_enemy5);
-                        }
                         break;
                     }
                     else if (enemyTeam[i].isLive == true)
                     {
                         HeroAttack(enemyTeam[i]);
-                        if (enemyTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_enemyTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -233,10 +213,6 @@ public class GameManager : MonoBehaviour
             if (enemy3.isLive == true)
             {
                 Attack(servant, enemy3);
-                if (enemy3.isLive == false)
-                {
-                    DestroyImmediate(object_enemy3);
-                }
             }
             else
             {
@@ -245,19 +221,11 @@ public class GameManager : MonoBehaviour
                     if (i >= 3 && enemy6.isLive == true)
                     {
                         Attack(servant, enemy6);
-                        if (enemy6.isLive == false)
-                        {
-                            DestroyImmediate(object_enemy6);
-                        }
                         break;
                     }
                     else if (enemyTeam[i].isLive == true)
                     {
                         Attack(pet, enemyTeam[i]);
-                        if (enemyTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_enemyTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -273,10 +241,6 @@ public class GameManager : MonoBehaviour
             if (pet.isLive == true)
             {
                 Attack(enemy1, pet);
-                if (pet.isLive == false)
-                {
-                    DestroyImmediate(object_pet);
-                }
             }
             else
             {
@@ -285,10 +249,6 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy1, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -304,10 +264,6 @@ public class GameManager : MonoBehaviour
             if (hero.isLive == true)
             {
                 Attack(enemy2, hero);
-                if (hero.isLive == false)
-                {
-                    DestroyImmediate(object_hero);
-                }
             }
             else
             {
@@ -316,10 +272,6 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy2, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -335,10 +287,6 @@ public class GameManager : MonoBehaviour
             if (servant.isLive == true)
             {
                 Attack(enemy3, servant);
-                if (servant.isLive == false)
-                {
-                    DestroyImmediate(object_servant);
-                }
             }
             else
             {
@@ -347,10 +295,6 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy3, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -366,10 +310,6 @@ public class GameManager : MonoBehaviour
             if (pet.isLive == true)
             {
                 Attack(enemy4, pet);
-                if (pet.isLive == false)
-                {
-                    DestroyImmediate(object_pet);
-                }
             }
             else
             {
@@ -378,10 +318,6 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy4, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -397,10 +333,6 @@ public class GameManager : MonoBehaviour
             if (hero.isLive == true)
             {
                 Attack(enemy5, hero);
-                if (hero.isLive == false)
-                {
-                    DestroyImmediate(object_hero);
-                }
             }
             else
             {
@@ -409,10 +341,6 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy5, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -428,10 +356,6 @@ public class GameManager : MonoBehaviour
             if (servant.isLive == true)
             {
                 Attack(enemy6, servant);
-                if (servant.isLive == false)
-                {
-                    DestroyImmediate(object_servant);
-                }
             }
             else
             {
@@ -440,10 +364,6 @@ public class GameManager : MonoBehaviour
                     if (heroTeam[i].isLive == true)
                     {
                         Attack(enemy6, heroTeam[i]);
-                        if (heroTeam[i].isLive == false)
-                        {
-                            DestroyImmediate(object_heroTeam[i]);
-                        }
                         break;
                     }
                 }
@@ -540,7 +460,14 @@ public class GameManager : MonoBehaviour
 
         if (elseTarget > 0)
         {
-            List<HeroManager> newEnemyList = enemyTeam;
+            List<HeroManager> newEnemyList = new List<HeroManager>();
+            newEnemyList.Add(enemy1);
+            newEnemyList.Add(enemy2);
+            newEnemyList.Add(enemy3);
+            newEnemyList.Add(enemy4);
+            newEnemyList.Add(enemy5);
+            newEnemyList.Add(enemy6);
+
             newEnemyList.Remove(targetEnemy);
             int targetCount = elseTarget;
             while (targetCount > 0)
@@ -565,6 +492,22 @@ public class GameManager : MonoBehaviour
     }
 
     public void AttackToEnemy(HeroManager enemy, int damage)
+    {
+        hero.AttackAction();
+        damage = damage - enemy.def;
+        if (damage > 0)
+        {
+            enemy.health -= damage;
+            enemy.Blink();
+            if (enemy.health <= 0)
+            {
+                enemy.isLive = false;
+            }
+        }
+        Debug.Log(hero.gameObject.name + " Attack " + enemy.gameObject.name + "\nDamage : " + damage);
+    }
+
+    public void ShowSkillName()
     {
 
     }
