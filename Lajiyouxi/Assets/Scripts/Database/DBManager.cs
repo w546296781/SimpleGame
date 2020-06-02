@@ -36,7 +36,9 @@ public class DBManager
         hero.id = id;
 
         dataReader =
-            ExecuteQuery("SELECT Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint FROM Hero WHERE ID = " + id + ";");
+            ExecuteQuery("SELECT Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, " +
+            "FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, " +
+            "Level, EXP, STR, AGI, INT, AttrPoint, SkillPoint, Skill FROM Hero WHERE ID = " + id + ";");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -62,6 +64,9 @@ public class DBManager
                 hero.agi = dataReader.GetInt32(18);
                 hero.Int = dataReader.GetInt32(19);
                 hero.attrPoint = dataReader.GetInt32(20);
+                hero.skillPoint = dataReader.GetInt32(21);
+                string skillstr = dataReader.GetString(22);
+                hero.skillList = ConvertSkillToDictionary(skillstr);
             }
         }
 
@@ -262,9 +267,9 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed
+            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint, SkillPoint, Skill) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed
             + ", " + hero.life + ", " + hero.ap + ", " + hero.dodge + ", " + hero.critChance + ", " + hero.critDamage + ", " + hero.fireResis + ", " + hero.coldResis + ", " + hero.lightResis + ", " + hero.FirePene + ", " + hero.coldPene + ", " + hero.lightPene
-            + ", " + hero.level + ", " + hero.exp + ", " + hero.str + ", " + hero.agi + ", " + hero.Int + ", " + hero.attrPoint + ")";
+            + ", " + hero.level + ", " + hero.exp + ", " + hero.str + ", " + hero.agi + ", " + hero.Int + ", " + hero.attrPoint + ", " + hero.skillPoint + ", '" + ConvertSkillToString(hero.skillList) + "')";
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -339,7 +344,7 @@ public class DBManager
             "UPDATE Hero SET Name = '" + hero.name + "', Attack = " + hero.atk + ", Defense = " + hero.def + ", Speed = " + hero.speed
              + ", Life = " + hero.life + ", AP = " + hero.ap + ", Dodge = " + hero.dodge + ", CritChance = " + hero.critChance + ", CritDamage = " + hero.critDamage + ", FireResis = " + hero.fireResis
               + ", ColdResis = " + hero.coldResis + ", LightResis = " + hero.lightResis + ", FirePene = " + hero.FirePene + ", ColdPene = " + hero.coldPene + ", LightPene = " + hero.lightPene
-               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + " WHERE ID = " + hero.id;
+               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + ", SkillPoint = " + hero.skillPoint+ ", Skill = '" + ConvertSkillToString(hero.skillList) + "' WHERE ID = " + hero.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -493,5 +498,29 @@ public class DBManager
             dbConnection.Close();
         }
         dbConnection = null;
+    }
+
+    public Dictionary<int, int> ConvertSkillToDictionary(string str)
+    {
+        Dictionary<int, int> skill = new Dictionary<int, int>();
+        string[] firstSplit = str.Split(';');
+        foreach(string i in firstSplit)
+        {
+            string[] secondSplit = i.Split('-');
+            int skillName = int.Parse(secondSplit[0]);
+            int skillCount = int.Parse(secondSplit[1]);
+            skill.Add(skillName, skillCount);
+        }
+        return skill;
+    }
+
+    public string ConvertSkillToString(Dictionary<int,int> skill)
+    {
+        string result = "";
+        foreach(var i in skill)
+        {
+            result += i.Key + "-" + i.Value + ";";
+        }
+        return result;
     }
 }

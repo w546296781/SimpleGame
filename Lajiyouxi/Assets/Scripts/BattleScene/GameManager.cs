@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private List<HeroManager> heroTeam, enemyTeam;
 
     public int gameID = 1;
+    public int heroSkillCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -188,7 +189,7 @@ public class GameManager : MonoBehaviour
         {
             if (enemy2.isLive == true)
             {
-                Attack(hero, enemy2);
+                HeroAttack(enemy2);
                 if (enemy2.isLive == false)
                 {
                     DestroyImmediate(object_enemy2);
@@ -200,7 +201,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (i >= 3 && enemy5.isLive == true)
                     {
-                        Attack(hero, enemy5);
+                        HeroAttack(enemy5);
                         if (enemy5.isLive == false)
                         {
                             DestroyImmediate(object_enemy5);
@@ -209,7 +210,7 @@ public class GameManager : MonoBehaviour
                     }
                     else if (enemyTeam[i].isLive == true)
                     {
-                        Attack(hero, enemyTeam[i]);
+                        HeroAttack(enemyTeam[i]);
                         if (enemyTeam[i].isLive == false)
                         {
                             DestroyImmediate(object_enemyTeam[i]);
@@ -462,6 +463,11 @@ public class GameManager : MonoBehaviour
             }
         }
         Debug.Log(h1.gameObject.name + " Attack " + h2.gameObject.name + "\nDamage : " + damage);
+    }
+
+    public void HeroAttack(HeroManager enemy)
+    {
+
     }
 
     public void BackToMain()
