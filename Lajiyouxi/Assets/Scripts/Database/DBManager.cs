@@ -66,7 +66,7 @@ public class DBManager
                 hero.attrPoint = dataReader.GetInt32(20);
                 hero.skillPoint = dataReader.GetInt32(21);
                 string skillstr = dataReader.GetString(22);
-                hero.skillList = ConvertSkillToDictionary(skillstr);
+                hero.skillList = ConvertSkillToList(skillstr);
             }
         }
 
@@ -500,26 +500,29 @@ public class DBManager
         dbConnection = null;
     }
 
-    public Dictionary<int, int> ConvertSkillToDictionary(string str)
+    public List<List<int>> ConvertSkillToList(string str)
     {
-        Dictionary<int, int> skill = new Dictionary<int, int>();
+        List<List<int>> skill = new List<List<int>>();
         string[] firstSplit = str.Split(';');
         foreach(string i in firstSplit)
         {
             string[] secondSplit = i.Split('-');
             int skillName = int.Parse(secondSplit[0]);
-            int skillCount = int.Parse(secondSplit[1]);
-            skill.Add(skillName, skillCount);
+            int skillLevel = int.Parse(secondSplit[1]);
+            List<int> thisSkill = new List<int>();
+            thisSkill.Add(skillName);
+            thisSkill.Add(skillLevel);
+            skill.Add(thisSkill);
         }
         return skill;
     }
 
-    public string ConvertSkillToString(Dictionary<int,int> skill)
+    public string ConvertSkillToString(List<List<int>> skill)
     {
         string result = "";
         foreach(var i in skill)
         {
-            result += i.Key + "-" + i.Value + ";";
+            result += i[0] + "-" + i[1] + ";";
         }
         return result;
     }

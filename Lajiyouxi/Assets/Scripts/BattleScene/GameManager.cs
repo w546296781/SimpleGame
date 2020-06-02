@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public int gameID = 1;
     public int heroSkillCount = 0;
 
+    public HeroClass theHero;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
 
         HeroClass hc = new HeroClass();
         hc = dbm.GetHero(gameID);
+        theHero = hc;
 
         hero.atk = hc.atk;
         hero.def = hc.def;
@@ -467,7 +470,41 @@ public class GameManager : MonoBehaviour
 
     public void HeroAttack(HeroManager enemy)
     {
+        heroSkillCount++;
+        if(heroSkillCount % 6 == 0)
+        {
+            //释放副技能2
+            Skill(theHero.skillList[2][0], theHero.skillList[2][1], enemy);
+            
+        }
+        else if(heroSkillCount % 3 == 0)
+        {
+            //释放副技能1
+            Skill(theHero.skillList[1][0], theHero.skillList[1][1], enemy);
+        }
+        else
+        {
+            //释放主技能
+            Skill(theHero.skillList[0][0], theHero.skillList[0][1], enemy);
+        }
+    }
 
+    public void Skill(int skillName, int skillLevel, HeroManager enemy)
+    {
+        //基本伤害公式：（基础伤）*1.3技能等级次方*（1+法强/100）
+        if (skillName == 1)
+        {
+            //闪电链：对目标敌人及其他两名敌人造成伤害
+            
+        }
+        else if(skillName == 2)
+        {
+            //火球术：对目标敌人造成伤害
+        }
+        else if(skillName == 3)
+        {
+            //暴风雪：对全体敌人造成伤害
+        }
     }
 
     public void BackToMain()
