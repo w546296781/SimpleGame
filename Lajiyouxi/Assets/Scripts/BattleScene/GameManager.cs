@@ -92,24 +92,28 @@ public class GameManager : MonoBehaviour
         servant.speed = sc.speed;
         servant.shownName = sc.name;
 
+        List<EnemyClass> enemyList = dbm.GetAllEnemy();
+
         for(int i = 0; i < enemyTeam.Count; i++)
         {
-            EnemyClass ec = new EnemyClass();
-            ec = dbm.GetEnemy(i+1);
+            EnemyClass ec = enemyList[Random.Range(1, enemyList.Count)];
             enemyTeam[i].atk = ec.atk;
             enemyTeam[i].def = ec.def;
             enemyTeam[i].speed = ec.speed;
             enemyTeam[i].shownName = ec.name;
         }
 
-        foreach(HeroManager heros in heroTeam)
+        foreach (HeroManager heros in heroTeam)
         {
-            Invoke("AttackTimer_" + heros.name, 100 / heros.speed);
+            float time = 100.0f / heros.speed;
+            Invoke("AttackTimer_" + heros.name, time);
         }
+        //Invoke("AttackTimer_Hero", 0.9f);
 
-        foreach(HeroManager enemys in enemyTeam)
+        foreach (HeroManager enemys in enemyTeam)
         {
-            Invoke("AttackTimer_" + enemys.name, 100 / enemys.speed);
+            float time = 100.0f / enemys.speed;
+            Invoke("AttackTimer_" + enemys.name, time);
         }
 
     }
@@ -166,7 +170,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Pet", 100 / pet.speed);
+            Invoke("AttackTimer_Pet", 100.0f / pet.speed);
         }
     }
 
@@ -206,7 +210,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Hero", 100 / hero.speed);
+            Invoke("AttackTimer_Hero", 100.0f / hero.speed);
         }
     }
 
@@ -246,7 +250,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Servant", 100 / servant.speed);
+            Invoke("AttackTimer_Servant", 100.0f / servant.speed);
         }
     }
 
@@ -277,7 +281,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy1", 100 / enemy1.speed);
+            Invoke("AttackTimer_Enemy1", 100.0f / enemy1.speed);
         }
     }
 
@@ -308,7 +312,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy2", 100 / enemy2.speed);
+            Invoke("AttackTimer_Enemy2", 100.0f / enemy2.speed);
         }
     }
 
@@ -339,7 +343,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            Invoke("AttackTimer_Enemy3", 100 / enemy3.speed);
+            Invoke("AttackTimer_Enemy3", 100.0f / enemy3.speed);
         }
     }
 
