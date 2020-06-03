@@ -1472,7 +1472,7 @@ GameObject:
   - component: {fileID: 2429067475696973777}
   - component: {fileID: 973579820359047789}
   m_Layer: 5
-  m_Name: Text (3)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1860,7 +1860,7 @@ GameObject:
   - component: {fileID: 6001674969633183207}
   - component: {fileID: 5884978166802426431}
   m_Layer: 5
-  m_Name: Text (1)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2292,6 +2292,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d7c5d482bd82f42ac613c7dcd18704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text_mainSkill_name: {fileID: 5884978166802426431}
+  text_mainSkill_level: {fileID: 8328978895583073696}
+  text_secondarySkill1_name: {fileID: 973579820359047789}
+  text_secondareySkill1_level: {fileID: 2038088435540327563}
+  text_secondarySkill2_name: {fileID: 454457460076112763}
+  text_secondareySkill2_level: {fileID: 7414416140255977602}
+  text_SDL_level: {fileID: 8466213833689446371}
+  text_BD_level: {fileID: 1882411824619436594}
+  text_HQS_level: {fileID: 8276597738481275651}
+  text_BFX_level: {fileID: 4161627592267009608}
+  text_HY_level: {fileID: 5863390582326176464}
+  text_ATKup_level: {fileID: 7911280105571952029}
+  text_DEFup_level: {fileID: 7464676265517900711}
+  text_SPDup_level: {fileID: 4199633964811352785}
+  text_APup_level: {fileID: 5349058497487317993}
 --- !u!1 &4655542917051907395
 GameObject:
   m_ObjectHideFlags: 0
@@ -2770,7 +2785,7 @@ GameObject:
   - component: {fileID: 3722842192719218297}
   - component: {fileID: 454457460076112763}
   m_Layer: 5
-  m_Name: Text (5)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4432,7 +4447,7 @@ GameObject:
   - component: {fileID: 1134750866951674161}
   - component: {fileID: 8328978895583073696}
   m_Layer: 5
-  m_Name: Text (2)
+  m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4861,7 +4876,7 @@ GameObject:
   - component: {fileID: 8475233461460975099}
   - component: {fileID: 2038088435540327563}
   m_Layer: 5
-  m_Name: Text (4)
+  m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5559,7 +5574,7 @@ GameObject:
   - component: {fileID: 4009845856353596708}
   - component: {fileID: 7414416140255977602}
   m_Layer: 5
-  m_Name: Text (6)
+  m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -113,7 +113,7 @@ public class DBManager
         return skill;
     }
 
-    public List<SkillClass> GetAllSkill(int id)
+    public List<SkillClass> GetAllSkill()
     {
         ConnectToDB("SimpleGame.db");
 
