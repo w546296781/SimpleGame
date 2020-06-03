@@ -75,6 +75,85 @@ public class DBManager
         return hero;
     }
 
+    public SkillClass GetSkill(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        SkillClass skill = new SkillClass();
+        skill.id = id;
+
+        dataReader =
+            ExecuteQuery("SELECT Name, Type, Level, Active, Passive1, Passive2, Passive3, Passive4, Passive5, Passive6" +
+            ", Passive7, Passive8, Passive9, Passive10, Passive11, Passive12 FROM Skill WHERE ID = " + id + ";");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                skill.name = dataReader.GetString(0);
+                skill.type = dataReader.GetInt32(1);
+                skill.level = dataReader.GetInt32(2);
+                skill.active = dataReader.GetInt32(3);
+                skill.passive1 = dataReader.GetInt32(4);
+                skill.passive2 = dataReader.GetInt32(5);
+                skill.passive3 = dataReader.GetInt32(6);
+                skill.passive4 = dataReader.GetInt32(7);
+                skill.passive5 = dataReader.GetInt32(8);
+                skill.passive6 = dataReader.GetInt32(9);
+                skill.passive7 = dataReader.GetInt32(10);
+                skill.passive8 = dataReader.GetInt32(11);
+                skill.passive9 = dataReader.GetInt32(12);
+                skill.passive10 = dataReader.GetInt32(13);
+                skill.passive11 = dataReader.GetInt32(14);
+                skill.passive12 = dataReader.GetInt32(15);
+            }
+        }
+
+        CloseConnection();
+
+        return skill;
+    }
+
+    public List<SkillClass> GetAllSkill(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        List<SkillClass> skillList = new List<SkillClass>();
+
+        dataReader =
+            ExecuteQuery("SELECT Name, Type, Level, Active, Passive1, Passive2, Passive3, Passive4, Passive5, Passive6" +
+            ", Passive7, Passive8, Passive9, Passive10, Passive11, Passive12, ID FROM Skill;");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                SkillClass skill = new SkillClass();
+                skill.name = dataReader.GetString(0);
+                skill.type = dataReader.GetInt32(1);
+                skill.level = dataReader.GetInt32(2);
+                skill.active = dataReader.GetInt32(3);
+                skill.passive1 = dataReader.GetInt32(4);
+                skill.passive2 = dataReader.GetInt32(5);
+                skill.passive3 = dataReader.GetInt32(6);
+                skill.passive4 = dataReader.GetInt32(7);
+                skill.passive5 = dataReader.GetInt32(8);
+                skill.passive6 = dataReader.GetInt32(9);
+                skill.passive7 = dataReader.GetInt32(10);
+                skill.passive8 = dataReader.GetInt32(11);
+                skill.passive9 = dataReader.GetInt32(12);
+                skill.passive10 = dataReader.GetInt32(13);
+                skill.passive11 = dataReader.GetInt32(14);
+                skill.passive12 = dataReader.GetInt32(15);
+                skill.id = dataReader.GetInt32(16);
+
+                skillList.Add(skill);
+            }
+        }
+
+        CloseConnection();
+
+        return skillList;
+    }
+
     public PetClass GetPet(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -345,6 +424,20 @@ public class DBManager
              + ", Life = " + hero.life + ", AP = " + hero.ap + ", Dodge = " + hero.dodge + ", CritChance = " + hero.critChance + ", CritDamage = " + hero.critDamage + ", FireResis = " + hero.fireResis
               + ", ColdResis = " + hero.coldResis + ", LightResis = " + hero.lightResis + ", FirePene = " + hero.FirePene + ", ColdPene = " + hero.coldPene + ", LightPene = " + hero.lightPene
                + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + ", SkillPoint = " + hero.skillPoint+ ", Skill = '" + ConvertSkillToString(hero.skillList) + "' WHERE ID = " + hero.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SaveSkill(SkillClass skill)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Skill SET Name = '" + skill.name + "', Type = " + skill.type + ", Level = " + skill.level + ", Active = " + skill.active + ", Passive1 = " + skill.passive1 + ", Passive2 = " + skill.passive2
+             + ", Passive3 = " + skill.passive3 + ", Passive4 = " + skill.passive4 + ", Passive5 = " + skill.passive5 + ", Passive6 = " + skill.passive6 + ", Passive7 = " + skill.passive7
+              + ", Passive8 = " + skill.passive8 + ", Passive9 = " + skill.passive9 + ", Passive10 = " + skill.passive10 + ", Passive11 = " + skill.passive11 + ", Passive12 = " + skill.passive12 + " WHERE ID = " + skill.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
