@@ -226,6 +226,13 @@ public class MainManager : MonoBehaviour
         HideUI();
     }
 
+    public void Btn_Skill_Click()
+    {
+        GameObject instance = (GameObject)Instantiate(character_popup, position_area2, transform.rotation);
+        instance.transform.SetParent(transform);
+        HideUI();
+    }
+
     public void TreasureEvent(GameObject obj)
     {
         GameObject instance = (GameObject)Instantiate(treasure_popup, position_area2, transform.rotation);
