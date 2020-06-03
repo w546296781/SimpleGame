@@ -10,6 +10,7 @@ public class MainManager : MonoBehaviour
 {
     public GameObject setting_popup;
     public GameObject character_popup;
+    public GameObject skill_popup;
 
     public GameObject prefab_monster;
     public GameObject prefab_treasure;
@@ -86,61 +87,6 @@ public class MainManager : MonoBehaviour
         area_finish.Add(false);
     }
 
-    public void Refresh()
-    {
-        //对于三个area，0表示空，1表示怪兽事件，2表示宝箱事件，3表示商店事件，4表示奇遇事件
-        if(theEvent.area1 == 0)
-        {
-            if (theEvent.event_left >= 3)
-            {
-                RandomSelectEvent(position_area1);
-            }
-        }
-        else
-        {
-            GeneratePrefab(position_area1, prefabs[theEvent.area1 - 1]);
-        }
-
-        if (theEvent.area2 == 0)
-        {
-            if (theEvent.event_left >= 3)
-            {
-                RandomSelectEvent(position_area2);
-            }
-        }
-        else
-        {
-            GeneratePrefab(position_area2, prefabs[theEvent.area2 - 1]);
-        }
-
-        if (theEvent.area3 == 0)
-        {
-            if (theEvent.event_left >= 3)
-            {
-                RandomSelectEvent(position_area3);
-            }
-        }
-        else
-        {
-            GeneratePrefab(position_area3, prefabs[theEvent.area3 - 1]);
-        }
-
-        if(theEvent.battle_finish == 1)
-        {
-            theEvent.battle_finish = 0;
-            var monsters = GameObject.FindGameObjectsWithTag("Monster");
-            foreach(GameObject obj in monsters)
-            {
-                if(obj.transform.position == positions[theEvent.battle_position - 1])
-                {
-                    event_obj = obj;
-                    event_finish = true;
-                }
-            }
-        }
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -187,31 +133,8 @@ public class MainManager : MonoBehaviour
         }
     }
 
-    public int PositionToInt(Vector3 position)
-    {
-        if (position == position_area1)
-        {
-            return 1;
-        }
-        else if (position == position_area2)
-        {
-            return 2;
-        }
-        else
-        {
-            return 3;
-        }
-    }
 
-    public void BattleBegin(GameObject obj)
-    {
-        theEvent.battle_finish = 0;
-        theEvent.battle_position = PositionToInt(obj.transform.position);
-
-        Save();
-        SceneManager.LoadScene(2);
-    }
-
+    #region Bottom Button
     public void Btn_Setting_Click()
     {
         GameObject instance = (GameObject)Instantiate(setting_popup, position_area2, transform.rotation);
@@ -228,10 +151,23 @@ public class MainManager : MonoBehaviour
 
     public void Btn_Skill_Click()
     {
-        GameObject instance = (GameObject)Instantiate(character_popup, position_area2, transform.rotation);
+        GameObject instance = (GameObject)Instantiate(skill_popup, position_area2, transform.rotation);
         instance.transform.SetParent(transform);
         HideUI();
     }
+
+    #endregion
+
+    #region EVENT
+    public void BattleBegin(GameObject obj)
+    {
+        theEvent.battle_finish = 0;
+        theEvent.battle_position = PositionToInt(obj.transform.position);
+
+        Save();
+        SceneManager.LoadScene(2);
+    }
+
 
     public void TreasureEvent(GameObject obj)
     {
@@ -252,30 +188,6 @@ public class MainManager : MonoBehaviour
         GameObject instance = (GameObject)Instantiate(adventure_popup, position_area2, transform.rotation);
         instance.transform.SetParent(transform);
         event_obj = obj;
-    }
-
-    public void Delete(GameObject obj)
-    {
-        if(obj.transform.position == position_area1)
-        {
-            area_finish[0] = true;
-            theEvent.area1 = 0;
-        }
-        else if(obj.transform.position == position_area2)
-        {
-            area_finish[1] = true;
-            theEvent.area2 = 0;
-        }
-        else
-        {
-            area_finish[2] = true;
-            theEvent.area3 = 0;
-        }
-
-        DestroyImmediate(obj);
-        theEvent.event_left--;
-
-        Save();
     }
 
     public void RandomSelectEvent(Vector3 position)
@@ -328,7 +240,7 @@ public class MainManager : MonoBehaviour
         entry.callback.AddListener(action);
         trigger.triggers.Add(entry);
 
-        if(PositionToInt(position) == 1)
+        if (PositionToInt(position) == 1)
         {
             theEvent.area1 = event_type;
         }
@@ -344,12 +256,118 @@ public class MainManager : MonoBehaviour
         Save();
     }
 
+    #endregion
+
+    #region Basic Function
+
+    public void Refresh()
+    {
+        //对于三个area，0表示空，1表示怪兽事件，2表示宝箱事件，3表示商店事件，4表示奇遇事件
+        if (theEvent.area1 == 0)
+        {
+            if (theEvent.event_left >= 3)
+            {
+                RandomSelectEvent(position_area1);
+            }
+        }
+        else
+        {
+            GeneratePrefab(position_area1, prefabs[theEvent.area1 - 1]);
+        }
+
+        if (theEvent.area2 == 0)
+        {
+            if (theEvent.event_left >= 3)
+            {
+                RandomSelectEvent(position_area2);
+            }
+        }
+        else
+        {
+            GeneratePrefab(position_area2, prefabs[theEvent.area2 - 1]);
+        }
+
+        if (theEvent.area3 == 0)
+        {
+            if (theEvent.event_left >= 3)
+            {
+                RandomSelectEvent(position_area3);
+            }
+        }
+        else
+        {
+            GeneratePrefab(position_area3, prefabs[theEvent.area3 - 1]);
+        }
+
+        if (theEvent.battle_finish == 1)
+        {
+            theEvent.battle_finish = 0;
+            var monsters = GameObject.FindGameObjectsWithTag("Monster");
+            foreach (GameObject obj in monsters)
+            {
+                if (obj.transform.position == positions[theEvent.battle_position - 1])
+                {
+                    event_obj = obj;
+                    event_finish = true;
+                }
+            }
+        }
+
+    }
+
+    public int PositionToInt(Vector3 position)
+    {
+        if (position == position_area1)
+        {
+            return 1;
+        }
+        else if (position == position_area2)
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
+    }
+
+    public void Delete(GameObject obj)
+    {
+        if(obj.transform.position == position_area1)
+        {
+            area_finish[0] = true;
+            theEvent.area1 = 0;
+        }
+        else if(obj.transform.position == position_area2)
+        {
+            area_finish[1] = true;
+            theEvent.area2 = 0;
+        }
+        else
+        {
+            area_finish[2] = true;
+            theEvent.area3 = 0;
+        }
+
+        DestroyImmediate(obj);
+        theEvent.event_left--;
+
+        Save();
+    }
+
+    #endregion
+
+    #region Data Layer
+
     public void Save()
     {
         DBManager dbm = new DBManager();
         dbm.SaveEvent(theEvent);
     }
 
+    #endregion
+
+    #region UI Operation
     public void HideUI()
     {
         btn_setting.gameObject.SetActive(false);
@@ -401,4 +419,6 @@ public class MainManager : MonoBehaviour
             obj.SetActive(true);
         }
     }
+
+    #endregion
 }

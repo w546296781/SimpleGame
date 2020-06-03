@@ -160,6 +160,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region Attack Timer
+
     public void AttackTimer_Pet()
     {
         if (pet.isLive == true)
@@ -377,6 +379,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Attack and Skill
     public void Attack(HeroManager h1, HeroManager h2)
     {
         h1.AttackAction();
@@ -532,6 +537,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Scene Switch
     public void BackToMain()
     {
         DBManager dbm = new DBManager();
@@ -541,4 +549,5 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    #endregion
 }
