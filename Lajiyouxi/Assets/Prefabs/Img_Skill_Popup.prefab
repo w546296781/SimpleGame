@@ -2307,6 +2307,8 @@ MonoBehaviour:
   text_DEFup_level: {fileID: 7464676265517900711}
   text_SPDup_level: {fileID: 4199633964811352785}
   text_APup_level: {fileID: 5349058497487317993}
+  text_remainPoint: {fileID: 7949911422671144634}
+  text_detail_name: {fileID: 4147146029963530222}
 --- !u!1 &4655542917051907395
 GameObject:
   m_ObjectHideFlags: 0
@@ -3709,7 +3711,7 @@ GameObject:
   - component: {fileID: 7559350756322240288}
   - component: {fileID: 4147146029963530222}
   m_Layer: 5
-  m_Name: Text_MainSkillTitle2 (1)
+  m_Name: Text_Detail_Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
