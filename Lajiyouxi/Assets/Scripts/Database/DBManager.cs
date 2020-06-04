@@ -84,7 +84,7 @@ public class DBManager
 
         dataReader =
             ExecuteQuery("SELECT Name, Type, Level, Active, Passive1, Passive2, Passive3, Passive4, Passive5, Passive6" +
-            ", Passive7, Passive8, Passive9, Passive10, Passive11, Passive12 FROM Skill WHERE ID = " + id + ";");
+            ", Passive7, Passive8, Passive9, Passive10, Passive11, Passive12, BasicDamage FROM Skill WHERE ID = " + id + ";");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -105,6 +105,7 @@ public class DBManager
                 skill.passive10 = dataReader.GetInt32(13);
                 skill.passive11 = dataReader.GetInt32(14);
                 skill.passive12 = dataReader.GetInt32(15);
+                skill.basicDamage = dataReader.GetInt32(16);
             }
         }
 
@@ -121,7 +122,7 @@ public class DBManager
 
         dataReader =
             ExecuteQuery("SELECT Name, Type, Level, Active, Passive1, Passive2, Passive3, Passive4, Passive5, Passive6" +
-            ", Passive7, Passive8, Passive9, Passive10, Passive11, Passive12, ID FROM Skill;");
+            ", Passive7, Passive8, Passive9, Passive10, Passive11, Passive12, ID, BasicDamage FROM Skill;");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -144,6 +145,7 @@ public class DBManager
                 skill.passive11 = dataReader.GetInt32(14);
                 skill.passive12 = dataReader.GetInt32(15);
                 skill.id = dataReader.GetInt32(16);
+                skill.basicDamage = dataReader.GetInt32(17);
 
                 skillList.Add(skill);
             }
@@ -599,13 +601,16 @@ public class DBManager
         string[] firstSplit = str.Split(';');
         foreach(string i in firstSplit)
         {
-            string[] secondSplit = i.Split('-');
-            int skillName = int.Parse(secondSplit[0]);
-            int skillLevel = int.Parse(secondSplit[1]);
-            List<int> thisSkill = new List<int>();
-            thisSkill.Add(skillName);
-            thisSkill.Add(skillLevel);
-            skill.Add(thisSkill);
+            if (i != "")
+            {
+                string[] secondSplit = i.Split('-');
+                int skillName = int.Parse(secondSplit[0]);
+                int skillLevel = int.Parse(secondSplit[1]);
+                List<int> thisSkill = new List<int>();
+                thisSkill.Add(skillName);
+                thisSkill.Add(skillLevel);
+                skill.Add(thisSkill);
+            }
         }
         return skill;
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillClass
 {
-    public int id, type, active, level;
+    public int id, type, active, level, basicDamage;
     public string name;
     public int passive1;
     public int passive2;
