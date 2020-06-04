@@ -160,6 +160,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region Attack Timer
+
     public void AttackTimer_Pet()
     {
         if (pet.isLive == true)
@@ -377,6 +379,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Attack and Skill
     public void Attack(HeroManager h1, HeroManager h2)
     {
         h1.AttackAction();
@@ -384,7 +389,7 @@ public class GameManager : MonoBehaviour
         if(damage > 0)
         {
             h2.health -= damage;
-            h2.Blink();
+            h2.Blink(damage);
             if(h2.health <= 0)
             {
                 h2.isLive = false;
@@ -436,7 +441,7 @@ public class GameManager : MonoBehaviour
         else if(skillName == 2)
         {
             //火球术：对目标敌人造成伤害
-            damage = 500;
+            damage = 100;
             for (int i = 0; i < skillLevel; i++)
             {
                 damage = (int)(1.3 * damage);
@@ -449,7 +454,7 @@ public class GameManager : MonoBehaviour
         else if(skillName == 3)
         {
             //暴风雪：对全体敌人造成伤害
-            damage = 100;
+            damage = 20;
             for (int i = 0; i < skillLevel; i++)
             {
                 damage = (int)(1.3 * damage);
@@ -509,7 +514,7 @@ public class GameManager : MonoBehaviour
         if (damage > 0)
         {
             enemy.health -= damage;
-            enemy.Blink();
+            enemy.Blink(damage);
             if (enemy.health <= 0)
             {
                 enemy.isLive = false;
@@ -532,6 +537,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Scene Switch
     public void BackToMain()
     {
         DBManager dbm = new DBManager();
@@ -541,4 +549,5 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    #endregion
 }
