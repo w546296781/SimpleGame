@@ -29,11 +29,13 @@ public class SkillManager : MonoBehaviour
     public Text text_equip;
 
 
-    public GameObject panel;
+    public GameObject panel, detail_popup;
 
     private SkillClass SDL, BD, HQS, BFX, HY, ATKup, DEFup, SPDup, APup;
     private bool isAdding =  false;
-    private SkillClass selectedSkill;
+    public SkillClass selectedSkill;
+
+    public string selectedDetail;
     // Start is called before the first frame update
     void Start()
     {
@@ -82,6 +84,11 @@ public class SkillManager : MonoBehaviour
 
         btn_save.gameObject.SetActive(false);
         btn_cancel.gameObject.SetActive(false);
+
+        if(hero.skillPoint <= 0)
+        {
+            btn_addPoint.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -170,8 +177,8 @@ public class SkillManager : MonoBehaviour
         }
         return result;
     }
-    
 
+    #region DataLayer
 
     public void Save()
     {
@@ -229,7 +236,9 @@ public class SkillManager : MonoBehaviour
 
         Save();
     }
+    #endregion
 
+    #region Skill_Select
     public void SDL_Click()
     {
         if (isAdding == false)
@@ -239,7 +248,7 @@ public class SkillManager : MonoBehaviour
             panel.SetActive(true);
             text_detail_name.text = SDL.name;
             text_detail_intro.text = "对目标敌人及其他两名敌人造成闪电伤害";
-            Refresh_Detail(SDL);
+            Refresh_Detail();
 
             text_1_1_name.text = "闪电链1-1";
             text_1_2_name.text = "闪电链1-2";
@@ -268,7 +277,7 @@ public class SkillManager : MonoBehaviour
             panel.SetActive(true);
             text_detail_name.text = BD.name;
             text_detail_intro.text = "对目标敌人造成冰冷伤害";
-            Refresh_Detail(BD);
+            Refresh_Detail();
 
             text_1_1_name.text = "冰弹1-1";
             text_1_2_name.text = "冰弹1-2";
@@ -296,7 +305,7 @@ public class SkillManager : MonoBehaviour
             panel.SetActive(true);
             text_detail_name.text = HQS.name;
             text_detail_intro.text = "对目标敌人造成火焰伤害";
-            Refresh_Detail(HQS);
+            Refresh_Detail();
 
             text_1_1_name.text = "火球术1-1";
             text_1_2_name.text = "火球术1-2";
@@ -324,7 +333,7 @@ public class SkillManager : MonoBehaviour
             panel.SetActive(true);
             text_detail_name.text = BFX.name;
             text_detail_intro.text = "对全体敌人造成冰冷伤害";
-            Refresh_Detail(BFX);
+            Refresh_Detail();
 
             text_1_1_name.text = "暴风雪1-1";
             text_1_2_name.text = "暴风雪1-2";
@@ -352,7 +361,7 @@ public class SkillManager : MonoBehaviour
             panel.SetActive(true);
             text_detail_name.text = HY.name;
             text_detail_intro.text = "对全体敌人造成火焰伤害";
-            Refresh_Detail(HY);
+            Refresh_Detail();
 
             text_1_1_name.text = "火雨1-1";
             text_1_2_name.text = "火雨1-2";
@@ -370,32 +379,34 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    public void Refresh_Detail(SkillClass skill)
+    #endregion
+
+    public void Refresh_Detail()
     {
-        int damage = skill.basicDamage;
-        for (int i = 0; i < skill.level; i++)
+        int damage = selectedSkill.basicDamage;
+        for (int i = 0; i < selectedSkill.level; i++)
         {
             damage = (int)(1.3 * damage);
         }
         damage = damage * (1 + hero.ap / 100);
 
-        text_detail_level.text = "技能等级：" + skill.level;
+        text_detail_level.text = "技能等级：" + selectedSkill.level;
         text_detail_damage.text = "技能伤害：" + damage;
 
-        text_1_1_level.text = skill.passive1.ToString();
-        text_1_2_level.text = skill.passive2.ToString();
-        text_1_3_level.text = skill.passive3.ToString();
-        text_2_1_level.text = skill.passive4.ToString();
-        text_2_2_level.text = skill.passive5.ToString();
-        text_2_3_level.text = skill.passive6.ToString();
-        text_3_1_level.text = skill.passive7.ToString();
-        text_3_2_level.text = skill.passive8.ToString();
-        text_3_3_level.text = skill.passive9.ToString();
-        text_4_1_level.text = skill.passive10.ToString();
-        text_4_2_level.text = skill.passive11.ToString();
-        text_4_3_level.text = skill.passive12.ToString();
+        text_1_1_level.text = selectedSkill.passive1.ToString();
+        text_1_2_level.text = selectedSkill.passive2.ToString();
+        text_1_3_level.text = selectedSkill.passive3.ToString();
+        text_2_1_level.text = selectedSkill.passive4.ToString();
+        text_2_2_level.text = selectedSkill.passive5.ToString();
+        text_2_3_level.text = selectedSkill.passive6.ToString();
+        text_3_1_level.text = selectedSkill.passive7.ToString();
+        text_3_2_level.text = selectedSkill.passive8.ToString();
+        text_3_3_level.text = selectedSkill.passive9.ToString();
+        text_4_1_level.text = selectedSkill.passive10.ToString();
+        text_4_2_level.text = selectedSkill.passive11.ToString();
+        text_4_3_level.text = selectedSkill.passive12.ToString();
 
-        if(skill.level <= 0 || skill.type == 3)
+        if(selectedSkill.level <= 0 || selectedSkill.type == 3)
         {
             btn_equip.gameObject.SetActive(false);
             btn_equip2.gameObject.SetActive(false);
@@ -403,7 +414,7 @@ public class SkillManager : MonoBehaviour
         else
         {
             btn_equip.gameObject.SetActive(true);
-            if(skill.type == 1)
+            if(selectedSkill.type == 1)
             {
                 btn_equip2.gameObject.SetActive(false);
                 text_equip.text = "装备";
@@ -417,6 +428,7 @@ public class SkillManager : MonoBehaviour
 
     }
 
+    #region Equip_Skill
     public void Btn_Equip_Click()
     {
         if(selectedSkill.type == 1)
@@ -455,19 +467,68 @@ public class SkillManager : MonoBehaviour
         SaveSkilltoHero();
     }
 
+    #endregion
+
+    #region Detail_Popup
+    public void Detail_Info_Trigger(GameObject obj)
+    {
+        if (isAdding == false)
+        {
+            Vector3 createPosition = new Vector3(obj.transform.position.x, obj.transform.position.y + 50 + 35, 10);
+            GameObject instance = (GameObject)Instantiate(detail_popup, createPosition, obj.transform.rotation);
+            instance.transform.SetParent(panel.transform);
+
+            selectedDetail = obj.name;
+        }
+    }
+
+    public void Detail_Info_Delete(GameObject obj)
+    {
+        if (isAdding == false)
+        {
+            GameObject popup = GameObject.Find("Img_Detail_Popup(Clone)");
+            DestroyImmediate(popup);
+        }
+    }
+
+    #endregion
+
     public void Btn_AddPoint_Click()
     {
-
+        isAdding = true;
+        //让plane边框变色
+        btn_save.gameObject.SetActive(true);
+        btn_cancel.gameObject.SetActive(true);
     }
 
     public void Btn_Save_Click()
     {
+        isAdding = false;
+        hero.skillPoint = int.Parse(text_remainPoint.text);
+        if(hero.skillPoint > 0)
+        {
+            btn_addPoint.gameObject.SetActive(true);
+        }
+        btn_save.gameObject.SetActive(false);
+        btn_cancel.gameObject.SetActive(false);
 
+        //保存
+
+        Refresh();
+        Refresh_Detail();
     }
 
     public void Btn_Cancel_Click()
     {
+        isAdding = false;
+        btn_addPoint.gameObject.SetActive(true);
+        btn_save.gameObject.SetActive(false);
+        btn_cancel.gameObject.SetActive(false);
 
+        Refresh();
+        Refresh_Detail();
     }
+
+    
 
 }
