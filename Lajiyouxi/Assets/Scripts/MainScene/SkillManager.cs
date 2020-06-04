@@ -12,11 +12,15 @@ public class SkillManager : MonoBehaviour
     public Text text_SDL_level, text_BD_level, text_HQS_level, text_BFX_level, text_HY_level, text_ATKup_level, text_DEFup_level, text_SPDup_level, text_APup_level;
     public Text text_remainPoint, text_detail_name;
 
+    public GameObject panel;
+
     private SkillClass SDL, BD, HQS, BFX, HY, ATKup, DEFup, SPDup, APup;
     private bool isAdding =  false;
     // Start is called before the first frame update
     void Start()
     {
+        //panel.SetActive(false);
+
         DBManager dbm = new DBManager();
         skillList = dbm.GetAllSkill();
         hero = dbm.GetHero(1);
