@@ -8,6 +8,7 @@ public class HeroManager : MonoBehaviour
 
     public TextMesh text_health;
     public TextMesh text_name;
+    public TextMesh text_damage;
 
     public int health = 0, atk, def, speed;
     public bool isLive;
@@ -18,12 +19,17 @@ public class HeroManager : MonoBehaviour
     private float attackActionTimer = 0.1f;
     bool attackActionTimerOn = false;
 
+    private float damageTimer = 1.0f;
+    bool damageTimerOn = false;
+
     private Vector3 oldVector;
+    private int theDamage;
     // Start is called before the first frame update
     void Start()
     {
         isLive = true;
         oldVector = gameObject.transform.position;
+        text_damage.gameObject.GetComponent<Renderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -47,7 +53,7 @@ public class HeroManager : MonoBehaviour
             blinkTimer -= Time.deltaTime;
             if (blinkTimer <= 0)
             {
-                Blink();
+                Blink(theDamage);
                 blinkTimer = 0.1f;
             }
         }
@@ -61,19 +67,47 @@ public class HeroManager : MonoBehaviour
                 attackActionTimer = 0.1f;
             }
         }
+
+
+        if (damageTimerOn == true)
+        {
+            damageTimer -= Time.deltaTime;
+            if (damageTimer <= 0)
+            {
+                ShowDamage(theDamage);
+                damageTimer = 1.0f;
+            }
+        }
     }
 
-    public void Blink()
+    public void Blink(int damage)
     {
         if (gameObject.GetComponent<Renderer>().enabled == true)
         {
             gameObject.GetComponent<Renderer>().enabled = false;
+            ShowDamage(damage);
             blinkTimerOn = true;
         }
         else
         {
             gameObject.GetComponent<Renderer>().enabled = true;
             blinkTimerOn = false;
+        }
+    }
+
+    public void ShowDamage(int damage)
+    {
+        if(text_damage.gameObject.GetComponent<Renderer>().enabled == false)
+        {
+            theDamage = damage;
+            text_damage.gameObject.GetComponent<Renderer>().enabled = true;
+            text_damage.text = "-" + damage;
+            damageTimerOn = true;
+        }
+        else
+        {
+            damageTimerOn = false;
+            text_damage.gameObject.GetComponent<Renderer>().enabled = false;
         }
     }
 
