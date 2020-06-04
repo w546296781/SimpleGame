@@ -2805,6 +2805,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 7135186789156983007}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2959097953123873440
 GameObject:
   m_ObjectHideFlags: 0
@@ -5314,7 +5329,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5140611846185784302}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 723809962217188915}
+        m_MethodName: Btn_AddPoint_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5496235332185089891
 GameObject:
   m_ObjectHideFlags: 0
@@ -5616,7 +5642,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3814993604520634750}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 723809962217188915}
+        m_MethodName: Btn_Save_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5813802666272701864
 GameObject:
   m_ObjectHideFlags: 0
@@ -8555,7 +8592,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3054897399457649541}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 723809962217188915}
+        m_MethodName: Btn_Cancel_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8282550585525883588
 GameObject:
   m_ObjectHideFlags: 0

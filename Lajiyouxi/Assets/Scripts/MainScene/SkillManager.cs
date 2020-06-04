@@ -180,6 +180,29 @@ public class SkillManager : MonoBehaviour
 
     #region DataLayer
 
+    public void SaveSelectedSkill()
+    {
+        selectedSkill.passive1 = int.Parse(text_1_1_level.text);
+        selectedSkill.passive2 = int.Parse(text_1_2_level.text);
+        selectedSkill.passive3 = int.Parse(text_1_3_level.text);
+        selectedSkill.passive4 = int.Parse(text_2_1_level.text);
+        selectedSkill.passive5 = int.Parse(text_2_2_level.text);
+        selectedSkill.passive6 = int.Parse(text_2_3_level.text);
+        selectedSkill.passive7 = int.Parse(text_3_1_level.text);
+        selectedSkill.passive8 = int.Parse(text_3_2_level.text);
+        selectedSkill.passive9 = int.Parse(text_3_3_level.text);
+        selectedSkill.passive10 = int.Parse(text_4_1_level.text);
+        selectedSkill.passive11 = int.Parse(text_4_2_level.text);
+        selectedSkill.passive12 = int.Parse(text_4_3_level.text);
+
+        selectedSkill.level = selectedSkill.passive1 + selectedSkill.passive2 + selectedSkill.passive3 + selectedSkill.passive4 + selectedSkill.passive5 + selectedSkill.passive6 +
+            selectedSkill.passive7 + selectedSkill.passive8 + selectedSkill.passive9 + selectedSkill.passive10 + selectedSkill.passive11 + selectedSkill.passive12;
+
+        DBManager dbm = new DBManager();
+        dbm.SaveSkill(selectedSkill);
+        
+    }
+
     public void Save()
     {
         DBManager dbm = new DBManager();
@@ -493,12 +516,27 @@ public class SkillManager : MonoBehaviour
 
     #endregion
 
+    public void AddPoint(Text level)
+    {
+        if (isAdding == true)
+        {
+            int remainPoint = int.Parse(text_remainPoint.text);
+            if (remainPoint > 0)
+            {
+                text_remainPoint.text = (remainPoint - 1).ToString();
+                level.text = (int.Parse(level.text) + 1).ToString();
+            }
+        }
+    }
+
     public void Btn_AddPoint_Click()
     {
         isAdding = true;
         //让plane边框变色
         btn_save.gameObject.SetActive(true);
         btn_cancel.gameObject.SetActive(true);
+
+        btn_addPoint.gameObject.SetActive(false);
     }
 
     public void Btn_Save_Click()
@@ -513,9 +551,13 @@ public class SkillManager : MonoBehaviour
         btn_cancel.gameObject.SetActive(false);
 
         //保存
+        hero.skillPoint = int.Parse(text_remainPoint.text);
+        SaveSelectedSkill();
 
         Refresh();
         Refresh_Detail();
+
+        SaveSkilltoHero();
     }
 
     public void Btn_Cancel_Click()
@@ -529,6 +571,6 @@ public class SkillManager : MonoBehaviour
         Refresh_Detail();
     }
 
-    
+
 
 }

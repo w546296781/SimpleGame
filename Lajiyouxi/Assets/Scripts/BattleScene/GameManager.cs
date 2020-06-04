@@ -441,7 +441,7 @@ public class GameManager : MonoBehaviour
         else if(skillName == 2)
         {
             //火球术：对目标敌人造成伤害
-            damage = 500;
+            damage = 100;
             for (int i = 0; i < skillLevel; i++)
             {
                 damage = (int)(1.3 * damage);
@@ -454,7 +454,7 @@ public class GameManager : MonoBehaviour
         else if(skillName == 3)
         {
             //暴风雪：对全体敌人造成伤害
-            damage = 100;
+            damage = 20;
             for (int i = 0; i < skillLevel; i++)
             {
                 damage = (int)(1.3 * damage);
