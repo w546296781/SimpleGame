@@ -389,7 +389,7 @@ public class GameManager : MonoBehaviour
         if(damage > 0)
         {
             h2.health -= damage;
-            h2.Blink();
+            h2.Blink(damage);
             if(h2.health <= 0)
             {
                 h2.isLive = false;
@@ -514,7 +514,7 @@ public class GameManager : MonoBehaviour
         if (damage > 0)
         {
             enemy.health -= damage;
-            enemy.Blink();
+            enemy.Blink(damage);
             if (enemy.health <= 0)
             {
                 enemy.isLive = false;
