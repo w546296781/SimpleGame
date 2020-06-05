@@ -621,6 +621,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 1202195862}
   text_name: {fileID: 830401358}
+  text_damage: {fileID: 2034058354}
   health: 0
   atk: 0
   def: 0
@@ -1193,6 +1194,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 308875675}
   text_name: {fileID: 560826756}
+  text_damage: {fileID: 1466290992}
   health: 0
   atk: 0
   def: 0
@@ -1480,6 +1482,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 162981053}
   text_name: {fileID: 1357866511}
+  text_damage: {fileID: 524148723}
   health: 0
   atk: 0
   def: 0
@@ -1569,6 +1572,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 1077843337}
   text_name: {fileID: 1746714024}
+  text_damage: {fileID: 465008824}
   health: 0
   atk: 0
   def: 0
@@ -1856,6 +1860,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 785440785}
   text_name: {fileID: 849902454}
+  text_damage: {fileID: 1804601990}
   health: 0
   atk: 0
   def: 0
@@ -2252,6 +2257,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 1814922273}
   text_name: {fileID: 154517299}
+  text_damage: {fileID: 1853392327}
   health: 0
   atk: 0
   def: 0
@@ -3223,6 +3229,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 270276068}
   text_name: {fileID: 2126578944}
+  text_damage: {fileID: 1491219970}
   health: 0
   atk: 0
   def: 0
@@ -3510,6 +3517,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 1117454662}
   text_name: {fileID: 731274079}
+  text_damage: {fileID: 1287018323}
   health: 0
   atk: 0
   def: 0
@@ -3627,6 +3635,7 @@ MonoBehaviour:
   shownName: 
   text_health: {fileID: 1671545035}
   text_name: {fileID: 1069700341}
+  text_damage: {fileID: 107691987}
   health: 0
   atk: 0
   def: 0
