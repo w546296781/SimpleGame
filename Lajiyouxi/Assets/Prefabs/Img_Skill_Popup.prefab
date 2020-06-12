@@ -586,6 +586,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1321896016641593622}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &731526113496033164
 GameObject:
   m_ObjectHideFlags: 0
@@ -1560,6 +1575,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 7069761505137764213}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2096954246644988217
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,6 +2100,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 7698820774575898319}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2191854266967030076
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,6 +2413,21 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 2221293791652294631}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 343396726131853238}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -3279,6 +3339,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 4490156598045793974}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3278778227242040393
 GameObject:
   m_ObjectHideFlags: 0
@@ -3787,6 +3862,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 7674930736841152640}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4042165132502132161
 GameObject:
   m_ObjectHideFlags: 0
@@ -4188,6 +4278,21 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 4280628979387135392}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8152929778568675197}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -5769,6 +5874,21 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 5813802666272701864}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 3975500355621682662}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -7766,6 +7886,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8974047852934949066}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7968087533848173744
 GameObject:
   m_ObjectHideFlags: 0
@@ -7881,6 +8016,21 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 7968087533848173744}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 4540347728554135978}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -8079,6 +8229,21 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 8107568439084037001}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 723809962217188915}
+          m_MethodName: AddPoint
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 3196872804296400205}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
