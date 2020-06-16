@@ -8,7 +8,6 @@ public class DBManager
     private SqliteConnection dbConnection;
     private SqliteCommand dbCommand;
     private SqliteDataReader dataReader;
-    public string mazeId { get; private set; }
 
     /// <summary>
     /// Connect to the database.
@@ -38,7 +37,7 @@ public class DBManager
         dataReader =
             ExecuteQuery("SELECT Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, " +
             "FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, " +
-            "Level, EXP, STR, AGI, INT, AttrPoint, SkillPoint, Skill FROM Hero WHERE ID = " + id + ";");
+            "Level, EXP, STR, AGI, INT, AttrPoint, SkillPoint, Skill, Gold FROM Hero WHERE ID = " + id + ";");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -67,6 +66,7 @@ public class DBManager
                 hero.skillPoint = dataReader.GetInt32(21);
                 string skillstr = dataReader.GetString(22);
                 hero.skillList = ConvertSkillToList(skillstr);
+                hero.gold = dataReader.GetInt32(23);
             }
         }
 
@@ -425,7 +425,7 @@ public class DBManager
             "UPDATE Hero SET Name = '" + hero.name + "', Attack = " + hero.atk + ", Defense = " + hero.def + ", Speed = " + hero.speed
              + ", Life = " + hero.life + ", AP = " + hero.ap + ", Dodge = " + hero.dodge + ", CritChance = " + hero.critChance + ", CritDamage = " + hero.critDamage + ", FireResis = " + hero.fireResis
               + ", ColdResis = " + hero.coldResis + ", LightResis = " + hero.lightResis + ", FirePene = " + hero.FirePene + ", ColdPene = " + hero.coldPene + ", LightPene = " + hero.lightPene
-               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + ", SkillPoint = " + hero.skillPoint+ ", Skill = '" + ConvertSkillToString(hero.skillList) + "' WHERE ID = " + hero.id;
+               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + ", SkillPoint = " + hero.skillPoint+ ", Skill = '" + ConvertSkillToString(hero.skillList) + "', Gold = " + hero.gold + " WHERE ID = " + hero.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
