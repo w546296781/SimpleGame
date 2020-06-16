@@ -21,6 +21,8 @@ public class MainManager : MonoBehaviour
     public GameObject shop_popup;
     public GameObject adventure_popup;
 
+    public GameObject battleWin_popup;
+
     public Canvas canvas;
 
     public Text text_eventleft, text_level;
@@ -37,8 +39,6 @@ public class MainManager : MonoBehaviour
 
     public bool event_finish = false;
     private GameObject event_obj;
-
-    public bool battle_finish = true;
 
     EventClass theEvent;
 
@@ -125,11 +125,6 @@ public class MainManager : MonoBehaviour
         {
             Delete(event_obj);
             event_finish = false;
-        }
-
-        if(battle_finish == true)
-        {
-            
         }
     }
 
@@ -311,8 +306,17 @@ public class MainManager : MonoBehaviour
                     event_finish = true;
                 }
             }
+
+            ShowBattleResult();
         }
 
+    }
+
+    public void ShowBattleResult()
+    {
+        GameObject instance = (GameObject)Instantiate(battleWin_popup, position_area2, transform.rotation);
+        instance.transform.SetParent(transform);
+        HideUI();
     }
 
     public int PositionToInt(Vector3 position)

@@ -985,6 +985,8 @@ MonoBehaviour:
     type: 3}
   adventure_popup: {fileID: 3070712625222896760, guid: d6f8201f7a2dae8438c8ba6efaa70b08,
     type: 3}
+  battleWin_popup: {fileID: 5909103263398124744, guid: 2de22678b4ed0ba45afce80c9b9ff186,
+    type: 3}
   canvas: {fileID: 639218396}
   text_eventleft: {fileID: 520375140}
   text_level: {fileID: 1775613108}
