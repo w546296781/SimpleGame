@@ -62,6 +62,8 @@ public class BattleWinManager : MonoBehaviour
             }
 
             theHero.exp = System.Convert.ToInt32(thisLevelExp) + theHero.exp;
+            theHero.attrPoint += 5;
+            theHero.skillPoint += 5;
         }
 
         theHero.gold = theHero.gold + System.Convert.ToInt32(gold);

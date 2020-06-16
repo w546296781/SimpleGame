@@ -23,6 +23,8 @@ public class MainManager : MonoBehaviour
 
     public GameObject battleWin_popup;
 
+    public GameObject character_mark, skill_mark;
+
     public Canvas canvas;
 
     public Text text_eventleft, text_level;
@@ -38,7 +40,11 @@ public class MainManager : MonoBehaviour
     public List<bool> area_finish = new List<bool>();
 
     public bool event_finish = false;
+
+    private bool battle_finish = false;
+
     private GameObject event_obj;
+    private HeroClass theHero;
 
     EventClass theEvent;
 
@@ -52,6 +58,7 @@ public class MainManager : MonoBehaviour
         //从数据库读取关数，3个位置的事件，剩余卡牌数，BattleFinish标志位
         DBManager dbm = new DBManager();
         theEvent = dbm.GetEvent(1);
+        theHero = dbm.GetHero(1);
 
         //用于随机
         //怪物事件的机率为40%， 奇遇事件为30%， 宝箱事件为20%， 商店事件为10%
@@ -126,6 +133,24 @@ public class MainManager : MonoBehaviour
             Delete(event_obj);
             event_finish = false;
         }
+
+        if(theHero.skillPoint > 0)
+        {
+            skill_mark.SetActive(true);
+        }
+        else
+        {
+            skill_mark.SetActive(false);
+        }
+
+        if (theHero.attrPoint > 0)
+        {
+            character_mark.SetActive(true);
+        }
+        else
+        {
+            character_mark.SetActive(false);
+        }
     }
 
 
@@ -190,6 +215,12 @@ public class MainManager : MonoBehaviour
         //随机选择事件种类并生成
         int index = Random.Range(0, 9);
         GeneratePrefab(position, prefabs_random[index]);
+
+        if(battle_finish == true)
+        {
+            battle_finish = false;
+            ShowBattleResult();
+        }
     }
 
     public void GeneratePrefab(Vector3 position, GameObject obj)
@@ -307,8 +338,15 @@ public class MainManager : MonoBehaviour
                 }
             }
 
-            ShowBattleResult();
+            battle_finish = true;
         }
+    }
+
+    public void RefreshDataFromDatabase()
+    {
+        DBManager dbm = new DBManager();
+        theHero = dbm.GetHero(1);
+        theEvent = dbm.GetEvent(1);
 
     }
 
@@ -422,6 +460,8 @@ public class MainManager : MonoBehaviour
         {
             obj.SetActive(true);
         }
+
+        RefreshDataFromDatabase();
     }
 
     #endregion
