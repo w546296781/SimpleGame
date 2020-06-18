@@ -36,6 +36,29 @@ public class SkillManager : MonoBehaviour
     public SkillClass selectedSkill;
 
     public string selectedDetail;
+
+    public Image img_detail1_1;
+    public Image img_detail1_2;
+    public Image img_detail1_3;
+    public Image img_detail2_1;
+    public Image img_detail2_2;
+    public Image img_detail2_3;
+    public Image img_detail3_1;
+    public Image img_detail3_2;
+    public Image img_detail3_3;
+    public Image img_detail4_1;
+    public Image img_detail4_2;
+    public Image img_detail4_3;
+
+    public Image img_mainSkill;
+    public Image img_secondarySkill1;
+    public Image img_secondarySkill2;
+
+    public Sprite sprite_sdl;
+    public Sprite sprite_hy;
+    public Sprite sprite_bd;
+    public Sprite sprite_hqs;
+    public Sprite sprite_bfx;
     // Start is called before the first frame update
     void Start()
     {
@@ -114,16 +137,19 @@ public class SkillManager : MonoBehaviour
             {
                 text_mainSkill_name.text = i.name;
                 text_mainSkill_level.text = i.level.ToString();
+                img_mainSkill.sprite = GetImageByName(i.name);
             }
             else if (i.active == 2)
             {
                 text_secondarySkill1_name.text = i.name;
                 text_secondarySkill1_level.text = i.level.ToString();
+                img_secondarySkill1.sprite = GetImageByName(i.name);
             }
             else if (i.active == 3)
             {
                 text_secondarySkill2_name.text = i.name;
                 text_secondarySkill2_level.text = i.level.ToString();
+                img_secondarySkill2.sprite = GetImageByName(i.name);
             }
         }
 
@@ -286,7 +312,7 @@ public class SkillManager : MonoBehaviour
             text_4_2_name.text = "闪电链4-2";
             text_4_3_name.text = "闪电链4-3";
 
-            
+            SetAllDetailImage("闪电链");
 
         }
     }
@@ -315,7 +341,7 @@ public class SkillManager : MonoBehaviour
             text_4_2_name.text = "冰弹4-2";
             text_4_3_name.text = "冰弹4-3";
 
-
+            SetAllDetailImage("冰弹");
         }
     }
 
@@ -343,7 +369,7 @@ public class SkillManager : MonoBehaviour
             text_4_2_name.text = "火球术4-2";
             text_4_3_name.text = "火球术4-3";
 
-
+            SetAllDetailImage("火球术");
         }
     }
 
@@ -371,7 +397,7 @@ public class SkillManager : MonoBehaviour
             text_4_2_name.text = "暴风雪4-2";
             text_4_3_name.text = "暴风雪4-3";
 
-
+            SetAllDetailImage("暴风雪");
         }
     }
 
@@ -399,6 +425,7 @@ public class SkillManager : MonoBehaviour
             text_4_2_name.text = "火雨4-2";
             text_4_3_name.text = "火雨4-3";
 
+            SetAllDetailImage("火雨");
         }
     }
 
@@ -571,6 +598,48 @@ public class SkillManager : MonoBehaviour
         Refresh_Detail();
     }
 
+    public Sprite GetImageByName(string name)
+    {
+        Sprite result = null;
 
+        switch (name)
+        {
+            case "闪电链":
+                result = sprite_sdl;
+                break;
+            case "冰弹":
+                result = sprite_bd;
+                break;
+            case "火球术":
+                result = sprite_hqs;
+                break;
+            case "暴风雪":
+                result = sprite_bfx;
+                break;
+            case "火雨":
+                result = sprite_hy;
+                break;
+            default:
+                break;
+        }
+
+        return result;
+    }
+
+    public void SetAllDetailImage(string name)
+    {
+        img_detail1_1.sprite = GetImageByName(name);
+        img_detail1_2.sprite = GetImageByName(name);
+        img_detail1_3.sprite = GetImageByName(name);
+        img_detail2_1.sprite = GetImageByName(name);
+        img_detail2_2.sprite = GetImageByName(name);
+        img_detail2_3.sprite = GetImageByName(name);
+        img_detail3_1.sprite = GetImageByName(name);
+        img_detail3_2.sprite = GetImageByName(name);
+        img_detail3_3.sprite = GetImageByName(name);
+        img_detail4_1.sprite = GetImageByName(name);
+        img_detail4_2.sprite = GetImageByName(name);
+        img_detail4_3.sprite = GetImageByName(name);
+    }
 
 }
