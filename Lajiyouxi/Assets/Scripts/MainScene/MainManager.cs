@@ -24,6 +24,7 @@ public class MainManager : MonoBehaviour
     public GameObject battleWin_popup;
 
     public GameObject character_mark, skill_mark;
+    public GameObject equip_popup;
 
     public Canvas canvas;
 
@@ -176,6 +177,12 @@ public class MainManager : MonoBehaviour
         HideUI();
     }
 
+    public void Btn_Package_Click()
+    {
+        GameObject instance = (GameObject)Instantiate(equip_popup, position_area2, transform.rotation);
+        instance.transform.SetParent(transform);
+        HideUI();
+    }
     #endregion
 
     #region EVENT

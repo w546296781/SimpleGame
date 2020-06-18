@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopManager : MonoBehaviour
+public class EquipManager : MonoBehaviour
 {
-    public GameObject canvas;
-    public MainManager mm;
     // Start is called before the first frame update
     void Start()
     {
-        canvas = transform.parent.gameObject;
-        mm = canvas.transform.GetComponent<MainManager>();
+        
     }
 
     // Update is called once per frame
@@ -19,9 +16,9 @@ public class ShopManager : MonoBehaviour
         
     }
 
-    public void Button_OK_Click()
+    public void Btn_Quit_Click()
     {
-        mm.event_finish = true;
+        gameObject.transform.parent.GetComponent<MainManager>().ShowUI();
         DestroyImmediate(gameObject);
     }
 }
