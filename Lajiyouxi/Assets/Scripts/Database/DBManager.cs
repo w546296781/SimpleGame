@@ -654,9 +654,119 @@ public class DBManager
 
     #region PACKAGE
 
+    public PackageClass GetPackage(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        PackageClass newPackage = new PackageClass();
+        newPackage.id = id;
+
+        dataReader =
+            ExecuteQuery("SELECT Slot1, Slot2, Slot3, Slot4, Slot5, Slot6, Slot7, Slot8, Slot9, Slot10, " +
+            "Slot11, Slot12, Slot13, Slot14, Slot15, Slot16, Slot17, Slot18, Slot19, Slot20, " +
+            "Slot21, Slot22, Slot23, Slot24, Slot25, Slot26, Slot27, Slot28, Slot29, Slot30, " +
+            "Weapon, Armor, Halmet, Boot, Ring, Amulet FROM Package WHERE ID = " + id + ";");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                newPackage.slot1 = dataReader.GetInt32(0);
+                newPackage.slot2 = dataReader.GetInt32(1);
+                newPackage.slot3 = dataReader.GetInt32(2);
+                newPackage.slot4 = dataReader.GetInt32(3);
+                newPackage.slot5 = dataReader.GetInt32(4);
+                newPackage.slot6 = dataReader.GetInt32(5);
+                newPackage.slot7 = dataReader.GetInt32(6);
+                newPackage.slot8 = dataReader.GetInt32(7);
+                newPackage.slot9 = dataReader.GetInt32(8);
+                newPackage.slot10 = dataReader.GetInt32(9);
+                newPackage.slot11 = dataReader.GetInt32(10);
+                newPackage.slot12 = dataReader.GetInt32(11);
+                newPackage.slot13 = dataReader.GetInt32(12);
+                newPackage.slot14 = dataReader.GetInt32(13);
+                newPackage.slot15 = dataReader.GetInt32(14);
+                newPackage.slot16 = dataReader.GetInt32(15);
+                newPackage.slot17 = dataReader.GetInt32(16);
+                newPackage.slot18 = dataReader.GetInt32(17);
+                newPackage.slot19 = dataReader.GetInt32(18);
+                newPackage.slot20 = dataReader.GetInt32(19);
+                newPackage.slot21 = dataReader.GetInt32(20);
+                newPackage.slot22 = dataReader.GetInt32(21);
+                newPackage.slot23 = dataReader.GetInt32(22);
+                newPackage.slot24 = dataReader.GetInt32(23);
+                newPackage.slot25 = dataReader.GetInt32(24);
+                newPackage.slot26 = dataReader.GetInt32(25);
+                newPackage.slot27 = dataReader.GetInt32(26);
+                newPackage.slot28 = dataReader.GetInt32(27);
+                newPackage.slot29 = dataReader.GetInt32(28);
+                newPackage.slot30 = dataReader.GetInt32(29);
+                newPackage.weapon = dataReader.GetInt32(30);
+                newPackage.armor = dataReader.GetInt32(31);
+                newPackage.halmet = dataReader.GetInt32(32);
+                newPackage.boot = dataReader.GetInt32(33);
+                newPackage.ring = dataReader.GetInt32(34);
+                newPackage.amulet = dataReader.GetInt32(35);
+            }
+        }
+
+        CloseConnection();
+
+        return newPackage;
+    }
+
+    public void SavePackage(PackageClass newPackage)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Package SET Slot1 = " + newPackage.slot1 + ", Slot2 = " + newPackage.slot2 + ", Slot3 = " + newPackage.slot3 + ", Slot4 = " + newPackage.slot4 + ", Slot5 = " + newPackage.slot5 +
+             ", Slot6 = " + newPackage.slot6 + ", Slot7 = " + newPackage.slot7 + ", Slot8 = " + newPackage.slot8 + ", Slot9 = " + newPackage.slot9 + ", Slot10 = " + newPackage.slot10 +
+              ", Slot11 = " + newPackage.slot11 + ", Slot12 = " + newPackage.slot12 + ", Slot13 = " + newPackage.slot13 + ", Slot14 = " + newPackage.slot14 + ", Slot15 = " + newPackage.slot15 +
+               ", Slot16 = " + newPackage.slot16 + ", Slot17 = " + newPackage.slot17 + ", Slot18 = " + newPackage.slot18 + ", Slot19 = " + newPackage.slot19 + ", Slot20 = " + newPackage.slot20 +
+                ", Slot21 = " + newPackage.slot21 + ", Slot22 = " + newPackage.slot22 + ", Slot23 = " + newPackage.slot23 + ", Slot24 = " + newPackage.slot24 + ", Slot25 = " + newPackage.slot25 +
+                 ", Slot26 = " + newPackage.slot26 + ", Slot27 = " + newPackage.slot27 + ", Slot28 = " + newPackage.slot28 + ", Slot29 = " + newPackage.slot29 + ", Slot30 = " + newPackage.slot30 +
+                  ", Weapon = " + newPackage.weapon + ", Armor = " + newPackage.armor + ", Halmet = " + newPackage.halmet + ", Boot = " + newPackage.boot + ", Ring = " + newPackage.ring + ", Amulet = " + newPackage.amulet +" WHERE ID = " + newPackage.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
     #endregion
 
     #region EQUIPMENT
+
+    public List<EquipmentClass> GetAllEquipment()
+    {
+        ConnectToDB("SimpleGame.db");
+
+        List<EquipmentClass> result = new List<EquipmentClass>();
+
+        dataReader =
+            ExecuteQuery("SELECT ID, Name, Attr1, Attr2, Attr3, Attr4, Attr5, Attr6, Class, Price FROM Equipment;");
+        while (dataReader.HasRows)
+        {
+            if (dataReader.Read())
+            {
+                EquipmentClass equipment = new EquipmentClass();
+                equipment.id = dataReader.GetInt32(0);
+                equipment.name = dataReader.GetString(1);
+                equipment.attr1 = dataReader.GetString(2);
+                equipment.attr2 = dataReader.GetString(3);
+                equipment.attr3 = dataReader.GetString(4);
+                equipment.attr4 = dataReader.GetString(5);
+                equipment.attr5 = dataReader.GetString(6);
+                equipment.attr6 = dataReader.GetString(7);
+                equipment.Class = dataReader.GetInt32(8);
+                equipment.price = dataReader.GetInt32(9);
+                result.Add(equipment);
+            }
+        }
+
+        CloseConnection();
+
+        return result;
+    }
 
     #endregion
 }
