@@ -98,6 +98,34 @@ public class ItemDetailManager : MonoBehaviour
     {
         string result = null;
 
+        var strList = str.Split('-');
+        string name = strList[0];
+        string value = strList[1];
+
+        switch (name)
+        {
+            case "1":
+                result = "力量";
+                break;
+            case "2":
+                result = "敏捷";
+                break;
+            case "3":
+                result = "智力";
+                break;
+            case "4":
+                result = "攻击力";
+                break;
+            case "5":
+                result = "护甲";
+                break;
+        }
+
+        if (result != null)
+        {
+            result += " +" + value;
+        }
+
         return result;
     }
 }
