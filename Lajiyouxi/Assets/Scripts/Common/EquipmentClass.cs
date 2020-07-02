@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EquipmentClass
 {
-    public int id, Class, price;
+    public int id, Class, price, quality;
     public string name;
     public string attr1;
     public string attr2;

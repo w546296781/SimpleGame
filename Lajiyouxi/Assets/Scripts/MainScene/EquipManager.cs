@@ -97,49 +97,17 @@ public class EquipManager : MonoBehaviour
         GameObject instance = (GameObject)Instantiate(item_prefab, thisPosition, transform.rotation);
         instance.transform.SetParent(transform);
 
-        string imageAddress = ChangePrefab(thisSlot);
-        if (imageAddress != null)
-        {
-            Image image = instance.GetComponent<Image>();
-            image.sprite = Resources.Load(imageAddress, typeof(Sprite)) as Sprite;
-        }
-    }
-
-    public string ChangePrefab(SlotClass thisSlot)
-    {
-        string result = null;
-
         EquipmentClass thisEquip = new EquipmentClass();
-        foreach(EquipmentClass i in Equips)
+        foreach (EquipmentClass i in Equips)
         {
-            if(i.id == thisSlot.item)
+            if (i.id == thisSlot.item)
             {
                 thisEquip = i;
             }
         }
-
-        switch (thisEquip.id) 
-        {
-            case 1:
-                result = "ItemsIcons/GreatBowIcon";
-                break;
-            case 2:
-                result = "ItemsIcons/FireySwordIcon";
-                break;
-            case 3:
-                result = "ItemsIcons/SteelArmorIcon";
-                break;
-            case 4:
-                result = "ItemsIcons/Hard Chest Icon";
-                break;
-            case 5:
-                result = "ItemsIcons/IronHelmetIcon";
-                break;
-            case 6:
-                result = "ItemsIcons/slice165_@";
-                break;
-        }
-
-        return result;
+        instance.GetComponent<ItemPrefabManager>().thisEquip = thisEquip;
+        
     }
+
+
 }

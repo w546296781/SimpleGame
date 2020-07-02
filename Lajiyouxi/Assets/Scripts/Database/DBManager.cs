@@ -717,7 +717,7 @@ public class DBManager
         List<EquipmentClass> result = new List<EquipmentClass>();
 
         dataReader =
-            ExecuteQuery("SELECT ID, Name, Attr1, Attr2, Attr3, Attr4, Attr5, Attr6, Class, Price FROM Equipment;");
+            ExecuteQuery("SELECT ID, Name, Attr1, Attr2, Attr3, Attr4, Attr5, Attr6, Class, Price, Quality FROM Equipment;");
         while (dataReader.HasRows)
         {
             if (dataReader.Read())
@@ -733,6 +733,7 @@ public class DBManager
                 equipment.attr6 = dataReader.GetString(7);
                 equipment.Class = dataReader.GetInt32(8);
                 equipment.price = dataReader.GetInt32(9);
+                equipment.quality = dataReader.GetInt32(10);
                 result.Add(equipment);
             }
         }

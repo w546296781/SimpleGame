@@ -15,14 +15,4 @@ public class ItemManager : MonoBehaviour
     {
         
     }
-
-    public void MouseIn()
-    {
-
-    }
-
-    public void MouseExit()
-    {
-        
-    }
 }
