@@ -2872,6 +2872,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   btn_sell: {fileID: 3607773364863839674}
+  item_prefab: {fileID: 2801919496488426099, guid: 92fe159010e393f4e928036f1454f58b,
+    type: 3}
 --- !u!1 &6214286012290306290
 GameObject:
   m_ObjectHideFlags: 0

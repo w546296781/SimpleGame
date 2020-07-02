@@ -670,36 +670,10 @@ public class DBManager
         {
             if (dataReader.Read())
             {
-                newPackage.slot1 = dataReader.GetInt32(0);
-                newPackage.slot2 = dataReader.GetInt32(1);
-                newPackage.slot3 = dataReader.GetInt32(2);
-                newPackage.slot4 = dataReader.GetInt32(3);
-                newPackage.slot5 = dataReader.GetInt32(4);
-                newPackage.slot6 = dataReader.GetInt32(5);
-                newPackage.slot7 = dataReader.GetInt32(6);
-                newPackage.slot8 = dataReader.GetInt32(7);
-                newPackage.slot9 = dataReader.GetInt32(8);
-                newPackage.slot10 = dataReader.GetInt32(9);
-                newPackage.slot11 = dataReader.GetInt32(10);
-                newPackage.slot12 = dataReader.GetInt32(11);
-                newPackage.slot13 = dataReader.GetInt32(12);
-                newPackage.slot14 = dataReader.GetInt32(13);
-                newPackage.slot15 = dataReader.GetInt32(14);
-                newPackage.slot16 = dataReader.GetInt32(15);
-                newPackage.slot17 = dataReader.GetInt32(16);
-                newPackage.slot18 = dataReader.GetInt32(17);
-                newPackage.slot19 = dataReader.GetInt32(18);
-                newPackage.slot20 = dataReader.GetInt32(19);
-                newPackage.slot21 = dataReader.GetInt32(20);
-                newPackage.slot22 = dataReader.GetInt32(21);
-                newPackage.slot23 = dataReader.GetInt32(22);
-                newPackage.slot24 = dataReader.GetInt32(23);
-                newPackage.slot25 = dataReader.GetInt32(24);
-                newPackage.slot26 = dataReader.GetInt32(25);
-                newPackage.slot27 = dataReader.GetInt32(26);
-                newPackage.slot28 = dataReader.GetInt32(27);
-                newPackage.slot29 = dataReader.GetInt32(28);
-                newPackage.slot30 = dataReader.GetInt32(29);
+                for(int i = 0; i < 30; i++)
+                {
+                    newPackage.slots.Add(dataReader.GetInt32(i));
+                }
                 newPackage.weapon = dataReader.GetInt32(30);
                 newPackage.armor = dataReader.GetInt32(31);
                 newPackage.halmet = dataReader.GetInt32(32);
@@ -720,12 +694,12 @@ public class DBManager
 
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
-            "UPDATE Package SET Slot1 = " + newPackage.slot1 + ", Slot2 = " + newPackage.slot2 + ", Slot3 = " + newPackage.slot3 + ", Slot4 = " + newPackage.slot4 + ", Slot5 = " + newPackage.slot5 +
-             ", Slot6 = " + newPackage.slot6 + ", Slot7 = " + newPackage.slot7 + ", Slot8 = " + newPackage.slot8 + ", Slot9 = " + newPackage.slot9 + ", Slot10 = " + newPackage.slot10 +
-              ", Slot11 = " + newPackage.slot11 + ", Slot12 = " + newPackage.slot12 + ", Slot13 = " + newPackage.slot13 + ", Slot14 = " + newPackage.slot14 + ", Slot15 = " + newPackage.slot15 +
-               ", Slot16 = " + newPackage.slot16 + ", Slot17 = " + newPackage.slot17 + ", Slot18 = " + newPackage.slot18 + ", Slot19 = " + newPackage.slot19 + ", Slot20 = " + newPackage.slot20 +
-                ", Slot21 = " + newPackage.slot21 + ", Slot22 = " + newPackage.slot22 + ", Slot23 = " + newPackage.slot23 + ", Slot24 = " + newPackage.slot24 + ", Slot25 = " + newPackage.slot25 +
-                 ", Slot26 = " + newPackage.slot26 + ", Slot27 = " + newPackage.slot27 + ", Slot28 = " + newPackage.slot28 + ", Slot29 = " + newPackage.slot29 + ", Slot30 = " + newPackage.slot30 +
+            "UPDATE Package SET Slot1 = " + newPackage.slots[0] + ", Slot2 = " + newPackage.slots[1] + ", Slot3 = " + newPackage.slots[2] + ", Slot4 = " + newPackage.slots[3] + ", Slot5 = " + newPackage.slots[4] +
+             ", Slot6 = " + newPackage.slots[5] + ", Slot7 = " + newPackage.slots[6] + ", Slot8 = " + newPackage.slots[7] + ", Slot9 = " + newPackage.slots[8] + ", Slot10 = " + newPackage.slots[9] +
+              ", Slot11 = " + newPackage.slots[10] + ", Slot12 = " + newPackage.slots[11] + ", Slot13 = " + newPackage.slots[12] + ", Slot14 = " + newPackage.slots[13] + ", Slot15 = " + newPackage.slots[14] +
+               ", Slot16 = " + newPackage.slots[15] + ", Slot17 = " + newPackage.slots[16] + ", Slot18 = " + newPackage.slots[17] + ", Slot19 = " + newPackage.slots[18] + ", Slot20 = " + newPackage.slots[19] +
+                ", Slot21 = " + newPackage.slots[20] + ", Slot22 = " + newPackage.slots[21] + ", Slot23 = " + newPackage.slots[22] + ", Slot24 = " + newPackage.slots[23] + ", Slot25 = " + newPackage.slots[24] +
+                 ", Slot26 = " + newPackage.slots[25] + ", Slot27 = " + newPackage.slots[26] + ", Slot28 = " + newPackage.slots[27] + ", Slot29 = " + newPackage.slots[28] + ", Slot30 = " + newPackage.slots[29] +
                   ", Weapon = " + newPackage.weapon + ", Armor = " + newPackage.armor + ", Halmet = " + newPackage.halmet + ", Boot = " + newPackage.boot + ", Ring = " + newPackage.ring + ", Amulet = " + newPackage.amulet +" WHERE ID = " + newPackage.id;
         dbCommand.ExecuteNonQuery();
 
