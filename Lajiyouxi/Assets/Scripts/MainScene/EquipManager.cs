@@ -7,6 +7,12 @@ public class EquipManager : MonoBehaviour
 {
 
     List<SlotClass> thisPackage = new List<SlotClass>();
+    SlotClass weaponSlot = new SlotClass();
+    SlotClass armorSlot = new SlotClass();
+    SlotClass halmetSlot = new SlotClass();
+    SlotClass bootSlot = new SlotClass();
+    SlotClass ringSlot = new SlotClass();
+    SlotClass amuletSlot = new SlotClass();
 
     public Button btn_sell;
 
@@ -69,7 +75,31 @@ public class EquipManager : MonoBehaviour
             newSlot.y = 200 - (i / 6) * 100;
             thisPackage.Add(newSlot);
         }
-        
+
+        weaponSlot.item = package.weapon;
+        weaponSlot.x = -530;
+        weaponSlot.y = 0;
+
+        armorSlot.item = package.armor;
+        armorSlot.x = -130;
+        armorSlot.y = 200;
+
+        halmetSlot.item = package.halmet;
+        halmetSlot.x = -530;
+        halmetSlot.y = 200;
+
+        bootSlot.item = package.boot;
+        bootSlot.x = -130;
+        bootSlot.y = 0;
+
+        ringSlot.item = package.ring;
+        ringSlot.x = -530;
+        ringSlot.y = -200;
+
+        amuletSlot.item = package.amulet;
+        amuletSlot.x = -130;
+        amuletSlot.y = -200;
+
     }
 
     public void Refresh()
@@ -83,31 +113,37 @@ public class EquipManager : MonoBehaviour
 
         for (int i = 0; i < 30; i++)
         {
-            if(thisPackage[i].item != 0)
-            {
-                PutItemToSlot(thisPackage[i]);
-            }
+            PutItemToSlot(thisPackage[i]);
         }
+
+        PutItemToSlot(weaponSlot);
+        PutItemToSlot(armorSlot);
+        PutItemToSlot(halmetSlot);
+        PutItemToSlot(bootSlot);
+        PutItemToSlot(ringSlot);
+        PutItemToSlot(amuletSlot);
     }
 
     public void PutItemToSlot(SlotClass thisSlot)
     {
-        Vector3 thisPosition = new Vector3(thisSlot.x + 960, thisSlot.y + 560, 0);
-        Debug.Log(thisPosition);
-        GameObject instance = (GameObject)Instantiate(item_prefab, thisPosition, transform.rotation);
-        instance.transform.SetParent(transform);
-
-        EquipmentClass thisEquip = new EquipmentClass();
-        foreach (EquipmentClass i in Equips)
+        if (thisSlot.item != 0)
         {
-            if (i.id == thisSlot.item)
-            {
-                thisEquip = i;
-            }
-        }
-        instance.GetComponent<ItemPrefabManager>().thisEquip = thisEquip;
-        
-    }
+            Vector3 thisPosition = new Vector3(thisSlot.x + 960, thisSlot.y + 560, 0);
+            Debug.Log(thisPosition);
+            GameObject instance = (GameObject)Instantiate(item_prefab, thisPosition, transform.rotation);
+            instance.transform.SetParent(transform);
 
+            EquipmentClass thisEquip = new EquipmentClass();
+            foreach (EquipmentClass i in Equips)
+            {
+                if (i.id == thisSlot.item)
+                {
+                    thisEquip = i;
+                }
+            }
+            instance.GetComponent<ItemPrefabManager>().thisEquip = thisEquip;
+
+        }
+    }
 
 }
