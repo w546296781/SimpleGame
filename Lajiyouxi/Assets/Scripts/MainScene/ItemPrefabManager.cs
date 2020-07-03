@@ -1,18 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemPrefabManager : MonoBehaviour
+public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
 {
     public EquipmentClass thisEquip;
 
 
     public GameObject item_popup;
 
+    public UnityEvent leftClick;
+    public UnityEvent rightClick;
+
     // Start is called before the first frame update
     void Start()
     {
+        leftClick.AddListener(new UnityAction(ButtonLeftClick));
+        rightClick.AddListener(new UnityAction(ButtonRightClick));
+
         string imageAddress = ChangePrefab();
         if (imageAddress != null)
         {
@@ -74,5 +82,23 @@ public class ItemPrefabManager : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+            leftClick.Invoke();
+        else if (eventData.button == PointerEventData.InputButton.Right)
+            rightClick.Invoke();
+    }
+
+    private void ButtonLeftClick()
+    {
+        Debug.Log("Button Left Click");
+    }
+
+    private void ButtonRightClick()
+    {
+        Debug.Log("Button Right Click");
     }
 }
