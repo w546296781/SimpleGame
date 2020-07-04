@@ -49,9 +49,11 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
 
     public void Detail_Info_Delete()
     {
-        GameObject popup = GameObject.Find("Img_Item_Popup(Clone)");
-        DestroyImmediate(popup);
-
+        var popup = GameObject.FindGameObjectsWithTag("item_popup");
+        foreach (GameObject i in popup)
+        {
+            DestroyImmediate(i);
+        }
     }
 
     #endregion
@@ -97,8 +99,9 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
     {
         if (transform.parent.GetComponent<EquipManager>().onSell == true && slotID <= 30)
         {
-            transform.parent.GetComponent<EquipManager>().SellItem(thisEquip, slotID);
-            DestroyImmediate(gameObject);
+            transform.parent.GetComponent<EquipManager>().SellItem(gameObject, slotID);
+            Detail_Info_Delete();
+            //DestroyImmediate(gameObject);
         }
 
     }

@@ -35,7 +35,6 @@ public class EquipManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     #region Button Function
@@ -53,6 +52,8 @@ public class EquipManager : MonoBehaviour
             ColorBlock cb = new ColorBlock();
             cb = btn_sell.colors;
             cb.selectedColor = Color.green;
+            cb.normalColor = Color.green;
+            cb.highlightedColor = Color.green;
             btn_sell.colors = cb;
         }
         else
@@ -61,6 +62,8 @@ public class EquipManager : MonoBehaviour
             ColorBlock cb = new ColorBlock();
             cb = btn_sell.colors;
             cb.selectedColor = Color.white;
+            cb.normalColor = Color.white;
+            cb.highlightedColor = Color.white;
             btn_sell.colors = cb;
         }
     }
@@ -108,6 +111,13 @@ public class EquipManager : MonoBehaviour
     public void Refresh()
     {
 
+
+        var objList = GameObject.FindGameObjectsWithTag("item");
+        foreach(GameObject i in objList)
+        {
+            DestroyImmediate(i);
+        }
+
         DBManager dbm = new DBManager();
         Equips = dbm.GetAllEquipment();
         package = dbm.GetPackage(1);
@@ -135,7 +145,6 @@ public class EquipManager : MonoBehaviour
         if (thisSlot.item != 0)
         {
             Vector3 thisPosition = new Vector3(thisSlot.x + 960, thisSlot.y + 560, 0);
-            Debug.Log(thisPosition);
             GameObject instance = (GameObject)Instantiate(item_prefab, thisPosition, transform.rotation);
             instance.transform.SetParent(transform);
 
@@ -153,13 +162,14 @@ public class EquipManager : MonoBehaviour
         }
     }
 
-    public void SellItem(EquipmentClass thisEquip, int slotID)
+    public void SellItem(GameObject obj, int slotID)
     {
-        theHero.gold += thisEquip.price;
+        theHero.gold += obj.transform.GetComponent<ItemPrefabManager>().thisEquip.price;
         package.slots[slotID - 1] = 0;
         DBManager dbm = new DBManager();
         dbm.SaveHero(theHero);
         dbm.SavePackage(package);
+        DestroyImmediate(obj);
         Refresh();
     }
 
