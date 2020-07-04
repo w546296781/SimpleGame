@@ -8,12 +8,13 @@ using UnityEngine.UI;
 public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
 {
     public EquipmentClass thisEquip;
-
+    public HeroClass theHero;
 
     public GameObject item_popup;
 
     public UnityEvent leftClick;
     public UnityEvent rightClick;
+    public int slotID;
 
     // Start is called before the first frame update
     void Start()
@@ -94,11 +95,20 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
 
     private void ButtonLeftClick()
     {
-        Debug.Log("Button Left Click");
+        if (transform.parent.GetComponent<EquipManager>().onSell == true && slotID <= 30)
+        {
+            transform.parent.GetComponent<EquipManager>().SellItem(thisEquip, slotID);
+            DestroyImmediate(gameObject);
+        }
+
     }
 
     private void ButtonRightClick()
     {
-        Debug.Log("Button Right Click");
+        if (transform.parent.GetComponent<EquipManager>().onSell == false)
+        {
+            Debug.Log("Button Right Click");
+        }
+
     }
 }

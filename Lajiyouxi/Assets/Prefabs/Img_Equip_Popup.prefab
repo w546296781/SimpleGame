@@ -2871,7 +2871,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599b8ece1472e054495d88e6407308af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text_gold: {fileID: 4336323471501387468}
   btn_sell: {fileID: 3607773364863839674}
+  onSell: 0
   item_prefab: {fileID: 2801919496488426099, guid: 92fe159010e393f4e928036f1454f58b,
     type: 3}
 --- !u!1 &6214286012290306290
@@ -3416,7 +3418,7 @@ GameObject:
   - component: {fileID: 1024375744110481007}
   - component: {fileID: 4336323471501387468}
   m_Layer: 5
-  m_Name: Text (3)
+  m_Name: Text_Gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -7,6 +7,7 @@ public class EquipManager : MonoBehaviour
 {
 
     List<SlotClass> thisPackage = new List<SlotClass>();
+    HeroClass theHero = new HeroClass();
     SlotClass weaponSlot = new SlotClass();
     SlotClass armorSlot = new SlotClass();
     SlotClass halmetSlot = new SlotClass();
@@ -14,9 +15,11 @@ public class EquipManager : MonoBehaviour
     SlotClass ringSlot = new SlotClass();
     SlotClass amuletSlot = new SlotClass();
 
+    public Text text_gold;
+
     public Button btn_sell;
 
-    private bool onSell = false;
+    public bool onSell = false;
 
     List<EquipmentClass> Equips = new List<EquipmentClass>();
     PackageClass package;
@@ -108,23 +111,26 @@ public class EquipManager : MonoBehaviour
         DBManager dbm = new DBManager();
         Equips = dbm.GetAllEquipment();
         package = dbm.GetPackage(1);
+        theHero = dbm.GetHero(1);
 
         CreatePositions();
 
         for (int i = 0; i < 30; i++)
         {
-            PutItemToSlot(thisPackage[i]);
+            PutItemToSlot(thisPackage[i], i+1);
         }
 
-        PutItemToSlot(weaponSlot);
-        PutItemToSlot(armorSlot);
-        PutItemToSlot(halmetSlot);
-        PutItemToSlot(bootSlot);
-        PutItemToSlot(ringSlot);
-        PutItemToSlot(amuletSlot);
+        PutItemToSlot(weaponSlot, 31);
+        PutItemToSlot(armorSlot, 32);
+        PutItemToSlot(halmetSlot, 33);
+        PutItemToSlot(bootSlot, 34);
+        PutItemToSlot(ringSlot, 35);
+        PutItemToSlot(amuletSlot, 36);
+
+        text_gold.text = theHero.gold.ToString();
     }
 
-    public void PutItemToSlot(SlotClass thisSlot)
+    public void PutItemToSlot(SlotClass thisSlot, int slotID)
     {
         if (thisSlot.item != 0)
         {
@@ -142,8 +148,19 @@ public class EquipManager : MonoBehaviour
                 }
             }
             instance.GetComponent<ItemPrefabManager>().thisEquip = thisEquip;
+            instance.GetComponent<ItemPrefabManager>().slotID = slotID;
 
         }
+    }
+
+    public void SellItem(EquipmentClass thisEquip, int slotID)
+    {
+        theHero.gold += thisEquip.price;
+        package.slots[slotID - 1] = 0;
+        DBManager dbm = new DBManager();
+        dbm.SaveHero(theHero);
+        dbm.SavePackage(package);
+        Refresh();
     }
 
 }
