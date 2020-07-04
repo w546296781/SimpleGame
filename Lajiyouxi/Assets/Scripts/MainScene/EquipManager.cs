@@ -238,17 +238,27 @@ public class EquipManager : MonoBehaviour
 
             package.slots[slotID - 1] = thisSlot.item;
 
+            EquipmentClass thatEquip = null;
+            foreach(var i in Equips)
+            {
+                if(i.id == thisSlot.item)
+                {
+                    thatEquip = i;
+                }
+            }
+
             DBManager dbm = new DBManager();
             dbm.SavePackage(package);
 
             Refresh();
 
+            DropThisEquipToHero(thatEquip);
+            AddThisEquipToHero(thisEquip);
 
         }
         else
         {
             bool packageIsFull = true;
-            int emptySlotID = 0;
             for(int i = 0; i < package.slots.Count; i++)
             {
                 if(package.slots[i] == 0)
@@ -286,7 +296,112 @@ public class EquipManager : MonoBehaviour
                 DBManager dbm = new DBManager();
                 dbm.SavePackage(package);
                 Refresh();
+                DropThisEquipToHero(thisEquip);
             }
         }
     }
+
+    #region Attr
+
+    public void AddThisEquipToHero(EquipmentClass thisEquip)
+    {
+        if (thisEquip != null)
+        {
+            AddThisAttr(thisEquip.attr1);
+            AddThisAttr(thisEquip.attr2);
+            AddThisAttr(thisEquip.attr3);
+            AddThisAttr(thisEquip.attr4);
+            AddThisAttr(thisEquip.attr5);
+            AddThisAttr(thisEquip.attr6);
+
+            DBManager dbm = new DBManager();
+            dbm.SaveHero(theHero);
+        }
+    }
+
+    public void DropThisEquipToHero(EquipmentClass thisEquip)
+    {
+        if (thisEquip != null)
+        {
+            DropThisAttr(thisEquip.attr1);
+            DropThisAttr(thisEquip.attr2);
+            DropThisAttr(thisEquip.attr3);
+            DropThisAttr(thisEquip.attr4);
+            DropThisAttr(thisEquip.attr5);
+            DropThisAttr(thisEquip.attr6);
+
+            DBManager dbm = new DBManager();
+            dbm.SaveHero(theHero);
+        }
+    }
+
+    public void AddThisAttr(string str)
+    {
+        if(str != "0-0")
+        {
+            var strList = str.Split('-');
+            string name = strList[0];
+            int value = int.Parse(strList[1]);
+            switch (name)
+            {
+                case "1":
+                    theHero.str += value;
+                    theHero.life += 10 * value;
+                    theHero.atk += 5 * value;
+                    break;         
+                case "2":
+                    theHero.agi += value;
+                    theHero.dodge += 0.1 * value;
+                    theHero.speed += 5 * value;
+                    break;         
+                case "3":
+                    theHero.Int += value;
+                    theHero.ap += 5 * value;
+                    theHero.critChance += 0.5 * value;
+                    break;         
+                case "4":
+                    theHero.atk += value;
+                    break;         
+                case "5":
+                    theHero.def += value;
+                    break;
+            }
+        }
+    }
+
+    public void DropThisAttr(string str)
+    {
+        if (str != "0-0")
+        {
+            var strList = str.Split('-');
+            string name = strList[0];
+            int value = int.Parse(strList[1]);
+            switch (name)
+            {
+                case "1":
+                    theHero.str -= value;
+                    theHero.life -= 10 * value;
+                    theHero.atk -= 5 * value;
+                    break;
+                case "2":
+                    theHero.agi -= value;
+                    theHero.dodge -= 0.1 * value;
+                    theHero.speed -= 5 * value;
+                    break;
+                case "3":
+                    theHero.Int -= value;
+                    theHero.ap -= 5 * value;
+                    theHero.critChance -= 0.5 * value;
+                    break;
+                case "4":
+                    theHero.atk -= value;
+                    break;
+                case "5":
+                    theHero.def -= value;
+                    break;
+            }
+        }
+    }
+
+    #endregion
 }
