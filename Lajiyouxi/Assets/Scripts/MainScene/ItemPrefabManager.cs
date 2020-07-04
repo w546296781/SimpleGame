@@ -110,7 +110,8 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
     {
         if (transform.parent.GetComponent<EquipManager>().onSell == false)
         {
-            Debug.Log("Button Right Click");
+            transform.parent.GetComponent<EquipManager>().EquipItem(gameObject, slotID);
+            Detail_Info_Delete();
         }
 
     }

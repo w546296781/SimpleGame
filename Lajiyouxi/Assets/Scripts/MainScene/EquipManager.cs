@@ -117,6 +117,12 @@ public class EquipManager : MonoBehaviour
         {
             DestroyImmediate(i);
         }
+        DestroyImmediate(GameObject.FindGameObjectWithTag("weapon"));
+        DestroyImmediate(GameObject.FindGameObjectWithTag("armor"));
+        DestroyImmediate(GameObject.FindGameObjectWithTag("halmet"));
+        DestroyImmediate(GameObject.FindGameObjectWithTag("boot"));
+        DestroyImmediate(GameObject.FindGameObjectWithTag("ring"));
+        DestroyImmediate(GameObject.FindGameObjectWithTag("amulet"));
 
         DBManager dbm = new DBManager();
         Equips = dbm.GetAllEquipment();
@@ -159,6 +165,29 @@ public class EquipManager : MonoBehaviour
             instance.GetComponent<ItemPrefabManager>().thisEquip = thisEquip;
             instance.GetComponent<ItemPrefabManager>().slotID = slotID;
 
+            switch (slotID)
+            {
+                case 31:
+                    instance.tag = "weapon";
+                    break;
+                case 32:
+                    instance.tag = "armor";
+                    break;
+                case 33:
+                    instance.tag = "halmet";
+                    break;
+                case 34:
+                    instance.tag = "boot";
+                    break;
+                case 35:
+                    instance.tag = "ring";
+                    break;
+                case 36:
+                    instance.tag = "amulet";
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -173,4 +202,91 @@ public class EquipManager : MonoBehaviour
         Refresh();
     }
 
+    public void EquipItem(GameObject obj, int slotID)
+    {
+        EquipmentClass thisEquip = obj.transform.GetComponent<ItemPrefabManager>().thisEquip;
+        if (slotID <= 30)
+        {
+            SlotClass thisSlot = null;
+            switch (thisEquip.Class)
+            {
+                case 1:
+                    thisSlot = weaponSlot;
+                    package.weapon = thisEquip.id;
+                    break;
+                case 2:
+                    thisSlot = armorSlot;
+                    package.armor = thisEquip.id;
+                    break;
+                case 3:
+                    thisSlot = halmetSlot;
+                    package.halmet = thisEquip.id;
+                    break;
+                case 4:
+                    thisSlot = bootSlot;
+                    package.boot = thisEquip.id;
+                    break;
+                case 5:
+                    thisSlot = ringSlot;
+                    package.ring = thisEquip.id;
+                    break;
+                case 6:
+                    thisSlot = amuletSlot;
+                    package.amulet = thisEquip.id;
+                    break;
+            }
+
+            package.slots[slotID - 1] = thisSlot.item;
+
+            DBManager dbm = new DBManager();
+            dbm.SavePackage(package);
+
+            Refresh();
+
+
+        }
+        else
+        {
+            bool packageIsFull = true;
+            int emptySlotID = 0;
+            for(int i = 0; i < package.slots.Count; i++)
+            {
+                if(package.slots[i] == 0)
+                {
+                    packageIsFull = false;
+                    package.slots[i] = thisEquip.id;
+                    break;
+                }
+            }
+
+            if(packageIsFull == false)
+            {
+                switch (slotID)
+                {
+                    case 31:
+                        package.weapon = 0;
+                        break;
+                    case 32:
+                        package.armor = 0;
+                        break;
+                    case 33:
+                        package.halmet = 0;
+                        break;
+                    case 34:
+                        package.boot = 0;
+                        break;
+                    case 35:
+                        package.ring = 0;
+                        break;
+                    case 36:
+                        package.amulet = 0;
+                        break;
+                }
+
+                DBManager dbm = new DBManager();
+                dbm.SavePackage(package);
+                Refresh();
+            }
+        }
+    }
 }
