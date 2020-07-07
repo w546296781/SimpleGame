@@ -9,6 +9,7 @@ public class DBManager
     private SqliteCommand dbCommand;
     private SqliteDataReader dataReader;
 
+    #region BASIC
     /// <summary>
     /// Connect to the database.
     /// </summary>
@@ -27,6 +28,40 @@ public class DBManager
         }
     }
 
+    public SqliteDataReader ExecuteQuery(string queryString)
+    {
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = queryString;
+        Debug.Log(queryString);
+        dataReader = dbCommand.ExecuteReader();
+        return dataReader;
+    }
+
+    public void CloseConnection()
+    {
+        if (dbCommand != null)
+        {
+            dbCommand.Cancel();
+        }
+        dbCommand = null;
+
+        if (dataReader != null)
+        {
+            dataReader.Close();
+        }
+        dataReader = null;
+
+        if (dbConnection != null)
+        {
+            dbConnection.Close();
+        }
+        dbConnection = null;
+    }
+
+
+    #endregion
+
+    #region HERO
     public HeroClass GetHero(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -75,6 +110,80 @@ public class DBManager
         return hero;
     }
 
+    public void CreateHero(HeroClass hero)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint, SkillPoint, Skill) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed
+            + ", " + hero.life + ", " + hero.ap + ", " + hero.dodge + ", " + hero.critChance + ", " + hero.critDamage + ", " + hero.fireResis + ", " + hero.coldResis + ", " + hero.lightResis + ", " + hero.FirePene + ", " + hero.coldPene + ", " + hero.lightPene
+            + ", " + hero.level + ", " + hero.exp + ", " + hero.str + ", " + hero.agi + ", " + hero.Int + ", " + hero.attrPoint + ", " + hero.skillPoint + ", '" + ConvertSkillToString(hero.skillList) + "')";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SaveHero(HeroClass hero)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Hero SET Name = '" + hero.name + "', Attack = " + hero.atk + ", Defense = " + hero.def + ", Speed = " + hero.speed
+             + ", Life = " + hero.life + ", AP = " + hero.ap + ", Dodge = " + hero.dodge + ", CritChance = " + hero.critChance + ", CritDamage = " + hero.critDamage + ", FireResis = " + hero.fireResis
+              + ", ColdResis = " + hero.coldResis + ", LightResis = " + hero.lightResis + ", FirePene = " + hero.FirePene + ", ColdPene = " + hero.coldPene + ", LightPene = " + hero.lightPene
+               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + ", SkillPoint = " + hero.skillPoint + ", Skill = '" + ConvertSkillToString(hero.skillList) + "', Gold = " + hero.gold + " WHERE ID = " + hero.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteHero(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Hero WHERE ID = " + id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public List<List<int>> ConvertSkillToList(string str)
+    {
+        List<List<int>> skill = new List<List<int>>();
+        string[] firstSplit = str.Split(';');
+        foreach (string i in firstSplit)
+        {
+            if (i != "")
+            {
+                string[] secondSplit = i.Split('-');
+                int skillName = int.Parse(secondSplit[0]);
+                int skillLevel = int.Parse(secondSplit[1]);
+                List<int> thisSkill = new List<int>();
+                thisSkill.Add(skillName);
+                thisSkill.Add(skillLevel);
+                skill.Add(thisSkill);
+            }
+        }
+        return skill;
+    }
+
+    public string ConvertSkillToString(List<List<int>> skill)
+    {
+        string result = "";
+        foreach (var i in skill)
+        {
+            result += i[0] + "-" + i[1] + ";";
+        }
+        return result;
+    }
+
+    #endregion
+
+    #region SKILL
     public SkillClass GetSkill(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -156,6 +265,23 @@ public class DBManager
         return skillList;
     }
 
+    public void SaveSkill(SkillClass skill)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Skill SET Name = '" + skill.name + "', Type = " + skill.type + ", Level = " + skill.level + ", Active = " + skill.active + ", Passive1 = " + skill.passive1 + ", Passive2 = " + skill.passive2
+             + ", Passive3 = " + skill.passive3 + ", Passive4 = " + skill.passive4 + ", Passive5 = " + skill.passive5 + ", Passive6 = " + skill.passive6 + ", Passive7 = " + skill.passive7
+              + ", Passive8 = " + skill.passive8 + ", Passive9 = " + skill.passive9 + ", Passive10 = " + skill.passive10 + ", Passive11 = " + skill.passive11 + ", Passive12 = " + skill.passive12 + " WHERE ID = " + skill.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    #endregion
+
+    #region PET
     public PetClass GetPet(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -181,6 +307,46 @@ public class DBManager
         return pet;
     }
 
+    public void CreatePet(PetClass pet)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Pet (ID, Name, Attack, Defense, Speed) VALUES (" + pet.id + ", '" + pet.name + "', " + pet.atk + ", " + pet.def + ", " + pet.speed + ")";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SavePet(PetClass pet)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Pet SET Name = '" + pet.name + "', Attack = " + pet.atk + ", Defense = " + pet.def + ", Speed = " + pet.speed + " WHERE ID = " + pet.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeletePet(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Pet WHERE ID = " + id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+
+    #endregion
+
+    #region SERVANT
     public ServantClass GetServant(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -206,6 +372,45 @@ public class DBManager
         return servant;
     }
 
+    public void CreateServant(ServantClass servant)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Servant (ID, Name, Attack, Defense, Speed) VALUES (" + servant.id + ", '" + servant.name + "', " + servant.atk + ", " + servant.def + ", " + servant.speed + ")";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SaveServant(ServantClass servant)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Servant SET Name = '" + servant.name + "', Attack = " + servant.atk + ", Defense = " + servant.def + ", Speed = " + servant.speed + " WHERE ID = " + servant.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteServant(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Servant WHERE ID = " + id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    #endregion
+
+    #region ENEMY
     public EnemyClass GetEnemy(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -260,6 +465,45 @@ public class DBManager
         return result;
     }
 
+    public void CreateEnemy(EnemyClass enemy)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed, Life) VALUES (" + enemy.id + ", '" + enemy.name + "', " + enemy.atk + ", " + enemy.def + ", " + enemy.speed + ", " + enemy.life + ")";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SaveEnemy(EnemyClass enemy)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = " + enemy.atk + ", Defense = " + enemy.def + ", Speed = " + enemy.speed + ", Life = " + enemy.life + " WHERE ID = " + enemy.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteEnemy(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Enemy WHERE ID = " + id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+    #endregion
+
+    #region GAME
+
     public string GetGame(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -302,6 +546,46 @@ public class DBManager
         return result;
     }
 
+    public void CreateGame(int id, string date)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "INSERT INTO Game (ID, Date) VALUES (" + id + ", '" + date + "')";
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void SaveGame(int id, string date)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Game SET Date = '" + date + "' WHERE ID = " + id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    public void DeleteGame(int id)
+    {
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "DELETE FROM Game WHERE ID = " + id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    #endregion
+
+    #region EVENT
+
     public EventClass GetEvent(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -330,68 +614,6 @@ public class DBManager
         return newEvent;
     }
 
-    public void CreateGame(int id, string date)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "INSERT INTO Game (ID, Date) VALUES (" + id + ", '" + date + "')";
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void CreateHero(HeroClass hero)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "INSERT INTO Hero (ID, Name, Attack, Defense, Speed, Life, AP, Dodge, CritChance, CritDamage, FireResis, ColdResis, LightResis, FirePene, ColdPene, LightPene, Level, EXP, STR, AGI, INT, AttrPoint, SkillPoint, Skill) VALUES (" + hero.id + ", '" + hero.name + "', " + hero.atk + ", " + hero.def + ", " + hero.speed
-            + ", " + hero.life + ", " + hero.ap + ", " + hero.dodge + ", " + hero.critChance + ", " + hero.critDamage + ", " + hero.fireResis + ", " + hero.coldResis + ", " + hero.lightResis + ", " + hero.FirePene + ", " + hero.coldPene + ", " + hero.lightPene
-            + ", " + hero.level + ", " + hero.exp + ", " + hero.str + ", " + hero.agi + ", " + hero.Int + ", " + hero.attrPoint + ", " + hero.skillPoint + ", '" + ConvertSkillToString(hero.skillList) + "')";
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void CreatePet(PetClass pet)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "INSERT INTO Pet (ID, Name, Attack, Defense, Speed) VALUES (" + pet.id + ", '" + pet.name + "', " + pet.atk + ", " + pet.def + ", " + pet.speed + ")";
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void CreateServant(ServantClass servant)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "INSERT INTO Servant (ID, Name, Attack, Defense, Speed) VALUES (" + servant.id + ", '" + servant.name + "', " + servant.atk + ", " + servant.def + ", " + servant.speed + ")";
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void CreateEnemy(EnemyClass enemy)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "INSERT INTO Enemy (ID, Name, Attack, Defense, Speed, Life) VALUES (" + enemy.id + ", '" + enemy.name + "', " + enemy.atk + ", " + enemy.def + ", " + enemy.speed + ", " + enemy.life + ")";
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
     public void CreateEvent(EventClass newEvent)
     {
         ConnectToDB("SimpleGame.db");
@@ -399,83 +621,6 @@ public class DBManager
         dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText =
             "INSERT INTO Event (ID, Level, Area1, Area2, Area3, EventLeft, BattlePosition, BattleFinish) VALUES (" + newEvent.id + ", " + newEvent.level + ", " + newEvent.area1 + ", " + newEvent.area2 + ", " + newEvent.area3 + ", " + newEvent.event_left + ", " + newEvent.battle_position + ", " + newEvent.battle_finish + ")";
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void SaveGame(int id, string date)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "UPDATE Game SET Date = '" + date + "' WHERE ID = " + id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void SaveHero(HeroClass hero)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "UPDATE Hero SET Name = '" + hero.name + "', Attack = " + hero.atk + ", Defense = " + hero.def + ", Speed = " + hero.speed
-             + ", Life = " + hero.life + ", AP = " + hero.ap + ", Dodge = " + hero.dodge + ", CritChance = " + hero.critChance + ", CritDamage = " + hero.critDamage + ", FireResis = " + hero.fireResis
-              + ", ColdResis = " + hero.coldResis + ", LightResis = " + hero.lightResis + ", FirePene = " + hero.FirePene + ", ColdPene = " + hero.coldPene + ", LightPene = " + hero.lightPene
-               + ", Level = " + hero.level + ", EXP = " + hero.exp + ", STR = " + hero.str + ", AGI = " + hero.agi + ", INT = " + hero.Int + ", AttrPoint = " + hero.attrPoint + ", SkillPoint = " + hero.skillPoint+ ", Skill = '" + ConvertSkillToString(hero.skillList) + "', Gold = " + hero.gold + " WHERE ID = " + hero.id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void SaveSkill(SkillClass skill)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "UPDATE Skill SET Name = '" + skill.name + "', Type = " + skill.type + ", Level = " + skill.level + ", Active = " + skill.active + ", Passive1 = " + skill.passive1 + ", Passive2 = " + skill.passive2
-             + ", Passive3 = " + skill.passive3 + ", Passive4 = " + skill.passive4 + ", Passive5 = " + skill.passive5 + ", Passive6 = " + skill.passive6 + ", Passive7 = " + skill.passive7
-              + ", Passive8 = " + skill.passive8 + ", Passive9 = " + skill.passive9 + ", Passive10 = " + skill.passive10 + ", Passive11 = " + skill.passive11 + ", Passive12 = " + skill.passive12 + " WHERE ID = " + skill.id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void SavePet(PetClass pet)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "UPDATE Pet SET Name = '" + pet.name + "', Attack = " + pet.atk + ", Defense = " + pet.def + ", Speed = " + pet.speed + " WHERE ID = " + pet.id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void SaveServant(ServantClass servant)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "UPDATE Servant SET Name = '" + servant.name + "', Attack = " + servant.atk + ", Defense = " + servant.def + ", Speed = " + servant.speed + " WHERE ID = " + servant.id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void SaveEnemy(EnemyClass enemy)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "UPDATE Enemy SET Name = '" + enemy.name + "', Attack = " + enemy.atk + ", Defense = " + enemy.def + ", Speed = " + enemy.speed + ", Life = " + enemy.life + " WHERE ID = " + enemy.id;
         dbCommand.ExecuteNonQuery();
 
         CloseConnection();
@@ -493,66 +638,6 @@ public class DBManager
         CloseConnection();
     }
 
-    public void DeleteGame(int id)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "DELETE FROM Game WHERE ID = " + id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void DeleteHero(int id)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "DELETE FROM Hero WHERE ID = " + id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void DeletePet(int id)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "DELETE FROM Pet WHERE ID = " + id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void DeleteServant(int id)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "DELETE FROM Servant WHERE ID = " + id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
-    public void DeleteEnemy(int id)
-    {
-        ConnectToDB("SimpleGame.db");
-
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText =
-            "DELETE FROM Enemy WHERE ID = " + id;
-        dbCommand.ExecuteNonQuery();
-
-        CloseConnection();
-    }
-
     public void DeleteEvent(int id)
     {
         ConnectToDB("SimpleGame.db");
@@ -565,63 +650,98 @@ public class DBManager
         CloseConnection();
     }
 
-    public SqliteDataReader ExecuteQuery(string queryString)
+    #endregion
+
+    #region PACKAGE
+
+    public PackageClass GetPackage(int id)
     {
-        dbCommand = dbConnection.CreateCommand();
-        dbCommand.CommandText = queryString;
-        Debug.Log(queryString);
-        dataReader = dbCommand.ExecuteReader();
-        return dataReader;
-    }
+        ConnectToDB("SimpleGame.db");
 
-    public void CloseConnection()
-    {
-        if (dbCommand != null)
-        {
-            dbCommand.Cancel();
-        }
-        dbCommand = null;
+        PackageClass newPackage = new PackageClass();
+        newPackage.id = id;
 
-        if (dataReader != null)
+        dataReader =
+            ExecuteQuery("SELECT Slot1, Slot2, Slot3, Slot4, Slot5, Slot6, Slot7, Slot8, Slot9, Slot10, " +
+            "Slot11, Slot12, Slot13, Slot14, Slot15, Slot16, Slot17, Slot18, Slot19, Slot20, " +
+            "Slot21, Slot22, Slot23, Slot24, Slot25, Slot26, Slot27, Slot28, Slot29, Slot30, " +
+            "Weapon, Armor, Halmet, Boot, Ring, Amulet FROM Package WHERE ID = " + id + ";");
+        while (dataReader.HasRows)
         {
-            dataReader.Close();
-        }
-        dataReader = null;
-
-        if (dbConnection != null)
-        {
-            dbConnection.Close();
-        }
-        dbConnection = null;
-    }
-
-    public List<List<int>> ConvertSkillToList(string str)
-    {
-        List<List<int>> skill = new List<List<int>>();
-        string[] firstSplit = str.Split(';');
-        foreach(string i in firstSplit)
-        {
-            if (i != "")
+            if (dataReader.Read())
             {
-                string[] secondSplit = i.Split('-');
-                int skillName = int.Parse(secondSplit[0]);
-                int skillLevel = int.Parse(secondSplit[1]);
-                List<int> thisSkill = new List<int>();
-                thisSkill.Add(skillName);
-                thisSkill.Add(skillLevel);
-                skill.Add(thisSkill);
+                for(int i = 0; i < 30; i++)
+                {
+                    newPackage.slots.Add(dataReader.GetInt32(i));
+                }
+                newPackage.weapon = dataReader.GetInt32(30);
+                newPackage.armor = dataReader.GetInt32(31);
+                newPackage.halmet = dataReader.GetInt32(32);
+                newPackage.boot = dataReader.GetInt32(33);
+                newPackage.ring = dataReader.GetInt32(34);
+                newPackage.amulet = dataReader.GetInt32(35);
             }
         }
-        return skill;
+
+        CloseConnection();
+
+        return newPackage;
     }
 
-    public string ConvertSkillToString(List<List<int>> skill)
+    public void SavePackage(PackageClass newPackage)
     {
-        string result = "";
-        foreach(var i in skill)
+        ConnectToDB("SimpleGame.db");
+
+        dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText =
+            "UPDATE Package SET Slot1 = " + newPackage.slots[0] + ", Slot2 = " + newPackage.slots[1] + ", Slot3 = " + newPackage.slots[2] + ", Slot4 = " + newPackage.slots[3] + ", Slot5 = " + newPackage.slots[4] +
+             ", Slot6 = " + newPackage.slots[5] + ", Slot7 = " + newPackage.slots[6] + ", Slot8 = " + newPackage.slots[7] + ", Slot9 = " + newPackage.slots[8] + ", Slot10 = " + newPackage.slots[9] +
+              ", Slot11 = " + newPackage.slots[10] + ", Slot12 = " + newPackage.slots[11] + ", Slot13 = " + newPackage.slots[12] + ", Slot14 = " + newPackage.slots[13] + ", Slot15 = " + newPackage.slots[14] +
+               ", Slot16 = " + newPackage.slots[15] + ", Slot17 = " + newPackage.slots[16] + ", Slot18 = " + newPackage.slots[17] + ", Slot19 = " + newPackage.slots[18] + ", Slot20 = " + newPackage.slots[19] +
+                ", Slot21 = " + newPackage.slots[20] + ", Slot22 = " + newPackage.slots[21] + ", Slot23 = " + newPackage.slots[22] + ", Slot24 = " + newPackage.slots[23] + ", Slot25 = " + newPackage.slots[24] +
+                 ", Slot26 = " + newPackage.slots[25] + ", Slot27 = " + newPackage.slots[26] + ", Slot28 = " + newPackage.slots[27] + ", Slot29 = " + newPackage.slots[28] + ", Slot30 = " + newPackage.slots[29] +
+                  ", Weapon = " + newPackage.weapon + ", Armor = " + newPackage.armor + ", Halmet = " + newPackage.halmet + ", Boot = " + newPackage.boot + ", Ring = " + newPackage.ring + ", Amulet = " + newPackage.amulet +" WHERE ID = " + newPackage.id;
+        dbCommand.ExecuteNonQuery();
+
+        CloseConnection();
+    }
+
+    #endregion
+
+    #region EQUIPMENT
+
+    public List<EquipmentClass> GetAllEquipment()
+    {
+        ConnectToDB("SimpleGame.db");
+
+        List<EquipmentClass> result = new List<EquipmentClass>();
+
+        dataReader =
+            ExecuteQuery("SELECT ID, Name, Attr1, Attr2, Attr3, Attr4, Attr5, Attr6, Class, Price, Quality FROM Equipment;");
+        while (dataReader.HasRows)
         {
-            result += i[0] + "-" + i[1] + ";";
+            if (dataReader.Read())
+            {
+                EquipmentClass equipment = new EquipmentClass();
+                equipment.id = dataReader.GetInt32(0);
+                equipment.name = dataReader.GetString(1);
+                equipment.attr1 = dataReader.GetString(2);
+                equipment.attr2 = dataReader.GetString(3);
+                equipment.attr3 = dataReader.GetString(4);
+                equipment.attr4 = dataReader.GetString(5);
+                equipment.attr5 = dataReader.GetString(6);
+                equipment.attr6 = dataReader.GetString(7);
+                equipment.Class = dataReader.GetInt32(8);
+                equipment.price = dataReader.GetInt32(9);
+                equipment.quality = dataReader.GetInt32(10);
+                result.Add(equipment);
+            }
         }
+
+        CloseConnection();
+
         return result;
     }
+
+    #endregion
 }
