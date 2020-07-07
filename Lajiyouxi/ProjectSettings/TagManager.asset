@@ -8,6 +8,14 @@ TagManager:
   - Adventure
   - Shop
   - Treasure
+  - item
+  - item_popup
+  - weapon
+  - armor
+  - halmet
+  - boot
+  - ring
+  - amulet
   layers:
   - Default
   - TransparentFX
