@@ -16,6 +16,8 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
     public UnityEvent rightClick;
     public int slotID;
 
+    public bool isOnDropMenu = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -97,21 +99,26 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
 
     private void ButtonLeftClick()
     {
-        if (transform.parent.GetComponent<EquipManager>().onSell == true && slotID <= 30)
+        if (isOnDropMenu == false)
         {
-            transform.parent.GetComponent<EquipManager>().SellItem(gameObject, slotID);
-            Detail_Info_Delete();
-            //DestroyImmediate(gameObject);
+            if (transform.parent.GetComponent<EquipManager>().onSell == true && slotID <= 30)
+            {
+                transform.parent.GetComponent<EquipManager>().SellItem(gameObject, slotID);
+                Detail_Info_Delete();
+                //DestroyImmediate(gameObject);
+            }
         }
-
     }
 
     private void ButtonRightClick()
     {
-        if (transform.parent.GetComponent<EquipManager>().onSell == false)
+        if (isOnDropMenu == false)
         {
-            transform.parent.GetComponent<EquipManager>().EquipItem(gameObject, slotID);
-            Detail_Info_Delete();
+            if (transform.parent.GetComponent<EquipManager>().onSell == false)
+            {
+                transform.parent.GetComponent<EquipManager>().EquipItem(gameObject, slotID);
+                Detail_Info_Delete();
+            }
         }
 
     }
