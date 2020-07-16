@@ -1018,7 +1018,8 @@ MonoBehaviour:
     type: 3}
   battleWin_popup: {fileID: 5909103263398124744, guid: 2de22678b4ed0ba45afce80c9b9ff186,
     type: 3}
-  battleLose_popup: {fileID: 0}
+  battleLose_popup: {fileID: 336548236078027665, guid: 8731a9f9f57f30b49b5ed61ca844f322,
+    type: 3}
   character_mark: {fileID: 1939417030}
   skill_mark: {fileID: 1463562624}
   equip_popup: {fileID: 6174513759795789053, guid: 7ecb8a8715fd1b74c8f1d4ef0904a598,
