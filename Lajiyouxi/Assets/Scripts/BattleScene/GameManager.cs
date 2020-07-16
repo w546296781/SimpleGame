@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public bool skillNameBlinkTimerOn = false;
     public float skillNameBlinkTimer = 1.0f;
 
+    private int battle_result = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -150,12 +152,14 @@ public class GameManager : MonoBehaviour
 
         if (enemy1.isLive == false && enemy2.isLive == false && enemy3.isLive == false && enemy4.isLive == false && enemy5.isLive == false && enemy6.isLive == false)
         {
-            resultText.text = "You Win!";
+            resultText.text = "战斗胜利！";
+            battle_result = 1;
             Invoke("BackToMain", 2.0f);
         }
         else if (hero.isLive == false && pet.isLive == false && servant.isLive == false)
         {
-            resultText.text = "You Lose!";
+            resultText.text = "战斗失败！";
+            battle_result = 2;
             Invoke("BackToMain", 2.0f);
         }
     }
@@ -544,7 +548,7 @@ public class GameManager : MonoBehaviour
     {
         DBManager dbm = new DBManager();
         EventClass theEvent = dbm.GetEvent(1);
-        theEvent.battle_finish = 1;
+        theEvent.battle_finish = battle_result;
         dbm.SaveEvent(theEvent);
         SceneManager.LoadScene(1);
     }
