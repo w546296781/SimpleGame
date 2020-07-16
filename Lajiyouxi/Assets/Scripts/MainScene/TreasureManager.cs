@@ -48,30 +48,25 @@ public class TreasureManager : MonoBehaviour
         foreach (EquipmentClass i in equipList)
         {
             int thresold = 0;
-            if (dropCount == 0)
+            switch (i.quality)
             {
-
-            }
-            else
-            {
-                switch (i.quality)
-                {
-                    case 1:
-                        thresold = -1;
-                        break;
-                    case 2:
-                        thresold = 10;
-                        break;
-                    case 3:
-                        thresold = 20;
-                        break;
-                    case 4:
-                        thresold = 10;
-                        break;
-                }
+                case 1:
+                    thresold = -1;
+                    break;
+                case 2:
+                    thresold = 10;
+                    break;
+                case 3:
+                    thresold = 20;
+                    break;
+                case 4:
+                    thresold = 10;
+                    break;
             }
 
-            if (Random.Range(0, 100) <= thresold)
+            int ran = Random.Range(0, 100);
+
+            if (ran <= thresold)
             {
                 dropCount++;
                 dropedList.Add(i);

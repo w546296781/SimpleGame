@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private List<GameObject> object_heroTeam, object_enemyTeam;
     private List<HeroManager> heroTeam, enemyTeam;
+    private List<SkillClass> skillList = new List<SkillClass>();
 
     public int gameID = 1;
     public int heroSkillCount = 0;
@@ -134,6 +135,8 @@ public class GameManager : MonoBehaviour
             float time = 200.0f / enemys.speed;
             Invoke("AttackTimer_" + enemys.name, time);
         }
+
+        skillList = dbm.GetAllSkill();
 
     }
 
@@ -428,43 +431,36 @@ public class GameManager : MonoBehaviour
         int damage = 0;
         int elseTargetCount = 0;
         string skillNameStr = "";
+        SkillClass thisSkill = new SkillClass();
+        foreach(SkillClass i in skillList)
+        {
+            if(i.id == skillName)
+            {
+                thisSkill = i;
+            }
+        }
+        damage = thisSkill.basicDamage;
+        for (int i = 0; i < skillLevel; i++)
+        {
+            damage = (int)(1.3 * damage);
+        }
+        damage = damage * (1 + theHero.ap / 100);
         //基本伤害公式：（基础伤）*1.3技能等级次方*（1+法强/100）
         if (skillName == 1)
         {
             //闪电链：对目标敌人及其他两名敌人造成伤害
-            damage = 10;
-            for(int i = 0; i < skillLevel; i++)
-            {
-                damage = (int)(1.3 * damage);
-            }
-            damage = damage * (1 + theHero.ap / 100);
-
             elseTargetCount = 2;
             skillNameStr = "闪电链！";
         }
         else if(skillName == 2)
         {
             //火球术：对目标敌人造成伤害
-            damage = 100;
-            for (int i = 0; i < skillLevel; i++)
-            {
-                damage = (int)(1.3 * damage);
-            }
-            damage = damage * (1 + theHero.ap / 100);
-
             elseTargetCount = 0;
             skillNameStr = "火球术！";
         }
         else if(skillName == 3)
         {
             //暴风雪：对全体敌人造成伤害
-            damage = 20;
-            for (int i = 0; i < skillLevel; i++)
-            {
-                damage = (int)(1.3 * damage);
-            }
-            damage = damage * (1 + theHero.ap / 100);
-
             elseTargetCount = 5;
             skillNameStr = "暴风雪！";
         }
