@@ -370,6 +370,9 @@ public class MainManager : MonoBehaviour
             GameObject instance = (GameObject)Instantiate(battleLose_popup, position_area2, transform.rotation);
             instance.transform.SetParent(transform);
             HideUI();
+            theEvent.battle_finish = 0;
+            DBManager dbm = new DBManager();
+            dbm.SaveEvent(theEvent);
         }
         else
         {
