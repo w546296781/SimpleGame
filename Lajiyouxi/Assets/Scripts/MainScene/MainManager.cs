@@ -22,6 +22,7 @@ public class MainManager : MonoBehaviour
     public GameObject adventure_popup;
 
     public GameObject battleWin_popup;
+    public GameObject battleLose_popup;
 
     public GameObject character_mark, skill_mark;
     public GameObject equip_popup;
@@ -347,6 +348,11 @@ public class MainManager : MonoBehaviour
 
             battle_finish = true;
         }
+        else if(theEvent.battle_finish == 2)
+        {
+            ShowBattleResult();
+            theEvent.battle_finish = 0;
+        }
     }
 
     public void RefreshDataFromDatabase()
@@ -359,9 +365,18 @@ public class MainManager : MonoBehaviour
 
     public void ShowBattleResult()
     {
-        GameObject instance = (GameObject)Instantiate(battleWin_popup, position_area2, transform.rotation);
-        instance.transform.SetParent(transform);
-        HideUI();
+        if (theEvent.battle_finish == 2)
+        {
+            GameObject instance = (GameObject)Instantiate(battleLose_popup, position_area2, transform.rotation);
+            instance.transform.SetParent(transform);
+            HideUI();
+        }
+        else
+        {
+            GameObject instance = (GameObject)Instantiate(battleWin_popup, position_area2, transform.rotation);
+            instance.transform.SetParent(transform);
+            HideUI();
+        }
     }
 
     public int PositionToInt(Vector3 position)

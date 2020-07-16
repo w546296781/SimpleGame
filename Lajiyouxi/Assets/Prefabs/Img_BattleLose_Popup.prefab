@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6048449769383983317}
   - component: {fileID: 3519580868037715511}
   - component: {fileID: 3877260417980610546}
+  - component: {fileID: 1155352777010577356}
   m_Layer: 5
   m_Name: Img_BattleLose_Popup
   m_TagString: Untagged
@@ -78,6 +79,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1155352777010577356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336548236078027665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb7422449cedfa43966f278cbed8640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1027304780017992713
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +365,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5245574284706415010}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1155352777010577356}
+        m_MethodName: Btn_Confirm_Onclick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7929136983820371680
 GameObject:
   m_ObjectHideFlags: 0
