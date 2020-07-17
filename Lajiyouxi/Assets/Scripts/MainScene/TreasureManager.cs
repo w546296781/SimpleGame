@@ -66,7 +66,7 @@ public class TreasureManager : MonoBehaviour
 
             int ran = Random.Range(0, 100);
 
-            if (ran <= thresold)
+            if (ran < thresold)
             {
                 dropCount++;
                 dropedList.Add(i);

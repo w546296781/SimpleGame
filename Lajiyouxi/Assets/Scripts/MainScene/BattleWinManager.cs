@@ -55,22 +55,7 @@ public class BattleWinManager : MonoBehaviour
 
         DropItem();
 
-        theHero.exp = theHero.exp - System.Convert.ToInt32(exp);
-
-        if(theHero.exp <= 0)
-        {
-            theHero.level++;
-
-            double thisLevelExp = 3000;
-            for(int i = 0; i < theHero.level - 1; i++)
-            {
-                thisLevelExp = thisLevelExp * 1.5;
-            }
-
-            theHero.exp = System.Convert.ToInt32(thisLevelExp) + theHero.exp;
-            theHero.attrPoint += 5;
-            theHero.skillPoint += 5;
-        }
+        theHero.HeroGetExp(exp);
 
         theHero.gold = theHero.gold + System.Convert.ToInt32(gold);
 
@@ -126,7 +111,7 @@ public class BattleWinManager : MonoBehaviour
                     break;
             }
 
-            if(Random.Range(0,100) <= thresold)
+            if(Random.Range(0,100) < thresold)
             {
                 dropCount++;
                 dropedList.Add(i);
