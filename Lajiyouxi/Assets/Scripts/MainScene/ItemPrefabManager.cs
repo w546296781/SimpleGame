@@ -17,6 +17,7 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
     public int slotID;
 
     public bool isOnDropMenu = false;
+    public bool isOnShop = false;
 
     // Start is called before the first frame update
     void Start()
@@ -101,11 +102,14 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
     {
         if (isOnDropMenu == false)
         {
-            if (transform.parent.GetComponent<EquipManager>().onSell == true && slotID <= 30)
+            if(isOnShop == true)
+            {
+
+            }
+            else if (transform.parent.GetComponent<EquipManager>().onSell == true && slotID <= 30)
             {
                 transform.parent.GetComponent<EquipManager>().SellItem(gameObject, slotID);
                 Detail_Info_Delete();
-                //DestroyImmediate(gameObject);
             }
         }
     }
@@ -114,7 +118,12 @@ public class ItemPrefabManager : MonoBehaviour, IPointerClickHandler
     {
         if (isOnDropMenu == false)
         {
-            if (transform.parent.GetComponent<EquipManager>().onSell == false)
+            if (isOnShop == true)
+            {
+                transform.parent.GetComponent<ShopManager>().BuyThisItem(gameObject);
+                Detail_Info_Delete();
+            }
+            else if (transform.parent.GetComponent<EquipManager>().onSell == false)
             {
                 transform.parent.GetComponent<EquipManager>().EquipItem(gameObject, slotID);
                 Detail_Info_Delete();
