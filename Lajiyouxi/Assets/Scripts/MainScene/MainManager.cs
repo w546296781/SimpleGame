@@ -437,6 +437,7 @@ public class MainManager : MonoBehaviour
     #region UI Operation
     public void HideUI()
     {
+        hide_obj.Clear();
         btn_setting.gameObject.SetActive(false);
         btn_character.gameObject.SetActive(false);
         btn_package.gameObject.SetActive(false);
