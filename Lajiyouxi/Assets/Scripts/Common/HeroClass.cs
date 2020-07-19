@@ -27,7 +27,31 @@ public class HeroClass
 
             this.exp = System.Convert.ToInt32(thisLevelExp) + this.exp;
             this.attrPoint += 5;
-            this.skillPoint += 5;
+            this.skillPoint += 2;
         }
+    }
+
+    public void AddStr()
+    {
+        attrPoint--;
+        str++;
+        life += 10;
+        atk += 5;
+    }
+
+    public void AddAgi()
+    {
+        attrPoint--;
+        agi++;
+        dodge += 0.1;
+        speed += 1;
+    }
+
+    public void AddInt()
+    {
+        attrPoint--;
+        Int++;
+        ap += 5;
+        critChance += 0.5;
     }
 }

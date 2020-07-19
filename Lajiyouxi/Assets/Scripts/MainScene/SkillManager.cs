@@ -500,6 +500,7 @@ public class SkillManager : MonoBehaviour
         }
 
         SaveSkilltoHero();
+        Refresh();
     }
 
     public void Btn_Equip2_Click()
@@ -515,6 +516,7 @@ public class SkillManager : MonoBehaviour
         text_secondarySkill2_name.text = selectedSkill.name;
 
         SaveSkilltoHero();
+        Refresh();
     }
 
     #endregion
